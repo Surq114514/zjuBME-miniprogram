@@ -162,20 +162,32 @@ Page({
    */
   contactDoctor: function () {
     wx.showActionSheet({
-      itemList: ['拨打电话', '发送消息', '视频通话'],
+      itemList: ['在线咨询', '拨打电话', '发送消息', '视频通话'],
       success: (res) => {
         switch (res.tapIndex) {
           case 0:
-            this.callDoctor();
+            this.openChatRoom();
             break;
           case 1:
-            this.messageDoctor();
+            this.callDoctor();
             break;
           case 2:
+            this.messageDoctor();
+            break;
+          case 3:
             this.videoCallDoctor();
             break;
         }
       }
+    });
+  },
+
+  /**
+   * 打开聊天室
+   */
+  openChatRoom: function () {
+    wx.navigateTo({
+      url: '/pages/chat/chat'
     });
   },
 

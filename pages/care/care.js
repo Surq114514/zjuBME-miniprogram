@@ -221,15 +221,63 @@ Page({
    * 联系医生
    */
   contactDoctor: function () {
+    wx.showActionSheet({
+      itemList: ['在线咨询', '拨打电话', '发送消息'],
+      success: (res) => {
+        switch (res.tapIndex) {
+          case 0:
+            this.openChatRoom();
+            break;
+          case 1:
+            this.callDoctor();
+            break;
+          case 2:
+            this.messageDoctor();
+            break;
+        }
+      }
+    });
+  },
+
+  /**
+   * 打开聊天室
+   */
+  openChatRoom: function () {
+    wx.navigateTo({
+      url: '/pages/chat/chat'
+    });
+  },
+
+  /**
+   * 拨打电话
+   */
+  callDoctor: function () {
+    wx.makePhoneCall({
+      phoneNumber: '13800138000',
+      success: () => {
+        console.log('拨打电话成功');
+      },
+      fail: () => {
+        wx.showToast({
+          title: '拨打电话失败',
+          icon: 'none'
+        });
+      }
+    });
+  },
+
+  /**
+   * 发送消息
+   */
+  messageDoctor: function () {
     wx.showModal({
-      title: '联系医生',
-      content: '是否要联系主治医生？',
+      title: '发送消息',
+      content: '是否要发送消息给主治医生？',
       success: (res) => {
         if (res.confirm) {
-          // 这里可以实现拨打电话或发送消息的功能
           wx.showToast({
-            title: '正在连接...',
-            icon: 'loading'
+            title: '消息发送成功',
+            icon: 'success'
           });
         }
       }
