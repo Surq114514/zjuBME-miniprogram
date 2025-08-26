@@ -2,7 +2,9 @@
   "pages": [
     "pages/home/home",
     "pages/log/log",
-    "pages/plan/plan"
+    "pages/plan/plan",
+    "pages/care/care",
+    "pages/me/me"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -13,6 +15,7 @@
   "tabBar": {
     "color": "#6E6E73",
     "selectedColor": "#4A90E2",
+    "backgroundColor": "#ffffff",
     "borderStyle": "black",
     "list": [
       {
@@ -32,6 +35,18 @@
         "text": "计划",
         "iconPath": "/images/plan.png",
         "selectedIconPath": "/images/plan-selected.png"
+      },
+      {
+        "pagePath": "pages/care/care",
+        "text": "家属",
+        "iconPath": "/images/care.png",
+        "selectedIconPath": "/images/care-selected.png"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "text": "我的",
+        "iconPath": "/images/me.png",
+        "selectedIconPath": "/images/me-selected.png"
       }
     ]
   },
@@ -41,6 +56,9 @@
   "permission": {
     "scope.userLocation": {
       "desc": "我们需要获取您的位置信息，以便提供附近的康复资源"
+    },
+    "scope.camera": {
+      "desc": "我们需要使用相机拍摄伤口照片和训练记录"
     }
   }
 }

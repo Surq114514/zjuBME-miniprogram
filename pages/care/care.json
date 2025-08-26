@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "家属协同",
+  "navigationBarBackgroundColor": "#4A90E2",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#f5f5f7",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50
+}

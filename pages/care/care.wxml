@@ -1,0 +1,152 @@
+<!--pages/care/care.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="header-title">家属协同</text>
+    <text class="header-desc">协助患者完成康复记录，共同关注康复进展</text>
+  </view>
+
+  <!-- 患者信息卡片 -->
+  <view class="patient-info-card card card-shadow">
+    <view class="patient-avatar">
+      <icon type="user" size="48" color="#4A90E2" />
+    </view>
+    <view class="patient-details">
+      <text class="patient-name">{{patientInfo.name}}（患者）</text>
+      <text class="patient-status">术后 {{patientInfo.daysAfterSurgery}} 天 · 恢复 {{patientInfo.recoveryRate}}%</text>
+    </view>
+  </view>
+
+  <!-- 核心指标卡片 -->
+  <view class="metrics-section">
+    <text class="section-title">今日康复指标</text>
+    <view class="metrics-grid">
+      <!-- 疼痛评分 -->
+      <view class="metric-card card card-shadow pain-card">
+        <view class="metric-header">
+          <text class="metric-title">疼痛</text>
+          <view class="metric-icon">
+            <icon type="warn" size="20" color="#FF6B6B" />
+          </view>
+        </view>
+        <text class="metric-value">今日平均 {{todayMetrics.pain.average}} 分</text>
+        <view class="metric-trend">
+          <icon type="arrowdown" size="16" color="#4CD964" />
+          <text class="trend-text">{{todayMetrics.pain.trendText}}</text>
+        </view>
+      </view>
+
+      <!-- 关节活动度 -->
+      <view class="metric-card card card-shadow primary-card">
+        <view class="metric-header">
+          <text class="metric-title">活动度</text>
+          <view class="metric-icon">
+            <icon type="success" size="20" color="#4A90E2" />
+          </view>
+        </view>
+        <text class="metric-value">屈膝 {{todayMetrics.rangeOfMotion.flexion}}° / 伸膝 {{todayMetrics.rangeOfMotion.extension}}°</text>
+        <view class="metric-trend">
+          <icon type="arrowup" size="16" color="#4A90E2" />
+          <text class="trend-text">{{todayMetrics.rangeOfMotion.trendText}}</text>
+        </view>
+      </view>
+
+      <!-- 肌力等级 -->
+      <view class="metric-card card card-shadow secondary-card">
+        <view class="metric-header">
+          <text class="metric-title">股四头肌</text>
+          <view class="metric-icon">
+            <icon type="success" size="20" color="#4CD964" />
+          </view>
+        </view>
+        <text class="metric-value">{{todayMetrics.muscleStrength.quadriceps}} 级（健侧 5 级）</text>
+        <view class="muscle-progress">
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{todayMetrics.muscleStrength.percent}}%;"></view>
+          </view>
+          <text class="progress-text">{{todayMetrics.muscleStrength.percent}}%</text>
+        </view>
+      </view>
+
+      <!-- 肿胀情况 -->
+      <view class="metric-card card card-shadow swelling-card">
+        <view class="metric-header">
+          <text class="metric-title">腿围差</text>
+          <view class="metric-icon">
+            <icon type="info" size="20" color="#FFB86C" />
+          </view>
+        </view>
+        <text class="metric-value">髌骨上 10cm：{{todayMetrics.swelling.difference}}cm</text>
+        <view class="metric-trend">
+          <icon type="arrowdown" size="16" color="#FFB86C" />
+          <text class="trend-text">{{todayMetrics.swelling.trendText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 协助记录功能 -->
+  <view class="assist-section">
+    <text class="section-title">协助记录</text>
+    <view class="assist-grid">
+      <view class="assist-item" wx:for="{{assistFunctions}}" wx:key="id" bindtap="onAssistFunction" data-id="{{item.id}}">
+        <view class="assist-icon" style="background-color: {{item.bgColor}}; color: {{item.color}};">
+          <icon type="{{item.icon}}" size="24" color="{{item.color}}" />
+        </view>
+        <text class="assist-name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日任务完成情况 -->
+  <view class="tasks-section">
+    <text class="section-title">今日康复任务完成情况</text>
+    <view class="tasks-card card card-shadow">
+      <view class="task-list">
+        <view class="task-item" wx:for="{{todayTasks}}" wx:key="id">
+          <view class="task-check {{item.completed ? 'completed' : 'incomplete'}}">
+            <icon wx:if="{{item.completed}}" type="success" size="16" color="white" />
+          </view>
+          <view class="task-info">
+            <text class="task-name">{{item.name}}</text>
+            <text class="task-detail">{{item.detail}}</text>
+          </view>
+          <text class="task-status {{item.completed ? 'completed' : 'incomplete'}}">
+            {{item.completed ? '已完成' : '未完成'}}
+          </text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 异常提醒 -->
+  <view class="alerts-section">
+    <text class="section-title">异常提醒</text>
+    <view class="alerts-card card card-shadow">
+      <view class="alert-item" wx:for="{{abnormalAlerts}}" wx:key="index">
+        <view class="alert-icon">
+          <icon type="info" size="20" color="#4A90E2" />
+        </view>
+        <view class="alert-content">
+          <text class="alert-message">{{item.message}}</text>
+          <view class="alert-actions">
+            <button class="btn btn-primary" bindtap="contactDoctor">联系医生</button>
+            <button class="btn btn-secondary" bindtap="viewDetailedReport">查看详情</button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快速操作 -->
+  <view class="quick-actions">
+    <button class="btn btn-primary" bindtap="contactDoctor">
+      <icon type="phone" size="16" color="white" style="margin-right: 8px;" />
+      联系主治医生
+    </button>
+    <button class="btn btn-secondary" bindtap="sharePatientStatus">
+      <icon type="share" size="16" color="#4CD964" style="margin-right: 8px;" />
+      分享康复进展
+    </button>
+  </view>
+</view>

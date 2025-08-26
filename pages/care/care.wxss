@@ -1,0 +1,384 @@
+/* pages/care/care.wxss */
+
+/* 页面容器 */
+.container {
+  padding: 20rpx;
+  background-color: #f5f5f7;
+  min-height: 100vh;
+}
+
+/* 页面标题 */
+.page-header {
+  margin-bottom: 30rpx;
+  text-align: center;
+}
+
+.header-title {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.header-desc {
+  font-size: 28rpx;
+  color: #6e6e73;
+  display: block;
+}
+
+/* 患者信息卡片 */
+.patient-info-card {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+  color: white;
+}
+
+.patient-avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.patient-details {
+  flex: 1;
+}
+
+.patient-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.patient-status {
+  font-size: 28rpx;
+  opacity: 0.9;
+}
+
+/* 核心指标卡片 */
+.metrics-section {
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+}
+
+.metric-card {
+  padding: 24rpx;
+  border-radius: 24rpx;
+  background: white;
+}
+
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.metric-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #6e6e73;
+}
+
+.metric-icon {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-value {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 16rpx;
+  line-height: 1.4;
+}
+
+.metric-trend {
+  display: flex;
+  align-items: center;
+}
+
+.trend-text {
+  font-size: 26rpx;
+  color: #4CD964;
+  margin-left: 8rpx;
+}
+
+/* 肌力进度条 */
+.muscle-progress {
+  display: flex;
+  align-items: center;
+  margin-top: 16rpx;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8rpx;
+  background-color: #e5e5ea;
+  border-radius: 4rpx;
+  overflow: hidden;
+  margin-right: 16rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #4CD964;
+  border-radius: 4rpx;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 24rpx;
+  color: #6e6e73;
+  min-width: 60rpx;
+}
+
+/* 协助记录功能 */
+.assist-section {
+  margin-bottom: 30rpx;
+}
+
+.assist-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+}
+
+.assist-item {
+  background: white;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  text-align: center;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.assist-item:active {
+  transform: scale(0.98);
+}
+
+.assist-icon {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16rpx;
+}
+
+.assist-name {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+/* 今日任务 */
+.tasks-section {
+  margin-bottom: 30rpx;
+}
+
+.tasks-card {
+  background: white;
+  border-radius: 24rpx;
+  padding: 24rpx;
+}
+
+.task-list {
+  space-y: 16rpx;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #e5e5ea;
+}
+
+.task-item:last-child {
+  border-bottom: none;
+}
+
+.task-check {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.task-check.completed {
+  background-color: #4CD964;
+}
+
+.task-check.incomplete {
+  border: 2rpx solid #e5e5ea;
+}
+
+.task-info {
+  flex: 1;
+}
+
+.task-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.task-detail {
+  font-size: 26rpx;
+  color: #6e6e73;
+}
+
+.task-status {
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+.task-status.completed {
+  color: #4CD964;
+}
+
+.task-status.incomplete {
+  color: #6e6e73;
+}
+
+/* 异常提醒 */
+.alerts-section {
+  margin-bottom: 30rpx;
+}
+
+.alerts-card {
+  background: white;
+  border-radius: 24rpx;
+  padding: 24rpx;
+}
+
+.alert-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.alert-icon {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background-color: #E8F4FD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-message {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.alert-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+/* 快速操作按钮 */
+.quick-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 40rpx;
+}
+
+.btn {
+  flex: 1;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #4A90E2;
+  color: white;
+}
+
+.btn-primary:active {
+  background-color: #357ABD;
+}
+
+.btn-secondary {
+  background-color: #4CD964;
+  color: white;
+}
+
+.btn-secondary:active {
+  background-color: #3DB954;
+}
+
+/* 卡片通用样式 */
+.card {
+  background: white;
+  border-radius: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.card-shadow {
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.12);
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .assist-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .quick-actions {
+    flex-direction: column;
+  }
+}

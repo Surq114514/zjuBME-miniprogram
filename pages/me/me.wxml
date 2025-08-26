@@ -1,0 +1,161 @@
+<!--pages/me/me.wxml-->
+<view class="container">
+  <!-- 个人信息卡片 -->
+  <view class="profile-card card card-shadow">
+    <view class="profile-header">
+      <view class="avatar-section">
+        <view class="avatar" bindtap="editProfile">
+          <icon type="user" size="48" color="white" />
+        </view>
+        <view class="edit-icon">
+          <icon type="edit" size="16" color="white" />
+        </view>
+      </view>
+      <view class="profile-info">
+        <text class="user-name">{{userInfo.name}}</text>
+        <text class="user-type">{{userInfo.patientType}} · {{userInfo.surgeryType}}</text>
+      </view>
+    </view>
+    
+    <!-- 康复统计 -->
+    <view class="stats-grid">
+      <view class="stat-item">
+        <text class="stat-value">{{surgeryInfo.daysAfterSurgery}}</text>
+        <text class="stat-label">术后天数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{rehabStats.recoveryRate}}%</text>
+        <text class="stat-label">恢复进度</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{rehabStats.totalRecords}}</text>
+        <text class="stat-label">总记录数</text>
+      </view>
+    </view>
+    
+    <!-- 手术信息 -->
+    <view class="surgery-info">
+      <view class="info-row">
+        <text class="info-label">手术日期</text>
+        <text class="info-value">{{surgeryInfo.surgeryDate}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">下次复诊</text>
+        <text class="info-value">{{surgeryInfo.nextAppointment}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-item" wx:for="{{menuItems}}" wx:key="id" bindtap="onMenuItemClick" data-action="{{item.action}}">
+      <view class="menu-icon" style="background-color: {{item.bgColor}}; color: {{item.color}};">
+        <icon type="{{item.icon}}" size="24" color="{{item.color}}" />
+      </view>
+      <view class="menu-content">
+        <text class="menu-name">{{item.name}}</text>
+        <icon type="arrow" size="16" color="#C7C7CC" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 家属绑定 -->
+  <view class="family-section">
+    <view class="section-header">
+      <text class="section-title">家属绑定</text>
+      <text class="section-desc">绑定家属后，家属可以协助记录康复数据并接收异常提醒</text>
+    </view>
+    
+    <view class="family-card card card-shadow">
+      <view class="family-status">
+        <view class="status-icon {{familyBinding.isBound ? 'bound' : 'unbound'}}">
+          <icon type="{{familyBinding.isBound ? 'success' : 'info'}}" size="20" color="white" />
+        </view>
+        <view class="status-info">
+          <text class="status-text">{{familyBinding.isBound ? '已绑定家属' : '未绑定家属'}}</text>
+          <text class="status-desc">{{familyBinding.isBound ? '家属可协助记录康复数据' : '绑定家属获得更多支持'}}</text>
+        </view>
+      </view>
+      
+      <view class="family-actions">
+        <button wx:if="{{!familyBinding.isBound}}" class="btn btn-primary" bindtap="generateFamilyQRCode">
+          <icon type="qrcode" size="16" color="white" style="margin-right: 8px;" />
+          生成绑定二维码
+        </button>
+        <button wx:if="{{familyBinding.isBound}}" class="btn btn-secondary" bindtap="manageFamilyBinding">
+          <icon type="setting" size="16" color="white" style="margin-right: 8px;" />
+          管理绑定
+        </button>
+      </view>
+      
+      <!-- 已绑定成员列表 -->
+      <view class="bound-members" wx:if="{{familyBinding.isBound}}">
+        <view class="member-item" wx:for="{{familyBinding.boundMembers}}" wx:key="name">
+          <view class="member-avatar">
+            <icon type="user" size="20" color="#4A90E2" />
+          </view>
+          <view class="member-info">
+            <text class="member-name">{{item.name}}</text>
+            <text class="member-relation">{{item.relation}}</text>
+          </view>
+          <view class="member-status">
+            <text class="last-active">{{item.lastActive}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 康复数据 -->
+  <view class="data-section">
+    <view class="section-header">
+      <text class="section-title">康复数据</text>
+      <text class="section-desc">查看您的康复记录和进度统计</text>
+    </view>
+    
+    <view class="data-grid">
+      <view class="data-card card card-shadow">
+        <view class="data-icon">
+          <icon type="success" size="24" color="#4CD964" />
+        </view>
+        <view class="data-content">
+          <text class="data-value">{{rehabStats.thisWeekRecords}}</text>
+          <text class="data-label">本周记录</text>
+        </view>
+      </view>
+      
+      <view class="data-card card card-shadow">
+        <view class="data-icon">
+          <icon type="info" size="24" color="#4A90E2" />
+        </view>
+        <view class="data-content">
+          <text class="data-value">{{rehabStats.totalDays}}</text>
+          <text class="data-label">康复天数</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 应用信息 -->
+  <view class="app-info">
+    <view class="info-item">
+      <text class="info-label">版本号</text>
+      <text class="info-value">{{appInfo.version}}</text>
+    </view>
+    <view class="info-item">
+      <text class="info-label">构建号</text>
+      <text class="info-value">{{appInfo.buildNumber}}</text>
+    </view>
+    <view class="info-item">
+      <text class="info-label">最后更新</text>
+      <text class="info-value">{{appInfo.lastUpdate}}</text>
+    </view>
+  </view>
+
+  <!-- 底部链接 -->
+  <view class="bottom-links">
+    <text class="link-item">关于 KneeRecover</text>
+    <text class="link-item">帮助中心</text>
+    <text class="link-item">意见反馈</text>
+  </view>
+</view>
