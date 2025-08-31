@@ -1,244 +1,475 @@
 <view class="container">
-  <view class="page-header" style="margin-bottom: 20px;">
-    <text class="header-title" style="font-size: 22px; font-weight: 600;">康复记录</text>
-    <text class="header-desc" style="font-size: 14px; color: var(--gray-dark); display: block; margin-top: 4px;">记录每日康复进展，追踪恢复情况</text>
-  </view>
-  
   <!-- 标签栏 -->
   <view class="tabs">
-    <view class="tab {{currentTab === 'pain' ? 'active' : ''}}" bindtap="switchTab" data-tab="pain">疼痛记录</view>
-    <view class="tab {{currentTab === 'rom' ? 'active' : ''}}" bindtap="switchTab" data-tab="rom">活动度</view>
-    <view class="tab {{currentTab === 'muscle' ? 'active' : ''}}" bindtap="switchTab" data-tab="muscle">肌力</view>
-    <view class="tab {{currentTab === 'swelling' ? 'active' : ''}}" bindtap="switchTab" data-tab="swelling">肿胀</view>
-    <view class="tab {{currentTab === 'function' ? 'active' : ''}}" bindtap="switchTab" data-tab="function">功能</view>
-    <view class="tab {{currentTab === 'wound' ? 'active' : ''}}" bindtap="switchTab" data-tab="wound">伤口</view>
+    <view 
+      class="tab {{currentTab === 'pain' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="pain"
+    >
+      疼痛
+    </view>
+    <view 
+      class="tab {{currentTab === 'range' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="range"
+    >
+      活动度
+    </view>
+    <view 
+      class="tab {{currentTab === 'muscle' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="muscle"
+    >
+      肌力
+    </view>
+    <view 
+      class="tab {{currentTab === 'swelling' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="swelling"
+    >
+      肿胀
+    </view>
+    <view 
+      class="tab {{currentTab === 'function' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="function"
+    >
+      功能
+    </view>
+    <view 
+      class="tab {{currentTab === 'wound' ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-tab="wound"
+    >
+      伤口
+    </view>
   </view>
-  
+
   <!-- 疼痛记录 -->
-  <view class="tab-content" wx:if="{{currentTab === 'pain'}}">
-    <view class="form-card card card-shadow">
-      <text class="form-title" style="font-size: 16px; font-weight: 600; display: block; margin-bottom: 8px;">疼痛评分（0-10分）</text>
-      <text class="form-desc" style="font-size: 14px; color: var(--gray-dark); display: block; margin-bottom: 16px;">记录不同场景的疼痛程度</text>
-      
-      <!-- 静息痛 -->
-      <view class="form-item">
-        <view class="item-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <view class="item-label" style="font-size: 15px;">静息痛</view>
-          <view class="item-value" style="font-size: 15px; font-weight: 600; color: var(--pain);">{{restPain}} 分</view>
-        </view>
-        <slider min="0" max="10" value="{{restPain}}" bindchange="onRestPainChange" 
-                activeColor="#FF6B6B" backgroundColor="#FF6B6B33" 
-                step="1" show-value="false" />
-        <view class="slider-labels" style="display: flex; justify-content: space-between; font-size: 12px; color: var(--gray-dark); margin-top: 4px;">
-          <text>无痛</text>
-          <text>轻微</text>
-          <text>中度</text>
-          <text>剧烈</text>
-        </view>
-      </view>
-      
-      <!-- 活动痛 -->
-      <view class="form-item">
-        <view class="item-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <view class="item-label" style="font-size: 15px;">活动痛</view>
-          <view class="item-value" style="font-size: 15px; font-weight: 600; color: var(--pain);">{{activityPain}} 分</view>
-        </view>
-        <slider min="0" max="10" value="{{activityPain}}" bindchange="onActivityPainChange" 
-                activeColor="#FF6B6B" backgroundColor="#FF6B6B33" 
-                step="1" show-value="false" />
-        <view class="slider-labels" style="display: flex; justify-content: space-between; font-size: 12px; color: var(--gray-dark); margin-top: 4px;">
-          <text>无痛</text>
-          <text>轻微</text>
-          <text>中度</text>
-          <text>剧烈</text>
-        </view>
-      </view>
-      
-      <!-- 夜间痛 -->
-      <view class="form-item">
-        <view class="item-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <view class="item-label" style="font-size: 15px;">夜间痛</view>
-          <view class="item-value" style="font-size: 15px; font-weight: 600; color: var(--pain);">{{nightPain}} 分</view>
-        </view>
-        <slider min="0" max="10" value="{{nightPain}}" bindchange="onNightPainChange" 
-                activeColor="#FF6B6B" backgroundColor="#FF6B6B33" 
-                step="1" show-value="false" />
-        <view class="slider-labels" style="display: flex; justify-content: space-between; font-size: 12px; color: var(--gray-dark); margin-top: 4px;">
-          <text>无痛</text>
-          <text>轻微</text>
-          <text>中度</text>
-          <text>剧烈</text>
-        </view>
-      </view>
-      
-      <!-- 止痛药记录 -->
-      <view class="medicine-record" style="margin-top: 24px;">
-        <text class="record-label" style="font-size: 15px; font-weight: 500; display: block; margin-bottom: 12px;">止痛药记录（如服用）</text>
-        <view class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
-          <input type="text" placeholder="药物名称" class="form-input" bindinput="onMedicineNameChange" />
-          <input type="text" placeholder="剂量" class="form-input" bindinput="onMedicineDoseChange" />
-        </view>
-        <input type="text" placeholder="服用时间" class="form-input" bindinput="onMedicineTimeChange" />
-      </view>
-      
-      <!-- 疼痛描述 -->
-      <view class="pain-description" style="margin-top: 24px;">
-        <text class="description-label" style="font-size: 15px; font-weight: 500; display: block; margin-bottom: 12px;">疼痛描述</text>
-        <textarea placeholder="请描述疼痛的性质、位置等（如：刺痛、酸痛、膝盖内侧等）" 
-                  style="width: 100%; min-height: 100px; padding: 12px; border: 1px solid var(--gray-medium); border-radius: 8px; font-size: 15px; box-sizing: border-box;"
-                  bindinput="onPainDescriptionChange"></textarea>
-      </view>
+  <view wx:if="{{currentTab === 'pain'}}" class="record-container">
+    <view class="form-item">
+      <text class="label">静息痛：</text>
+      <slider 
+        min="0" 
+        max="10" 
+        value="{{restPain}}" 
+        bindchange="onRestPainChange" 
+        show-value
+      />
     </view>
     
-    <button class="btn btn-pain" bindtap="savePainRecord">保存疼痛记录</button>
+    <view class="form-item">
+      <text class="label">活动痛：</text>
+      <slider 
+        min="0" 
+        max="10" 
+        value="{{activityPain}}" 
+        bindchange="onActivityPainChange" 
+        show-value
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">夜间痛：</text>
+      <slider 
+        min="0" 
+        max="10" 
+        value="{{nightPain}}" 
+        bindchange="onNightPainChange" 
+        show-value
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">止痛药物：</text>
+      <input 
+        type="text" 
+        placeholder="药物名称" 
+        value="{{medicineName}}"
+        bindinput="onMedicineNameChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">药物剂量：</text>
+      <input 
+        type="text" 
+        placeholder="如：1片" 
+        value="{{medicineDose}}"
+        bindinput="onMedicineDoseChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">服药时间：</text>
+      <input 
+        type="text" 
+        placeholder="如：早上8点" 
+        value="{{medicineTime}}"
+        bindinput="onMedicineTimeChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">疼痛描述：</text>
+      <textarea 
+        placeholder="描述疼痛的性质、特点等" 
+        value="{{painDescription}}"
+        bindinput="onPainDescriptionChange"
+      ></textarea>
+    </view>
+    
+    <button bindtap="saveInfoToCloud" class="save-btn">保存疼痛记录</button>
   </view>
-  
+
   <!-- 活动度记录 -->
-  <view class="tab-content" wx:if="{{currentTab === 'rom'}}">
-    <view class="form-card card card-shadow">
-      <text class="form-title" style="font-size: 16px; font-weight: 600; display: block; margin-bottom: 8px;">关节活动度记录</text>
-      <text class="form-desc" style="font-size: 14px; color: var(--gray-dark); display: block; margin-bottom: 16px;">记录膝关节的弯曲和伸直角度</text>
-      
-      <!-- 屈膝角度 -->
-      <view class="form-item">
-        <view class="item-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <view class="item-label" style="font-size: 15px;">屈膝角度</view>
-          <view class="item-value" style="font-size: 15px; font-weight: 600; color: var(--primary);">{{flexionAngle}}°</view>
-        </view>
-        <slider min="0" max="150" value="{{flexionAngle}}" bindchange="onFlexionAngleChange" 
-                activeColor="#4A90E2" backgroundColor="#4A90E233" 
-                step="1" show-value="false" />
-        <view class="slider-labels" style="display: flex; justify-content: space-between; font-size: 12px; color: var(--gray-dark); margin-top: 4px;">
-          <text>0°</text>
-          <text>75°</text>
-          <text>150°</text>
-        </view>
-      </view>
-      
-      <!-- 伸膝角度 -->
-      <view class="form-item">
-        <view class="item-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <view class="item-label" style="font-size: 15px;">伸膝角度</view>
-          <view class="item-value" style="font-size: 15px; font-weight: 600; color: var(--primary);">{{extensionAngle}}°</view>
-        </view>
-        <slider min="-10" max="10" value="{{extensionAngle}}" bindchange="onExtensionAngleChange" 
-                activeColor="#4A90E2" backgroundColor="#4A90E233" 
-                step="1" show-value="false" />
-        <view class="slider-labels" style="display: flex; justify-content: space-between; font-size: 12px; color: var(--gray-dark); margin-top: 4px;">
-          <text>-10°(屈曲)</text>
-          <text>0°</text>
-          <text>10°(过伸)</text>
-        </view>
-      </view>
-      
-      <!-- 活动度描述 -->
-      <view class="rom-description" style="margin-top: 24px;">
-        <text class="description-label" style="font-size: 15px; font-weight: 500; display: block; margin-bottom: 12px;">活动感受</text>
-        <textarea placeholder="请描述活动时的感受（如：卡顿感、是否有卡住的位置等）" 
-                  style="width: 100%; min-height: 100px; padding: 12px; border: 1px solid var(--gray-medium); border-radius: 8px; font-size: 15px; box-sizing: border-box;"
-                  bindinput="onRomDescriptionChange"></textarea>
-      </view>
-      
-      <!-- 活动度照片 -->
-      <view class="rom-photos" style="margin-top: 24px;">
-        <text class="photos-label" style="font-size: 15px; font-weight: 500; display: block; margin-bottom: 12px;">记录照片（可选）</text>
-        <view class="photos-container" style="display: flex; gap: 12px;">
-          <view class="photo-upload" style="width: 80px; height: 80px; border: 1px dashed var(--gray-medium); border-radius: 8px; display: flex; align-items: center; justify-content: center;" bindtap="uploadFlexionPhoto">
-            <icon type="camera" size="24" color="var(--gray-dark)" />
-          </view>
-          <view class="photo-preview" style="width: 80px; height: 80px; border-radius: 8px; overflow: hidden; display: {{flexionPhotoUrl ? 'block' : 'none'}};">
-            <image src="{{flexionPhotoUrl}}" mode="cover" style="width: 100%; height: 100%;" />
-          </view>
-          
-          <view class="photo-upload" style="width: 80px; height: 80px; border: 1px dashed var(--gray-medium); border-radius: 8px; display: flex; align-items: center; justify-content: center;" bindtap="uploadExtensionPhoto">
-            <icon type="camera" size="24" color="var(--gray-dark)" />
-          </view>
-          <view class="photo-preview" style="width: 80px; height: 80px; border-radius: 8px; overflow: hidden; display: {{extensionPhotoUrl ? 'block' : 'none'}};">
-            <image src="{{extensionPhotoUrl}}" mode="cover" style="width: 100%; height: 100%;" />
-          </view>
+  <view wx:if="{{currentTab === 'range'}}" class="record-container">
+    <view class="form-item">
+      <text class="label">屈曲角度：</text>
+      <input 
+        type="number" 
+        placeholder="单位：度" 
+        value="{{flexionAngle}}"
+        bindinput="onFlexionAngleChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">伸展角度：</text>
+      <input 
+        type="number" 
+        placeholder="单位：度" 
+        value="{{extensionAngle}}"
+        bindinput="onExtensionAngleChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">屈曲照片：</text>
+      <view class="image-uploader">
+        <button bindtap="uploadFlexionPhoto" class="upload-btn">上传照片</button>
+        <view wx:if="{{flexionPhotoUrl}}" class="preview-image">
+          <image src="{{flexionPhotoUrl}}" mode="widthFix"></image>
+          <button bindtap="deleteFlexionPhoto" class="delete-btn">删除</button>
         </view>
       </view>
     </view>
     
-    <button class="btn btn-primary" bindtap="saveRomRecord">保存活动度记录</button>
+    <view class="form-item">
+      <text class="label">伸展照片：</text>
+      <view class="image-uploader">
+        <button bindtap="uploadExtensionPhoto" class="upload-btn">上传照片</button>
+        <view wx:if="{{extensionPhotoUrl}}" class="preview-image">
+          <image src="{{extensionPhotoUrl}}" mode="widthFix"></image>
+          <button bindtap="deleteExtensionPhoto" class="delete-btn">删除</button>
+        </view>
+      </view>
+    </view>
+    
+    <view class="form-item">
+      <text class="label">活动度描述：</text>
+      <textarea 
+        placeholder="描述活动度的变化、受限情况等" 
+        value="{{romDescription}}"
+        bindinput="onRomDescriptionChange"
+      ></textarea>
+    </view>
+    
+    <button bindtap="saveRomRecord" class="save-btn">保存活动度记录</button>
   </view>
-  
+
   <!-- 肌力记录 -->
-  <view class="tab-content" wx:if="{{currentTab === 'muscle'}}">
-    <view class="form-card card card-shadow">
-      <text class="form-title" style="font-size: 16px; font-weight: 600; display: block; margin-bottom: 8px;">肌力评估</text>
-      <text class="form-desc" style="font-size: 14px; color: var(--gray-dark); display: block; margin-bottom: 16px;">1级: 可触及肌肉收缩但无关节活动；5级: 正常肌力</text>
-      
-      <!-- 股四头肌 -->
-      <view class="form-item">
-        <view class="item-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <view class="item-label" style="font-size: 15px;">股四头肌</view>
-          <view class="item-value" style="font-size: 15px; font-weight: 600; color: var(--secondary);">{{quadricepsStrength}} 级</view>
-        </view>
-        <slider min="1" max="5" value="{{quadricepsStrength}}" bindchange="onQuadricepsStrengthChange" 
-                activeColor="#4CD964" backgroundColor="#4CD96433" 
-                step="1" show-value="false" />
-        <view class="slider-labels" style="display: flex; justify-content: space-between; font-size: 12px; color: var(--gray-dark); margin-top: 4px;">
-          <text>1级</text>
-          <text>3级</text>
-          <text>5级</text>
-        </view>
+  <view wx:if="{{currentTab === 'muscle'}}" class="record-container">
+    <view class="form-item">
+  <text class="label">股四头肌：</text>
+  <picker 
+    value="{{quadricepsStrength}}" 
+    range="{{quStrengthquadricepsOptions}}"
+    bindchange="onQuadricepsStrengthChange">
+    <view class="picker-view">
+      {{quStrengthquadricepsOptions[quadricepsStrength]}}
+    </view>
+  </picker>
+</view>
+    <view class="form-item">
+  <text class="label">腘绳肌肌力：</text>
+  <picker 
+    value="{{hamstringStrength}}" 
+    range="{{strengthOptions}}"
+    bindchange="onHamstringStrengthChange">
+    <view class="picker-view">
+      {{strengthOptions[hamstringStrength]}}
+    </view>
+  </picker>
+</view>
+    
+<view class="form-item">
+  <text class="label">髋外展肌：</text>
+  <picker 
+    value="{{kuanStrength}}" 
+    range="{{kuanOptions}}"
+    bindchange="onkuanStrengthChange">
+    <view class="picker-view">
+      {{kuanOptions[kuanStrength]}}
+    </view>
+  </picker>
+</view>
+
+<view class="form-item">
+  <text class="label">健侧对比：</text>
+  <picker 
+    value="{{jianStrength}}" 
+    range="{{jianOptions}}"
+    bindchange="onjianStrengthChange">
+    <view class="picker-view">
+      {{jianOptions[jianStrength]}}
+    </view>
+  </picker>
+</view>
+
+    <view class="form-item">
+      <text class="label">训练项目：</text>
+      <view class="checkbox-group">
+        <label class="checkbox-item">
+          <checkbox 
+            checked="{{straightLegRaiseChecked}}" 
+            bindchange="onTrainingChange" 
+            data-value="straightLegRaise"
+          />
+          <text>直腿抬高</text>
+          <input 
+            type="text" 
+            placeholder="组数x次数" 
+            value="{{straightLegRaiseSets}}"
+            bindinput="onStraightLegRaiseSetsChange"
+            wx:if="{{straightLegRaiseChecked}}"
+            class="sets-input"
+          />
+        </label>
+        
+        <label class="checkbox-item">
+          <checkbox 
+            checked="{{squatsChecked}}" 
+            bindchange="onTrainingChange" 
+            data-value="squats"
+          />
+          <text>深蹲</text>
+          <input 
+            type="text" 
+            placeholder="组数x次数" 
+            value="{{squatsSets}}"
+            bindinput="onSquatsSetsChange"
+            wx:if="{{squatsChecked}}"
+            class="sets-input"
+          />
+        </label>
+        
+        <label class="checkbox-item">
+          <checkbox 
+            checked="{{stepUpsChecked}}" 
+            bindchange="onTrainingChange" 
+            data-value="stepUps"
+          />
+          <text>台阶训练</text>
+          <input 
+            type="text" 
+            placeholder="组数x次数" 
+            value="{{stepUpsSets}}"
+            bindinput="onStepUpsSetsChange"
+            wx:if="{{stepUpsChecked}}"
+            class="sets-input"
+          />
+        </label>
+        
+        <label class="checkbox-item">
+          <checkbox 
+            checked="{{otherTrainingChecked}}" 
+            bindchange="onTrainingChange" 
+            data-value="other"
+          />
+          <text>其他：</text>
+          <input 
+            type="text" 
+            placeholder="训练名称" 
+            value="{{otherTrainingName}}"
+            bindinput="onOtherTrainingNameChange"
+            wx:if="{{otherTrainingChecked}}"
+            class="other-input"
+          />
+          <input 
+            type="text" 
+            placeholder="组数x次数" 
+            value="{{otherTrainingSets}}"
+            bindinput="onOtherTrainingSetsChange"
+            wx:if="{{otherTrainingChecked}}"
+            class="sets-input"
+          />
+        </label>
       </view>
-      
-      <!-- 腘绳肌 -->
-      <view class="form-item">
-        <view class="item-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <view class="item-label" style="font-size: 15px;">腘绳肌</view>
-          <view class="item-value" style="font-size: 15px; font-weight: 600; color: var(--secondary);">{{hamstringStrength}} 级</view>
-        </view>
-        <slider min="1" max="5" value="{{hamstringStrength}}" bindchange="onHamstringStrengthChange" 
-                activeColor="#4CD964" backgroundColor="#4CD96433" 
-                step="1" show-value="false" />
-        <view class="slider-labels" style="display: flex; justify-content: space-between; font-size: 12px; color: var(--gray-dark); margin-top: 4px;">
-          <text>1级</text>
-          <text>3级</text>
-          <text>5级</text>
-        </view>
-      </view>
-      
-      <!-- 肌力训练 -->
-      <view class="muscle-training" style="margin-top: 24px;">
-        <text class="training-label" style="font-size: 15px; font-weight: 500; display: block; margin-bottom: 12px;">今日肌力训练</text>
-        
-        <view class="training-item" style="display: flex; align-items: center; padding: 12px; border: 1px solid var(--gray-medium); border-radius: 8px; margin-bottom: 12px;">
-          <checkbox value="straightLegRaise" checked="{{trainingTypes.includes('straightLegRaise')}}" bindchange="onTrainingChange" style="margin-right: 12px;" />
-          <text style="flex: 1;">直腿抬高</text>
-          <input type="text" placeholder="组数×次数" style="width: 100px; padding: 8px; border: 1px solid var(--gray-medium); border-radius: 4px; font-size: 14px;" />
-        </view>
-        
-        <view class="training-item" style="display: flex; align-items: center; padding: 12px; border: 1px solid var(--gray-medium); border-radius: 8px; margin-bottom: 12px;">
-          <checkbox value="squats" checked="{{trainingTypes.includes('squats')}}" bindchange="onTrainingChange" style="margin-right: 12px;" />
-          <text style="flex: 1;">靠墙静蹲</text>
-          <input type="text" placeholder="组数×秒数" style="width: 100px; padding: 8px; border: 1px solid var(--gray-medium); border-radius: 4px; font-size: 14px;" />
-        </view>
-        
-        <view class="training-item" style="display: flex; align-items: center; padding: 12px; border: 1px solid var(--gray-medium); border-radius: 8px; margin-bottom: 12px;">
-          <checkbox value="stepUps" checked="{{trainingTypes.includes('stepUps')}}" bindchange="onTrainingChange" style="margin-right: 12px;" />
-          <text style="flex: 1;">台阶训练</text>
-          <input type="text" placeholder="组数×次数" style="width: 100px; padding: 8px; border: 1px solid var(--gray-medium); border-radius: 4px; font-size: 14px;" />
-        </view>
-        
-        <view class="training-item" style="display: flex; align-items: center; padding: 12px; border: 1px solid var(--gray-medium); border-radius: 8px;">
-          <checkbox value="other" checked="{{trainingTypes.includes('other')}}" bindchange="onTrainingChange" style="margin-right: 12px;" />
-          <input type="text" placeholder="其他训练" style="flex: 1; padding: 8px; border: 1px solid var(--gray-medium); border-radius: 4px; font-size: 14px;" />
-          <input type="text" placeholder="组数×次数" style="width: 100px; padding: 8px; border: 1px solid var(--gray-medium); border-radius: 4px; font-size: 14px; margin-left: 12px;" />
+    </view>
+    
+    <button bindtap="saveMuscleRecord" class="save-btn">保存肌力记录</button>
+  </view>
+
+  <!-- 肿胀记录 -->
+  <view wx:if="{{currentTab === 'swelling'}}" class="record-container">
+    <view class="form-item">
+      <text class="label">患侧：</text>
+      <input 
+        type="text" 
+        placeholder="髌骨上10cm处" 
+        value="{{HswellUp}}"
+        bindinput="onHuanswellUp"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">患侧：</text>
+      <input 
+        type="text" 
+        placeholder="髌骨下5cm处" 
+        value="{{HswellDown}}"
+        bindinput="onHuanswellDown"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label">健侧：</text>
+      <input 
+        type="text" 
+        placeholder="髌骨上10cm处" 
+        value="{{JswellUp}}"
+        bindinput="onJianswellUp"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label">健侧：</text>
+      <input 
+        type="text" 
+        placeholder="髌骨下5cm处" 
+        value="{{JswellDown}}"
+        bindinput="onJianswellDown"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label">肿胀程度：</text>
+      <slider 
+        min="0" 
+        max="10" 
+        value="{{swellingLevel}}" 
+        bindchange="onSwellingLevelChange" 
+        show-value
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">肿胀描述：</text>
+      <textarea 
+        placeholder="描述肿胀的特点、变化等" 
+        value="{{swellingNotes}}"
+        bindinput="onSwellingNotesChange"
+      ></textarea>
+    </view>
+    
+    <button bindtap="saveSwellingRecord" class="save-btn">保存肿胀记录</button>
+  </view>
+
+  <!-- 功能记录 -->
+  <view wx:if="{{currentTab === 'function'}}" class="record-container">
+    <view class="form-item">
+  <text class="label">行走能力：</text>
+  <picker 
+    value="{{walkingAbility}}" 
+    range="{{walkingOptions}}"
+    bindchange="onwalkingChange">
+    <view class="picker-view">
+      {{walkingOptions[walkingAbility]}}
+    </view>
+  </picker>
+</view>
+    
+<view class="form-item">
+  <text class="label">上下楼梯姿态：</text>
+  <picker 
+    value="{{stairsAbility}}" 
+    range="{{stairsOptions}}"
+    bindchange="onstairsChange">
+    <view class="picker-view">
+      {{stairsOptions[stairsAbility]}}
+    </view>
+  </picker>
+</view>
+<view class="form-item">
+  <text class="label">上下楼梯感受：</text>
+  <picker 
+    value="{{feeling}}" 
+    range="{{feelingOptions}}"
+    bindchange="onfeelingChange">
+    <view class="picker-view">
+      {{feelingOptions[feeling]}}
+    </view>
+  </picker>
+</view>
+    <view class="form-item">
+      <text class="label">行走距离：</text>
+      <input 
+        type="text" 
+        placeholder="如：500米" 
+        value="{{walkingDistance}}"
+        bindinput="onWalkingDistanceChange"
+      />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">功能描述：</text>
+      <textarea 
+        placeholder="描述日常活动能力的变化等" 
+        value="{{functionNotes}}"
+        bindinput="onFunctionNotesChange"
+      ></textarea>
+    </view>
+    
+    <button bindtap="saveFunctionRecord" class="save-btn">保存功能记录</button>
+  </view>
+
+  <!-- 伤口记录 -->
+  <view wx:if="{{currentTab === 'wound'}}" class="record-container">
+    <view class="form-item">
+      <text class="label">伤口照片：</text>
+      <view class="image-uploader">
+        <button bindtap="chooseWoundImage" class="upload-btn">上传照片</button>
+        <view class="preview-images">
+          <view wx:for="{{woundImages}}" wx:key="index" class="preview-item">
+            <image src="{{item}}" mode="widthFix"></image>
+            <button bindtap="deleteWoundImage" data-index="{{index}}" class="delete-btn">删除</button>
+          </view>
         </view>
       </view>
     </view>
     
-    <button class="btn btn-secondary" bindtap="saveMuscleRecord">保存肌力记录</button>
-  </view>
-  
-  <!-- 其他标签页内容省略，实际项目中需要完整实现 -->
-  <view class="tab-content" wx:if="{{currentTab === 'swelling' || currentTab === 'function' || currentTab === 'wound'}}">
-    <view class="card card-shadow" style="text-align: center; padding: 40px 20px;">
-      <icon type="info" size="48" color="var(--gray-medium)" style="margin-bottom: 16px;" />
-      <text style="font-size: 16px; color: var(--gray-dark);">该功能正在开发中，敬请期待</text>
+    <view class="form-item">
+  <text class="label">伤口状态：</text>
+  <picker 
+    value="{{woundCondition}}" 
+    range="{{woundOptions}}"
+    bindchange="onwoundConditionChange">
+    <view class="picker-view">
+      {{woundOptions[woundCondition]}}
     </view>
+  </picker>
+</view>
+    
+    <view class="form-item">
+      <text class="label">伤口描述：</text>
+      <textarea 
+        placeholder="描述伤口愈合情况、有无渗液等" 
+        value="{{woundNotes}}"
+        bindinput="onWoundNotesChange"
+      ></textarea>
+    </view>
+    
+    <button bindtap="saveWoundRecord" class="save-btn">保存伤口记录</button>
   </view>
 </view>

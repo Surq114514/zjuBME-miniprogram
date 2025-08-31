@@ -1,0 +1,89 @@
+<!-- 登录页面 -->
+<view class="container {{isDarkMode ? 'dark' : ''}}">
+  <!-- 主题切换按钮 -->
+  <button class="theme-toggle" bindtap="toggleTheme">
+    <i class="icon-moon-o" wx:if="{{!isDarkMode}}"></i>
+    <i class="icon-sun-o" wx:if="{{isDarkMode}}"></i>
+  </button>
+
+  <!-- 标题区域 -->
+  <view class="title-section">
+    <text class="app-title">康复助手</text>
+    <text class="app-desc">膝盖术后康复管理平台</text>
+  </view>
+
+  <!-- 登录表单 -->
+  <form class="login-form" bindsubmit="handleLogin">
+    <!-- 账号输入 -->
+    <view class="input-group">
+      <i class="icon-user-o input-icon"></i>
+      <input 
+        type="text" 
+        name="username" 
+        placeholder="账号/手机号" 
+        value="{{username}}"
+        bindinput="handleInput"
+        data-field="username"
+        class="form-input"
+        placeholder-class="placeholder-style"
+        required
+      />
+    </view>
+
+    <!-- 密码输入 -->
+    <view class="input-group">
+      <i class="icon-lock input-icon"></i>
+      <input 
+        type="{{showPassword ? 'text' : 'password'}}" 
+        name="password" 
+        placeholder="密码" 
+        value="{{password}}"
+        bindinput="handleInput"
+        data-field="password"
+        class="form-input"
+        placeholder-class="placeholder-style"
+        required
+      />
+        <i class="icon-eye-slash-o" wx:if="{{showPassword}}"></i>
+    </view>
+
+    <!-- 找回密码 -->
+    <navigator url="/pages/forgot-password/forgot-password" class="forgot-password">
+      忘记密码?
+    </navigator>
+
+    <!-- 记住账号 -->
+    <view class="remember-container">
+      <checkbox 
+        value="remember" 
+        checked="{{rememberMe}}"
+        bindchange="toggleRemember"
+        class="remember-checkbox"
+      />
+      <text class="remember-text">记住账号</text>
+    </view>
+
+    <!-- 登录按钮 -->
+    <button 
+      form-type="submit" 
+      class="login-btn"
+      disabled="{{!username || !password}}"
+    >
+      登录
+    </button>
+
+    <!-- 注册入口 -->
+    <view class="register-container">
+      <text class="register-text">还没有账号? </text>
+      <navigator url="/pages/register/register" class="register-link">
+        立即注册
+      </navigator>
+    </view>
+  </form>
+
+  <!-- 页脚 -->
+  <view class="footer">
+    <text class="copyright">© 2024 康复助手 版权所有</text>
+  </view>
+</view>
+    

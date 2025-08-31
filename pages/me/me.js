@@ -6,7 +6,7 @@ Page({
   data: {
     // 用户基本信息
     userInfo: {
-      name: '张先生',
+      name: '',
       avatar: '/images/avatar.png',
       patientType: '患者',
       surgeryType: '右膝关节置换术'
@@ -38,14 +38,7 @@ Page({
         bgColor: '#E8F4FD',
         action: 'contactDoctor'
       },
-      {
-        id: 'report',
-        name: '生成数据报告',
-        icon: 'file-text-o',
-        color: '#6E6E73',
-        bgColor: '#F5F5F7',
-        action: 'generateReport'
-      },
+     
       {
         id: 'knowledge',
         name: '术后康复指南',
@@ -96,9 +89,6 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    this.loadUserData();
-  },
 
   /**
    * 生命周期函数--监听页面显示
@@ -162,32 +152,20 @@ Page({
    */
   contactDoctor: function () {
     wx.showActionSheet({
-      itemList: ['在线咨询', '拨打电话', '发送消息', '视频通话'],
+      itemList: ['拨打电话', '发送消息', '视频通话'],
       success: (res) => {
         switch (res.tapIndex) {
           case 0:
-            this.openChatRoom();
-            break;
-          case 1:
             this.callDoctor();
             break;
-          case 2:
+          case 1:
             this.messageDoctor();
             break;
-          case 3:
+          case 2:
             this.videoCallDoctor();
             break;
         }
       }
-    });
-  },
-
-  /**
-   * 打开聊天室
-   */
-  openChatRoom: function () {
-    wx.navigateTo({
-      url: '/pages/chat/chat'
     });
   },
 
@@ -218,10 +196,8 @@ Page({
       content: '是否要发送消息给主治医生？',
       success: (res) => {
         if (res.confirm) {
-          // 这里可以实现发送消息的功能
-          wx.showToast({
-            title: '消息发送成功',
-            icon: 'success'
+          wx.navigateTo({  // 普通页面用这个
+            url: '/pages/chat/chat',
           });
         }
       }
@@ -336,19 +312,7 @@ Page({
   },
 
   /**
-   * 生成家属绑定二维码
-   */
-  generateFamilyQRCode: function () {
-    wx.showModal({
-      title: '家属绑定',
-      content: '是否生成家属绑定二维码？',
-      success: (res) => {
-        if (res.confirm) {
-          this.showQRCodeModal();
-        }
-      }
-    });
-  },
+ 
 
   /**
    * 显示二维码弹窗

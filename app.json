@@ -1,11 +1,15 @@
 {
   "pages": [
+    "pages/login/login",
     "pages/home/home",
     "pages/log/log",
     "pages/plan/plan",
-    "pages/care/care",
     "pages/me/me",
-    "pages/chat/chat"
+    "pages/chat/chat",
+    "pages/baogao/baogao",
+    "pages/bingli/bingli",
+    "pages/register/register",
+    "pages/test/test"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -36,12 +40,6 @@
         "text": "计划",
         "iconPath": "/images/plan.png",
         "selectedIconPath": "/images/plan-selected.png"
-      },
-      {
-        "pagePath": "pages/care/care",
-        "text": "家属",
-        "iconPath": "/images/care.png",
-        "selectedIconPath": "/images/care-selected.png"
       },
       {
         "pagePath": "pages/me/me",

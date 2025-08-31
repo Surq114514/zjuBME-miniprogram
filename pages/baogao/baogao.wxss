@@ -1,0 +1,571 @@
+/* 页面基础容器样式 */
+.page-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* 深色模式基础样式 */
+.page-container.dark {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+/* 顶部导航样式 */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.page-container.dark .header {
+  background-color: rgba(31, 41, 55, 0.8);
+  border-bottom-color: #374151;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.theme-toggle:hover {
+  background-color: #f3f4f6;
+}
+
+.page-container.dark .theme-toggle:hover {
+  background-color: #374151;
+}
+
+/* 主内容区样式 */
+.main-content {
+  padding: 16px;
+  padding-bottom: 80px; /* 为底部导航预留空间 */
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.last-section {
+  margin-bottom: 30px;
+}
+
+/* 卡片通用样式 */
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.page-container.dark .card {
+  background-color: #374151;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 患者信息卡片样式 */
+.patient-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.patient-name {
+  font-size: 16px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.patient-operation {
+  font-size: 14px;
+  color: #6b7280;
+  transition: color 0.3s;
+}
+
+.page-container.dark .patient-operation {
+  color: #9ca3af;
+}
+
+.post-op-status {
+  background-color: #e6f0ff;
+  color: #3b82f6;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.page-container.dark .post-op-status {
+  background-color: rgba(59, 130, 246, 0.3);
+}
+
+.patient-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.info-item {
+  font-size: 14px;
+}
+
+.info-label {
+  color: #6b7280;
+  font-size: 13px;
+  display: block;
+  margin-bottom: 4px;
+  transition: color 0.3s;
+}
+
+.page-container.dark .info-label {
+  color: #9ca3af;
+}
+
+/* 关键指标样式 */
+.indicators-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.indicator-card {
+  border-radius: 12px;
+  padding: 16px;
+  transition: background-color 0.3s;
+}
+
+.indicator-blue {
+  background-color: #e6f0ff;
+}
+
+.page-container.dark .indicator-blue {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+.indicator-green {
+  background-color: #e6ffee;
+}
+
+.page-container.dark .indicator-green {
+  background-color: rgba(16, 185, 129, 0.2);
+}
+
+.indicator-pink {
+  background-color: #ffe6f0;
+}
+
+.page-container.dark .indicator-pink {
+  background-color: rgba(236, 72, 153, 0.2);
+}
+
+.indicator-orange {
+  background-color: #fff0e6;
+}
+
+.page-container.dark .indicator-orange {
+  background-color: rgba(249, 115, 22, 0.2);
+}
+
+.indicator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.indicator-name {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.indicator-value {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.indicator-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.page-container.dark .indicator-blue .indicator-icon {
+  background-color: rgba(59, 130, 246, 0.3);
+}
+
+.page-container.dark .indicator-green .indicator-icon {
+  background-color: rgba(16, 185, 129, 0.3);
+}
+
+.page-container.dark .indicator-pink .indicator-icon {
+  background-color: rgba(236, 72, 153, 0.3);
+}
+
+.page-container.dark .indicator-orange .indicator-icon {
+  background-color: rgba(249, 115, 22, 0.3);
+}
+
+.indicator-blue .indicator-icon {
+  color: #3b82f6;
+}
+
+.indicator-green .indicator-icon {
+  color: #10b981;
+}
+
+.indicator-pink .indicator-icon {
+  color: #ec4899;
+}
+
+.indicator-orange .indicator-icon {
+  color: #f97316;
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
+  margin-bottom: 6px;
+  transition: background-color 0.3s;
+}
+
+.page-container.dark .progress-bar {
+  background-color: rgba(107, 114, 128, 0.5);
+}
+
+.indicator-blue .progress-fill {
+  background-color: #3b82f6;
+}
+
+.indicator-green .progress-fill {
+  background-color: #10b981;
+}
+
+.indicator-pink .progress-fill {
+  background-color: #ec4899;
+}
+
+.indicator-orange .progress-fill {
+  background-color: #f97316;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.indicator-change {
+  font-size: 12px;
+  color: #6b7280;
+  transition: color 0.3s;
+}
+
+.page-container.dark .indicator-change {
+  color: #9ca3af;
+}
+
+/* 图表容器样式 */
+.chart-container {
+  padding-bottom: 16px;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chart-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.chart-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.chart-tab {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  background-color: #f3f4f6;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.page-container.dark .chart-tab {
+  background-color: #4b5563;
+  color: #d1d5db;
+}
+
+.chart-tab.active {
+  background-color: #e6f0ff;
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.page-container.dark .chart-tab.active {
+  background-color: rgba(59, 130, 246, 0.3);
+  color: #93c5fd;
+}
+
+.chart-canvas {
+  width: 100%;
+  height: 256px;
+}
+
+/* 康复建议样式 */
+.suggestion-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.suggestion-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  transition: background-color 0.3s;
+}
+
+.page-container.dark .suggestion-icon {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+.suggestion-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.suggestion-list {
+  margin-bottom: 20px;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.suggestion-item:last-child {
+  margin-bottom: 0;
+}
+
+.suggestion-item i {
+  margin-right: 12px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.suggestion-text {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.suggestion-button {
+  width: 100%;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.suggestion-button:hover {
+  background-color: #2563eb;
+}
+
+/* 底部导航样式 */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background-color: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding: 8px 0;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.page-container.dark .tab-bar {
+  background-color: #1f2937;
+  border-top-color: #374151;
+}
+
+.tab-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #6b7280;
+  font-size: 12px;
+  transition: color 0.3s;
+}
+
+.page-container.dark .tab-bar-item {
+  color: #9ca3af;
+}
+
+.tab-bar-item i {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.tab-bar-item.active {
+  color: #3b82f6;
+}
+
+/* 通用文本颜色样式 */
+.text-green {
+  color: #10b981;
+}
+
+.text-warning {
+  color: #f59e0b;
+}
+
+/* ———— 新增弹窗相关样式（完全适配原有设计语言） ———— */
+/* 1. 弹窗触发按钮（与 suggestion-button 样式统一） */
+.report-trigger-btn {
+  width: calc(100% - 32px); /* 与主内容区 padding 对齐 */
+  margin: 16px auto;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.report-trigger-btn:hover {
+  background-color: #2563eb; /* 与 suggestion-button hover 效果一致 */
+}
+
+/* 2. 弹窗蒙层（半透明 + 轻微模糊，适配深色模式） */
+.popup-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998; /* 层级低于弹窗，高于页面其他元素 */
+  backdrop-filter: blur(4px); /* 与顶部导航模糊效果统一 */
+}
+
+/* 3. 弹窗主体容器（与 card 样式统一，突出悬浮层级） */
+.popup-main {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 32px); /* 左右各 16px 间距，与主内容区一致 */
+  max-width: 600px; /* 限制大屏宽度，避免显示过宽 */
+  max-height: 80vh; /* 限制高度，避免超出屏幕 */
+  background-color: #ffffff;
+  border-radius: 12px; /* 与 card 圆角一致 */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 比 card 阴影稍重，突出弹窗 */
+  z-index: 999; /* 层级最高，确保不被遮挡 */
+  overflow: hidden;
+  transition: background-color 0.3s, box-shadow 0.3s; /* 与原有过渡一致 */
+}
+
+/* 弹窗深色模式适配（与 dark 模式 card 背景统一） */
+.page-container.dark .popup-main {
+  background-color: #374151;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* 深色模式阴影加深 */
+}
+
+/* 4. 弹窗右上角关闭按钮（与 theme-toggle 样式统一） */
+.popup-close-btn {
+  position: absolute;
+  top: 16px; /* 与顶部导航 padding 一致 */
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* 圆形按钮，与 theme-toggle 统一 */
+  background-color: transparent;
+  color: inherit;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  z-index: 1000;
+}
+.popup-close-btn:hover {
+  background-color: #f3f4f6; /* 与 theme-toggle hover 背景一致 */
+}
+
+/* 关闭按钮深色模式适配 */
+.page-container.dark .popup-close-btn:hover {
+  background-color: #4b5563; /* 与 dark 模式 theme-toggle hover 背景一致 */
+}
+
+/* 5. 弹窗内容容器（带滚动，避免内容溢出） */
+.popup-content {
+  padding: 16px; /* 与主内容区 padding 一致 */
+  padding-top: 52px; /* 顶部预留关闭按钮空间（16px 间距 + 36px 按钮高度） */
+  height: 100%;
+  max-height: calc(80vh - 0px); /* 与弹窗 max-height 一致，确保滚动区域完整 */
+  overflow-y: auto; /* 内容超出时可滚动 */
+  box-sizing: border-box;
+}
+
+/* 6. 弹窗内主内容区调整（移除底部导航预留空间，弹窗无需） */
+.popup-content .main-content {
+  padding-bottom: 16px; /* 取消原有 80px 底部导航预留空间，改为与顶部一致的 16px */
+}

@@ -1,0 +1,196 @@
+<view class="page-container">
+  <!-- 加载状态 -->
+  <view wx:if="{{isLoading}}" class="loading">加载中...</view>
+  
+  <!-- 错误提示 -->
+  <view wx:if="{{hasError && !isLoading}}" class="error">{{errorMsg}}</view>
+
+  <!-- 主内容区（数据加载完成后显示） -->
+  <view wx:if="{{!isLoading && !hasError}}">
+    <!-- 顶部导航栏 -->
+    <view class="header">
+      <view class="header-content">
+        <text class="header-title">康复报告</text>
+        <button bindtap="toggleTheme" class="theme-toggle">
+          <i class="fa {{isDarkMode ? 'fa-sun-o' : 'fa-moon-o'}}"></i>
+        </button>
+      </view>
+    </view>
+
+    <!-- 患者信息卡片 -->
+    <view class="section patient-info">
+      <view class="card">
+        <view class="patient-info-header">
+          <view>
+            <text class="patient-name">{{patientData ? patientData.get('name') : '加载中...'}}</text>
+            <text class="patient-operation">{{patientData ? patientData.get('operationType') : ''}}</text>
+          </view>
+          <view class="post-op-status">术后第{{patientData ? patientData.get('postOpWeeks') : 0}}周</view>
+        </view>
+        
+        <view class="patient-info-grid">
+          <view class="info-item">
+            <text class="info-label">手术日期</text>
+            <text class="info-value">{{patientData ? patientData.get('operationDate') : '暂无数据'}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">上次评估</text>
+            <text class="info-value">{{patientData ? patientData.get('lastEvaluation') : '暂无数据'}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">主治医生</text>
+            <text class="info-value">{{patientData ? patientData.get('doctorName') : '暂无数据'}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">下次复查</text>
+            <text class="info-value">{{patientData ? patientData.get('nextReview') : '暂无数据'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 关键指标 -->
+    <view class="section">
+      <text class="section-title">关键指标</text>
+      <view class="indicators-grid">
+        <!-- 关节活动度 -->
+        <view class="indicator-card indicator-blue">
+          <view class="indicator-header">
+            <view>
+              <text class="indicator-name">关节活动度</text>
+              <text class="indicator-value">{{recoverData.length > 0 ? recoverData[recoverData.length-1].get('jointAngle') + '°' : '0°'}}</text>
+            </view>
+            <view class="indicator-icon">
+              <i class="fa fa-arrows-v"></i>
+            </view>
+          </view>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{recoverData.length > 0 ? (recoverData[recoverData.length-1].get('jointAngle') / 150 * 100) + '%' : '0%'}}"></view>
+          </view>
+          <text class="indicator-change">
+            <i class="fa fa-arrow-up text-green"></i>
+            目标150°，较上次+{{recoverData.length > 1 ? recoverData[recoverData.length-1].get('jointAngle') - recoverData[recoverData.length-2].get('jointAngle') : 0}}°
+          </text>
+        </view>
+        
+        <!-- 肌肉力量 -->
+        <view class="indicator-card indicator-green">
+          <view class="indicator-header">
+            <view>
+              <text class="indicator-name">肌肉力量</text>
+              <text class="indicator-value">{{recoverData.length > 0 ? recoverData[recoverData.length-1].get('muscleStrength') + '%' : '0%'}}</text>
+            </view>
+            <view class="indicator-icon">
+              <i class="fa fa-bolt"></i>
+            </view>
+          </view>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{recoverData.length > 0 ? recoverData[recoverData.length-1].get('muscleStrength') + '%' : '0%'}}"></view>
+          </view>
+          <text class="indicator-change">
+            <i class="fa fa-arrow-up text-green"></i>
+            较上次+{{recoverData.length > 1 ? recoverData[recoverData.length-1].get('muscleStrength') - recoverData[recoverData.length-2].get('muscleStrength') : 0}}%
+          </text>
+        </view>
+        
+        <!-- 疼痛指数 -->
+        <view class="indicator-card indicator-pink">
+          <view class="indicator-header">
+            <view>
+              <text class="indicator-name">疼痛指数</text>
+              <text class="indicator-value">{{recoverData.length > 0 ? recoverData[recoverData.length-1].get('painIndex') + '/10' : '0/10'}}</text>
+            </view>
+            <view class="indicator-icon">
+              <i class="fa fa-heartbeat"></i>
+            </view>
+          </view>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{recoverData.length > 0 ? recoverData[recoverData.length-1].get('painIndex') * 10 + '%' : '0%'}}"></view>
+          </view>
+          <text class="indicator-change">
+            <i class="fa {{recoverData.length > 1 && recoverData[recoverData.length-1].get('painIndex') < recoverData[recoverData.length-2].get('painIndex') ? 'fa-arrow-down text-green' : 'fa-arrow-up text-red'}}"></i>
+            较上次{{recoverData.length > 1 ? (recoverData[recoverData.length-1].get('painIndex') - recoverData[recoverData.length-2].get('painIndex') >= 0 ? '+' : '') + (recoverData[recoverData.length-1].get('painIndex') - recoverData[recoverData.length-2].get('painIndex')) : 0}}
+          </text>
+        </view>
+        
+        <!-- 肿胀程度（假设数据来自patientData） -->
+        <view class="indicator-card indicator-orange">
+          <view class="indicator-header">
+            <view>
+              <text class="indicator-name">肿胀程度</text>
+              <text class="indicator-value">{{patientData ? patientData.get('swellingDegree') : '无数据'}}</text>
+            </view>
+            <view class="indicator-icon">
+              <i class="fa fa-balance-scale"></i>
+            </view>
+          </view>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{patientData ? patientData.get('swellingScore') + '%' : '0%'}}"></view>
+          </view>
+          <text class="indicator-change">
+            <i class="fa fa-arrow-up text-green"></i>
+            较上次提升
+          </text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 康复趋势图表 -->
+    <view class="section">
+      <text class="section-title">康复趋势</text>
+      <view class="card chart-container">
+        <view class="chart-header">
+          <text class="chart-title">近{{recoverData.length}}周恢复情况</text>
+          <view class="chart-tabs">
+            <view class="chart-tab active">周视图</view>
+            <view class="chart-tab">月视图</view>
+          </view>
+        </view>
+        <canvas canvas-id="recoveryChart" class="chart-canvas"></canvas>
+      </view>
+    </view>
+    
+    <!-- 下一步康复建议 -->
+    <view class="section last-section">
+      <text class="section-title">下一步康复建议</text>
+      <view class="card">
+        <view class="suggestion-header">
+          <view class="suggestion-icon">
+            <i class="fa fa-lightbulb-o"></i>
+          </view>
+          <text class="suggestion-title">本周训练重点</text>
+        </view>
+        
+        <view class="suggestion-list">
+          <view class="suggestion-item" wx:for="{{patientData ? patientData.get('suggestions') : []}}" wx:key="index">
+            <i class="fa {{item.type === 'warning' ? 'fa-exclamation-circle text-warning' : 'fa-check-circle text-green'}}"></i>
+            <text class="suggestion-text">{{item.content}}</text>
+          </view>
+        </view>
+        
+        <button class="suggestion-button">查看详细训练计划</button>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 底部导航 -->
+  <view class="tab-bar">
+    <view class="tab-bar-item">
+      <i class="fa fa-home"></i>
+      <text>首页</text>
+    </view>
+    <view class="tab-bar-item active">
+      <i class="fa fa-line-chart"></i>
+      <text>报告</text>
+    </view>
+    <view class="tab-bar-item">
+      <i class="fa fa-calendar"></i>
+      <text>训练</text>
+    </view>
+    <view class="tab-bar-item">
+      <i class="fa fa-user"></i>
+      <text>我的</text>
+    </view>
+  </view>
+</view>
+    

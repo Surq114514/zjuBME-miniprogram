@@ -62,8 +62,7 @@
   <!-- 家属绑定 -->
   <view class="family-section">
     <view class="section-header">
-      <text class="section-title">家属绑定</text>
-      <text class="section-desc">绑定家属后，家属可以协助记录康复数据并接收异常提醒</text>
+      <text class="section-title">添加病例</text>
     </view>
     
     <view class="family-card card card-shadow">
@@ -72,21 +71,25 @@
           <icon type="{{familyBinding.isBound ? 'success' : 'info'}}" size="20" color="white" />
         </view>
         <view class="status-info">
-          <text class="status-text">{{familyBinding.isBound ? '已绑定家属' : '未绑定家属'}}</text>
-          <text class="status-desc">{{familyBinding.isBound ? '家属可协助记录康复数据' : '绑定家属获得更多支持'}}</text>
         </view>
       </view>
       
       <view class="family-actions">
+<navigator 
+  url="/pages/bingli/bingli"                 
+  hover-class="card-hover"     
+>
         <button wx:if="{{!familyBinding.isBound}}" class="btn btn-primary" bindtap="generateFamilyQRCode">
           <icon type="qrcode" size="16" color="white" style="margin-right: 8px;" />
-          生成绑定二维码
+          点击添加病例
         </button>
+      </navigator> 
         <button wx:if="{{familyBinding.isBound}}" class="btn btn-secondary" bindtap="manageFamilyBinding">
           <icon type="setting" size="16" color="white" style="margin-right: 8px;" />
           管理绑定
         </button>
       </view>
+      
       
       <!-- 已绑定成员列表 -->
       <view class="bound-members" wx:if="{{familyBinding.isBound}}">

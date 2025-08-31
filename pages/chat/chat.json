@@ -1,8 +1,5 @@
 {
   "navigationBarTitleText": "医生咨询",
-  "navigationBarBackgroundColor": "#4A90E2",
-  "navigationBarTextStyle": "white",
-  "backgroundColor": "#f5f5f7",
-  "enablePullDownRefresh": false,
-  "disableScroll": true
+  "navigationBarBackgroundColor": "#3a88ee", 
+  "navigationBarTextStyle": "white" 
 }

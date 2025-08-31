@@ -1,0 +1,316 @@
+<view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="header">
+    <view class="header-left">
+      <button class="back-btn" bindtap="navigateBack">
+        <icon type="arrowleft" size="24" color="#666666"></icon>
+      </button>
+      <text class="title">病例信息录入</text>
+    </view>
+    <view class="header-right">
+      <button class="icon-btn" bindtap="saveInfo">
+        <icon type="save" size="24" color="#666666"></icon>
+      </button>
+      <button class="icon-btn">
+        <icon type="ellipsis" size="24" color="#666666"></icon>
+      </button>
+    </view>
+  </view>
+
+  <!-- 主内容区 -->
+  <view class="main-content">
+    <!-- 进度指示器 -->
+    <view class="progress-container">
+      <view class="progress-item">
+        <view class="progress-circle active">1</view>
+        <text class="progress-text active">基础信息</text>
+      </view>
+      <view class="progress-line active"></view>
+      <view class="progress-item">
+        <view class="progress-circle active">2</view>
+        <text class="progress-text active">手术情况</text>
+      </view>
+    </view>
+
+    <!-- 表单卡片容器 -->
+    <view class="form-container">
+      <!-- 患者基础信息卡片 -->
+      <view class="form-card">
+        <view class="card-title">
+          <icon type="user" size="20" color="#1677FF" class="title-icon"></icon>
+          <text class="title-text">患者基础信息</text>
+        </view>
+
+        <view class="form-grid">
+          <view class="form-item">
+            <text class="form-label">姓名</text>
+            <input 
+              class="form-input" 
+              placeholder="请输入患者姓名" 
+              value="{{name}}"
+              bindinput="bindNameInput"
+            />
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">性别</text>
+            <view class="radio-group">
+              <label class="radio-item">
+                <radio value="male" name="gender" checked="{{gender === 'male'}}" bindchange="bindGenderChange"/>
+                <text>男</text>
+              </label>
+              <label class="radio-item">
+                <radio value="female" name="gender" checked="{{gender === 'female'}}" bindchange="bindGenderChange"/>
+                <text>女</text>
+              </label>
+            </view>
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">年龄</text>
+            <input 
+              class="form-input" 
+              type="number" 
+              placeholder="请输入年龄" 
+              bindinput="bindAgeInput"
+            />
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">身高(cm)</text>
+            <input 
+              class="form-input" 
+              type="number" 
+              placeholder="请输入身高" 
+              bindinput="bindHeightInput"
+            />
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">体重(kg)</text>
+            <input 
+              class="form-input" 
+              type="number" 
+              placeholder="请输入体重" 
+              bindinput="bindWeightInput"
+            />
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">BMI</text>
+            <input 
+              class="form-input" 
+              placeholder="自动计算" 
+              value="{{bmi}}"
+              readonly
+              disabled
+            />
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">联系电话</text>
+            <input 
+              class="form-input" 
+              type="number" 
+              placeholder="请输入联系电话" 
+              bindinput="bindPhoneInput"
+            />
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">医保类型</text>
+            <picker 
+              class="form-picker"
+              range="{{insuranceTypes}}" 
+              range-key="name"
+              value="{{insuranceIndex}}"
+              bindchange="bindInsuranceChange"
+            >
+              <view class="picker-view">
+                {{insuranceIndex !== null ? insuranceTypes[insuranceIndex].name : '请选择医保类型'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="form-section">
+          <text class="form-label">既往病史</text>
+          <view class="checkbox-group">
+            <label class="checkbox-item" wx:for="{{medicalHistories}}" wx:key="id">
+              <checkbox value="{{item.id}}" checked="{{item.checked}}" bindchange="bindHistoryChange" data-id="{{item.id}}"/>
+              <text>{{item.name}}</text>
+            </label>
+          </view>
+        </view>
+
+        <view class="form-section">
+          <text class="form-label">其他病史说明</text>
+          <textarea 
+            class="form-textarea" 
+            placeholder="请输入其他病史信息或补充说明"
+            bindinput="bindOtherHistoryInput"
+          ></textarea>
+        </view>
+      </view>
+
+      <!-- 手术情况卡片 -->
+      <view class="form-card">
+        <view class="card-title">
+          <icon type="hospital" size="20" color="#1677FF" class="title-icon"></icon>
+          <text class="title-text">手术情况</text>
+        </view>
+
+        <view class="form-grid">
+          <view class="form-item">
+            <text class="form-label">手术日期</text>
+            <picker mode="date" value="{{operationDate}}" start="1900-01-01" bindchange="bindDateChange">
+              <view class="picker-view">
+                {{operationDate || '请选择手术日期'}}
+              </view>
+            </picker>
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">手术类型</text>
+            <picker 
+              class="form-picker"
+              range="{{operationTypes}}" 
+              range-key="name"
+              value="{{operationTypeIndex}}"
+              bindchange="bindOperationTypeChange"
+            >
+              <view class="picker-view">
+                {{operationTypeIndex !== null ? operationTypes[operationTypeIndex].name : '请选择手术类型'}}
+              </view>
+            </picker>
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">手术侧别</text>
+            <view class="radio-group">
+              <label class="radio-item">
+                <radio value="left" name="side" checked="{{side === 'left'}}" bindchange="bindSideChange"/>
+                <text>左侧</text>
+              </label>
+              <label class="radio-item">
+                <radio value="right" name="side" checked="{{side === 'right'}}" bindchange="bindSideChange"/>
+                <text>右侧</text>
+              </label>
+              <label class="radio-item">
+                <radio value="both" name="side" checked="{{side === 'both'}}" bindchange="bindSideChange"/>
+                <text>双侧</text>
+              </label>
+            </view>
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">康复医生</text>
+            <input 
+              class="form-input" 
+              placeholder="请输入康复医生姓名" 
+              bindinput="bindDoctorInput"
+            />
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">术前诊断</text>
+            <input 
+              class="form-input" 
+              placeholder="请输入术前诊断结果" 
+              bindinput="bindDiagnosisInput"
+            />
+          </view>
+
+          <view class="form-item">
+            <text class="form-label">麻醉方式</text>
+            <picker 
+              class="form-picker"
+              range="{{anesthesiaTypes}}" 
+              range-key="name"
+              value="{{anesthesiaIndex}}"
+              bindchange="bindAnesthesiaChange"
+            >
+              <view class="picker-view">
+                {{anesthesiaIndex !== null ? anesthesiaTypes[anesthesiaIndex].name : '请选择麻醉方式'}}
+              </view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="form-section">
+          <text class="form-label">手术简要描述</text>
+          <textarea 
+            class="form-textarea" 
+            placeholder="请简要描述手术过程和关键信息"
+            bindinput="bindOperationDescInput"
+          ></textarea>
+        </view>
+
+        <view class="form-section">
+          <text class="form-label">术后即刻情况</text>
+          <view class="grid-3">
+            <view class="form-subitem">
+              <text class="sub-label">膝关节活动度(屈/伸)</text>
+              <view class="flex-row">
+                <input 
+                  class="form-input flex-1 rounded-l" 
+                  type="number" 
+                  placeholder="屈" 
+                  bindinput="bindFlexionInput"
+                />
+                <view class="divider">/</view>
+                <input 
+                  class="form-input flex-1 rounded-r" 
+                  type="number" 
+                  placeholder="伸" 
+                  bindinput="bindExtensionInput"
+                />
+              </view>
+            </view>
+            
+            <view class="form-subitem">
+              <text class="sub-label">VAS疼痛评分(0-10分)</text>
+              <input 
+                class="form-input" 
+                type="number" 
+                min="0" 
+                max="10" 
+                placeholder="0-10" 
+                bindinput="bindPainScoreInput"
+              />
+            </view>
+            
+            <view class="form-subitem">
+              <text class="sub-label">肌力分级(0-5级)</text>
+              <picker 
+                class="form-picker"
+                range="{{muscleStrengthLevels}}" 
+                value="{{muscleStrengthIndex}}"
+                bindchange="bindMuscleStrengthChange"
+              >
+                <view class="picker-view">
+                  {{muscleStrengthIndex !== null ? muscleStrengthLevels[muscleStrengthIndex] + '级' : '请选择'}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </view>
+
+        <view class="form-section">
+          <text class="form-label">术后并发症</text>
+          <view class="checkbox-group">
+            <label class="checkbox-item" wx:for="{{complications}}" wx:key="id">
+              <checkbox value="{{item.id}}" checked="{{item.checked}}" bindchange="bindComplicationChange" data-id="{{item.id}}"/>
+              <text>{{item.name}}</text>
+            </label>
+          </view>
+        </view>
+      </view>
+
+      <!-- 按钮区域 -->
+      <view class="button-group">
+        <button bindtap="saveInfoToCloud" class="save-btn">保存信息</button>
+      </view>
+    </view>
+  </view>
+</view>    
