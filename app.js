@@ -1,4 +1,13 @@
-// app.js
+const AV = require('./libs/av-core-min');
+const adapters = require('./libs/leancloud-adapters-weapp.js');
+
+AV.setAdapters(adapters);
+AV.init({
+  appId:'JqAWaGQweN6bkKFnnoWGolmX-gzGzoHsz',
+  appKey:'ARxDQBmDjxKlKzxSEe1uzRHi',
+  serverURLs:"https://jqawagqw.lc-cn-n1-shared.com",
+})
+
 App({
   onLaunch() {
     // 初始化本地存储

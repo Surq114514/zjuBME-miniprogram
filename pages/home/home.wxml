@@ -1,35 +1,38 @@
 <view class="container">
   <!-- 顶部状态区 -->
-  <view class="card card-shadow header">
-    <view class="user-info" style="display: flex; align-items: center;">
-      <view class="avatar" style="width: 48px; height: 48px; border-radius: 50%; background-color: #E8F4FD; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
-        <icon type="user" size="24" color="#4A90E2" />
+  <navigator url="/pages/me/me" open-type="switchTab" hover-class="card-hover">
+    <view class="card card-shadow header">
+      <view class="user-info" style="display: flex; align-items: center;">
+        <view class="avatar" style="width: 48px; height: 48px; border-radius: 50%; background-color: #f4f6f8; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+          <icon type="user" size="24" color="#4A90E2" />
+        </view>
+        <view class="user-detail">
+          <text class="user-name" style="font-size: 18px; font-weight: 600; display: block;">{{item.name}} </text>
+          <text class="user-status" style="font-size: 14px; color: var(--gray-dark);">术后 {{daysAfterSurgery}} 天 </text>
+        </view>
       </view>
-      <view class="user-detail">
-        <text class="user-name" style="font-size: 18px; font-weight: 600; display: block;">{{userInfo.name}}</text>
-        <text class="user-status" style="font-size: 14px; color: var(--gray-dark);">术后 {{daysAfterSurgery}} 天 · 恢复 {{userInfo.recoveryRate}}%</text>
+      <view class="header-actions" style="display: flex; align-items: center;">
+        <view class="notification" style="position: relative; margin-right: 16px;">
+          <icon type="warn" size="24" color="#6E6E73" />
+          <view class="badge" style="position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; background-color: var(--pain); color: white; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center;">2</view>
+        </view>
+        <icon type="setting" size="24" color="#6E6E73" bindtap="goToSettings" />
       </view>
     </view>
-    <view class="header-actions" style="display: flex; align-items: center;">
-      <view class="notification" style="position: relative; margin-right: 16px;">
-        <icon type="warn" size="24" color="#6E6E73" />
-        <view class="badge" style="position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; background-color: var(--pain); color: white; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center;">2</view>
-      </view>
-      <icon type="setting" size="24" color="#6E6E73" bindtap="goToSettings" />
-    </view>
-  </view>
-  
+  </navigator>
+
+
   <!-- 进度条 -->
   <view class="progress-container card card-shadow">
     <view style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-      <text style="font-size: 15px; font-weight: 500;">康复进度</text>
-      <text style="font-size: 15px; font-weight: 500;">{{userInfo.recoveryRate}}%</text>
+      <text style="font-size: 15px; font-weight: 500;">距离下一次复诊还有</text>
+      <text style="font-size: 15px; font-weight: 500;">X天</text>
     </view>
     <view class="progress-bar">
-      <view class="progress-fill" style="width: {{userInfo.recoveryRate}}%; background-color: var(--primary);"></view>
+      <view class="progress-fill" style="width: {{patientInfo.recoveryRate}}; background-color: var(--primary);"></view>
     </view>
   </view>
-  
+
   <!-- 核心指标卡片 -->
   <view class="section">
     <text class="section-title">核心康复指标</text>
@@ -46,7 +49,7 @@
           <text class="trend-text" style="font-size: 13px; color: #4CD964; margin-left: 4px;">较昨日降 {{painTrend}} 分</text>
         </view>
       </view>
-      
+
       <!-- 关节活动度 -->
       <view class="metric-card card card-shadow primary-card">
         <view class="metric-info">
@@ -59,7 +62,7 @@
           <text class="trend-text" style="font-size: 13px; color: #4A90E2; margin-left: 4px;">较昨日增 {{romTrend}}°</text>
         </view>
       </view>
-      
+
       <!-- 肌力等级 -->
       <view class="metric-card card card-shadow secondary-card">
         <view class="metric-info">
@@ -67,13 +70,13 @@
           <text class="metric-value" style="font-size: 18px; font-weight: 600; display: block; margin-bottom: 4px;">{{currentRecord.muscleStrength.quadriceps}} 级（健侧 5 级）</text>
           <view class="muscle-progress">
             <view class="progress-bg progress-bar">
-              <view class="progress-fill" style="width: {{muscleStrengthPercent}}%; background-color: var(--secondary);"></view>
+              <view class="progress-fill" style="width: {{muscleStrengthPercent}}; background-color: var(--secondary);"></view>
             </view>
             <text class="progress-text" style="font-size: 13px; color: var(--gray-dark);">{{muscleStrengthPercent}}%</text>
           </view>
         </view>
       </view>
-      
+
       <!-- 肿胀情况 -->
       <view class="metric-card card card-shadow swelling-card">
         <view class="metric-info">
@@ -88,7 +91,7 @@
       </view>
     </view>
   </view>
-  
+
   <!-- 今日任务 -->
   <view class="section">
     <text class="section-title">今日康复任务</text>
@@ -98,57 +101,77 @@
         <text class="task-count" style="font-size: 14px; color: var(--primary);">{{tasksCompleted}}/{{totalTasks}}</text>
       </view>
       <view class="task-list">
+        <!-- 任务项循环 -->
         <view class="task-item" style="display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--gray-medium);" wx:for="{{todayTasks}}" wx:key="id">
-          <view class="task-check {{item.completed ? 'done' : 'undone'}}" 
-                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: transparent; border: 1px solid var(--gray-medium);'}}"
-                bindtap="toggleTaskCompletion" data-id="{{item.id}}">
+          <!-- 任务复选框 -->
+          <view class="task-check {{item.completed ? 'done' : 'undone'}}" style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: transparent; border: 1px solid var(--gray-medium);'}}" bindtap="toggleTaskCompletion" data-id="{{item.id}}">
             <icon type="success" size="16" color="white" wx:if="{{item.completed}}" />
           </view>
+
+          <!-- 任务信息 -->
           <view class="task-info" style="flex: 1;">
             <text class="task-name" style="font-size: 15px; display: block; {{item.completed ? 'text-decoration: line-through; color: var(--gray-dark);' : ''}}">{{item.name}}</text>
             <text class="task-detail" style="font-size: 13px; color: var(--gray-dark);">{{item.sets}} 组 × {{item.reps}}</text>
           </view>
+
+          <!-- 任务状态 -->
           <text class="task-status {{item.completed ? 'done' : 'undone'}}" style="font-size: 14px; {{item.completed ? 'color: var(--secondary);' : 'color: var(--gray-dark);'}}">{{item.completed ? '已完成' : '未完成'}}</text>
         </view>
       </view>
     </view>
   </view>
-  
+
+
+
   <!-- 快捷入口 -->
   <view class="section">
     <text class="section-title">快捷操作</text>
     <view class="quick-actions card card-shadow">
       <view class="action-buttons" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; padding: 8px 0;">
-        <navigator url="/pages/log/log" class="action-btn" style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
-          <view style="width: 48px; height: 48px; border-radius: 50%; background-color: #E8F4FD; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
-            <icon type="edit" size="24" color="#4A90E2" />
-          </view>
-          <text class="action-text" style="font-size: 13px; text-align: center;">快速记录</text>
-        </navigator>
+
         <view class="action-btn" bindtap="openDoctorChat" style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
           <view style="width: 48px; height: 48px; border-radius: 50%; background-color: #E6F7F0; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
             <icon type="comment" size="24" color="#4CD964" />
           </view>
           <text class="action-text" style="font-size: 13px; text-align: center;">联系医生</text>
         </view>
+
+        <navigator url="/pages/baogao/baogao"
+        hover-class="card-hover">
         <view class="action-btn" bindtap="generateReport" style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
           <view style="width: 48px; height: 48px; border-radius: 50%; background-color: #F3EFFF; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
             <icon type="doc" size="24" color="#9D4EDD" />
           </view>
           <text class="action-text" style="font-size: 13px; text-align: center;">康复报告</text>
         </view>
-        <navigator url="/pages/plan/plan" class="action-btn" style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
+        </navigator>
+
+        <navigator url="/pages/log/log" open-type="switchTab" hover-class="card-hover">
+        <view class="action-btn"  style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
           <view style="width: 48px; height: 48px; border-radius: 50%; background-color: #FFF4E5; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
             <icon type="calendar" size="24" color="#FFB86C" />
           </view>
-          <text class="action-text" style="font-size: 13px; text-align: center;">训练计划</text>
+          <text class="action-text" style="font-size: 13px; text-align: center;">快速记录</text>
+        </view>
+</navigator>
+
+        <navigator url="/pages/plan/plan" open-type="switchTab" hover-class="card-hover">
+          <view style="width: 48px; height: 48px; border-radius: 50%; background-color: #E8F4FD; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; position: relative; left: 22rpx; top: 24rpx">
+            <icon type="edit" size="24" color="#4A90E2" />
+
+          </view>
+
+          <text class="action-text" style="font-size: 13px; text-align: center; position: relative; left: 14rpx; top: 18rpx">训练计划</text>
         </navigator>
       </view>
     </view>
   </view>
-  
+
+
   <!-- 数据趋势图 -->
+
   <view class="section">
+
     <view class="chart-section card card-shadow">
       <view class="chart-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
         <text class="header-title" style="font-size: 16px; font-weight: 600;">康复趋势</text>
@@ -163,3 +186,5 @@
     </view>
   </view>
 </view>
+<navigator url="/pages/log/log" open-type="switchTab" hover-class="card-hover">
+</navigator>

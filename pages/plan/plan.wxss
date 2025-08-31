@@ -2,6 +2,71 @@
 .day-tabs {
   margin-bottom: 20px;
 }
+/* 标签转换格式 */
+.tab-content {
+  margin-top: 16px;
+}
+/* 弹窗遮罩层 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 弹窗容器 */
+.modal-box {
+  width: 80%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* 标题 */
+.modal-header {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+/* 内容 */
+.modal-content {
+  padding: 20px;
+  font-size: 15px;
+  color: #333;
+  text-align: center;
+}
+
+/* 底部按钮 */
+.modal-footer {
+  display: flex;
+  border-top: 1px solid #eee;
+}
+.modal-btn {
+  flex: 1;
+  padding: 12px 0;
+  font-size: 16px;
+  border: none;
+}
+.cancel {
+  color: #666;
+}
+.confirm {
+  color: white;
+  background-color: #4CD964;
+}
+
+.stage-tabs {
+  margin-bottom: 20px;
+}
 
 .exercise-item {
   transition: transform 0.2s;

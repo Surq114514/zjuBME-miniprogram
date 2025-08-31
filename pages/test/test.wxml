@@ -1,0 +1,92 @@
+<view class="container">
+  <view class="title">患者信息</view>
+  
+  <view class="info-item">
+    <text class="label">姓名：</text>
+    <text class="value">{{patientInfo.name}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">性别：</text>
+    <text class="value">{{patientInfo.gender}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">年龄：</text>
+    <text class="value">{{patientInfo.age}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">身高：</text>
+    <text class="value">{{patientInfo.height}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">体重：</text>
+    <text class="value">{{patientInfo.weight}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">BMI：</text>
+    <text class="value">{{patientInfo.bmi}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">联系方式：</text>
+    <text class="value">{{patientInfo.phone}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">医保类型：</text>
+    <text class="value">{{patientInfo.insuranceType}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">既往病史：</text>
+    <text class="value">{{patientInfo.medicalHistories}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">其他病史：</text>
+    <text class="value">{{patientInfo.otherHistory}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">手术日期：</text>
+    <text class="value">{{patientInfo.operationDate}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">手术类型：</text>
+    <text class="value">{{patientInfo.operationType}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">手术部位（侧别）：</text>
+    <text class="value">{{patientInfo.side}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">主治医生：</text>
+    <text class="value">{{patientInfo.doctor}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">诊断结果：</text>
+    <text class="value">{{patientInfo.diagnosis}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">麻醉类型：</text>
+    <text class="value">{{patientInfo.anesthesiaType}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">手术描述：</text>
+    <text class="value">{{patientInfo.operationDesc}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">膝关节屈曲度：</text>
+    <text class="value">{{patientInfo.flexion}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">膝关节伸展度：</text>
+    <text class="value">{{patientInfo.extension}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">疼痛评分：</text>
+    <text class="value">{{patientInfo.painScore}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">肌力等级：</text>
+    <text class="value">{{patientInfo.muscleStrength}}</text>
+  </view>
+  <view class="info-item">
+    <text class="label">术后并发症：</text>
+    <text class="value">{{patientInfo.complications}}</text>
+  </view>
+</view>

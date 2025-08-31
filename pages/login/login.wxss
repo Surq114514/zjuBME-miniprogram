@@ -1,0 +1,267 @@
+/* 引入字体图标 */
+@font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/font_2461732_5v0q13i4d8a.ttf') format('truetype');
+}
+
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-user-o:before { content: "\e600"; }
+.icon-lock:before { content: "\e601"; }
+.icon-eye-o:before { content: "\e602"; }
+.icon-eye-slash-o:before { content: "\e603"; }
+.icon-moon-o:before { content: "\e604"; }
+.icon-sun-o:before { content: "\e605"; }
+
+/* 基础样式 */
+.container {
+  min-height: 100vh;
+  background-color: #FFFFFF; /* Clean white background */
+  padding: 0 20px;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 深色模式 */
+.container.dark {
+  background-color: #1C1C1E;
+}
+
+/* 主题切换按钮 */
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #E6F0FF; /* 淡蓝 Pastel 色 */
+  color: #2E75CC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+  align-self: flex-end;
+  border: none;
+  padding: 0;
+  font-size: 18px;
+}
+
+.container.dark .theme-toggle {
+  background-color: #2D2D30;
+  color: #F5F5F7;
+}
+
+/* 标题区域 */
+.title-section {
+  margin-top: 60px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.app-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1C1C1E;
+  display: block;
+  margin-bottom: 8px;
+  font-family: 'PingFang SC', 'SF Pro Display', sans-serif;
+}
+
+.container.dark .app-title {
+  color: #F5F5F7;
+}
+
+.app-desc {
+  font-size: 16px;
+  color: #6E6E73;
+  font-family: 'PingFang SC', 'SF Pro Display', sans-serif;
+}
+
+.container.dark .app-desc {
+  color: #AEAEB2;
+}
+
+/* 登录表单 */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+/* 输入框容器 - 圆角矩形（10px 圆角） */
+.input-group {
+  position: relative;
+  border-radius: 10px; /* 8-12pt 圆角范围 */
+  background-color: #F5F5F7;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.container.dark .input-group {
+  background-color: #2D2D30;
+}
+
+/* 输入框图标 */
+.input-icon {
+  margin-left: 16px;
+  color: #6E6E73;
+  font-size: 18px;
+}
+
+.container.dark .input-icon {
+  color: #AEAEB2;
+}
+
+/* 输入框样式 */
+.form-input {
+  flex: 1;
+  height: 100%;
+  padding: 0 16px 0 12px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  color: #1C1C1E;
+  font-family: 'PingFang SC', 'SF Pro Display', sans-serif;
+}
+
+.container.dark .form-input {
+  color: #F5F5F7;
+}
+
+/* 占位符样式 */
+.placeholder-style {
+  color: #6E6E73;
+}
+
+.container.dark .placeholder-style {
+  color: #AEAEB2;
+}
+
+/* 密码切换按钮 */
+.toggle-password {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #6E6E73;
+  font-size: 18px;
+  padding: 0;
+}
+
+.container.dark .toggle-password {
+  color: #AEAEB2;
+}
+
+/* 找回密码 */
+.forgot-password {
+  text-align: right;
+  font-size: 15px;
+  color: #2E75CC;
+  text-decoration: none;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.container.dark .forgot-password {
+  color: #8AB4F8;
+}
+
+/* 记住账号 */
+.remember-container {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.remember-checkbox {
+  transform: scale(1.2);
+  margin-right: 8px;
+}
+
+.remember-text {
+  font-size: 15px;
+  color: #1C1C1E;
+}
+
+.container.dark .remember-text {
+  color: #F5F5F7;
+}
+
+/* 登录按钮 */
+.login-btn {
+  height: 52px;
+  line-height: 52px;
+  border-radius: 10px;
+  background-color: #2E75CC;
+  color: white;
+  font-size: 17px;
+  font-weight: 500;
+  margin-top: 12px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  border: none;
+}
+
+.login-btn:not([disabled]):active {
+  transform: scale(0.98);
+}
+
+.login-btn[disabled] {
+  background-color: #91BFFF;
+  opacity: 0.7;
+}
+
+/* 注册入口 */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.register-text {
+  font-size: 15px;
+  color: #6E6E73;
+}
+
+.container.dark .register-text {
+  color: #AEAEB2;
+}
+
+.register-link {
+  font-size: 15px;
+  color: #2E75CC;
+  text-decoration: none;
+  margin-left: 4px;
+  font-weight: 500;
+}
+
+.container.dark .register-link {
+  color: #8AB4F8;
+}
+
+/* 页脚 */
+.footer {
+  margin-top: auto;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.copyright {
+  font-size: 12px;
+  color: #AEAEB2;
+}
+    

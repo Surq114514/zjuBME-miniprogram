@@ -1,140 +1,50 @@
-<!--pages/chat/chat.wxml-->
-<view class="chat-container">
-  <!-- 聊天头部 -->
-  <view class="chat-header">
-    <view class="doctor-info" bindtap="viewDoctorInfo">
-      <view class="doctor-avatar">
-        <image src="{{chatInfo.doctorAvatar}}" mode="aspectFill" />
-      </view>
-      <view class="doctor-details">
-        <text class="doctor-name">{{chatInfo.doctorName}}</text>
-        <text class="doctor-title">{{chatInfo.doctorTitle}} · {{chatInfo.department}}</text>
-        <text class="doctor-hospital">{{chatInfo.hospital}}</text>
-      </view>
-    </view>
-    
-    <view class="header-actions">
-      <view class="action-btn" bindtap="callDoctor">
-        <icon type="phone" size="20" color="#4A90E2" />
-      </view>
-      <view class="action-btn" bindtap="shareChat">
-        <icon type="share" size="20" color="#6E6E73" />
-      </view>
-      <view class="action-btn" bindtap="endConsultation">
-        <icon type="close" size="20" color="#FF6B6B" />
-      </view>
+<!-- 顶部医生信息栏 -->
+<view class="doctor-header">
+  <image class="doctor-avatar" src="/images/doctor-avatar.png"></image>
+  <view class="doctor-info">
+    <text class="doctor-name">李医生</text>
+    <text class="doctor-status">在线 · 骨科主任医师</text>
+  </view>
+</view>
+
+<!-- 聊天消息列表 -->
+<scroll-view 
+  class="message-list" 
+  scroll-y 
+  scroll-into-view="{{scrollIntoView}}" 
+  scroll-with-animation
+>
+  <!-- 医生消息 -->
+  <view class="message-item doctor" wx:for="{{messages}}" wx:key="index">
+    <image class="avatar" src="/images/doctor-avatar.png"></image>
+    <view class="message-content">
+      <text>{{item.content}}</text>
+      <text class="message-time">{{item.time}}</text>
     </view>
   </view>
 
-  <!-- 聊天状态提示 -->
-  <view class="chat-status" wx:if="{{!isConnected}}">
-    <text class="status-text">咨询已结束</text>
-  </view>
-
-  <!-- 聊天消息区域 -->
-  <scroll-view class="chat-messages" scroll-y="true" scroll-into-view="msg-{{messages.length}}">
-    <view class="message-list">
-      <view 
-        wx:for="{{messages}}" 
-        wx:key="id" 
-        class="message-item {{item.type}}" 
-        id="msg-{{index + 1}}"
-      >
-        <!-- 系统消息 -->
-        <view wx:if="{{item.type === 'system'}}" class="system-message">
-          <text class="system-text">{{item.content}}</text>
-          <text class="message-time">{{item.time}}</text>
-        </view>
-        
-        <!-- 用户消息 -->
-        <view wx:elif="{{item.type === 'user'}}" class="user-message">
-          <view class="message-content">
-            <text class="message-text">{{item.content}}</text>
-            <image wx:if="{{item.image}}" src="{{item.image}}" mode="aspectFit" class="message-image" />
-          </view>
-          <text class="message-time">{{item.time}}</text>
-        </view>
-        
-        <!-- 医生消息 -->
-        <view wx:elif="{{item.type === 'doctor'}}" class="doctor-message">
-          <view class="doctor-avatar-small">
-            <image src="{{chatInfo.doctorAvatar}}" mode="aspectFill" />
-          </view>
-          <view class="message-content">
-            <text class="message-text">{{item.content}}</text>
-          </view>
-          <text class="message-time">{{item.time}}</text>
-        </view>
-      </view>
-      
-      <!-- 正在输入提示 -->
-      <view wx:if="{{isTyping}}" class="typing-indicator">
-        <view class="doctor-avatar-small">
-          <image src="{{chatInfo.doctorAvatar}}" mode="aspectFill" />
-        </view>
-        <view class="typing-dots">
-          <view class="dot"></view>
-          <view class="dot"></view>
-          <view class="dot"></view>
-        </view>
-      </view>
+  <!-- 患者消息 -->
+  <view class="message-item patient" wx:for="{{messages}}" wx:key="index" wx:if="{{item.from === 'patient'}}">
+    <view class="message-content">
+      <text>{{item.content}}</text>
+      <text class="message-time">{{item.time}}</text>
     </view>
-  </scroll-view>
-
-  <!-- 快速回复区域 -->
-  <view class="quick-replies" wx:if="{{isConnected}}">
-    <scroll-view class="quick-replies-scroll" scroll-x="true">
-      <view class="quick-reply-list">
-        <view 
-          wx:for="{{quickReplies}}" 
-          wx:key="index"
-          class="quick-reply-item"
-          bindtap="onQuickReply"
-          data-content="{{item}}"
-        >
-          <text class="quick-reply-text">{{item}}</text>
-        </view>
-      </view>
-    </scroll-view>
+    <image class="avatar" src="/images/patient-avatar.png"></image>
   </view>
+</scroll-view>
 
-  <!-- 输入区域 -->
-  <view class="chat-input-area" wx:if="{{isConnected}}">
-    <view class="input-container">
-      <input 
-        class="message-input"
-        placeholder="输入消息..."
-        value="{{inputContent}}"
-        bindinput="onInputChange"
-        bindconfirm="sendMessage"
-        confirm-type="send"
-      />
-      
-      <view class="input-actions">
-        <view class="action-btn" bindtap="onMoreFunction" data-id="photo">
-          <icon type="camera" size="20" color="#4A90E2" />
-        </view>
-        <view class="action-btn" bindtap="onMoreFunction" data-id="album">
-          <icon type="image" size="20" color="#4CD964" />
-        </view>
-        <view class="action-btn" bindtap="onMoreFunction" data-id="voice">
-          <icon type="mic" size="20" color="#FFB86C" />
-        </view>
-        <view class="action-btn" bindtap="onMoreFunction" data-id="file">
-          <icon type="file" size="20" color="#9D4EDD" />
-        </view>
-      </view>
-      
-      <button 
-        class="send-btn {{inputContent.trim() ? 'active' : ''}}"
-        bindtap="sendMessage"
-        disabled="{{!inputContent.trim()}}"
-      >
-        发送
-      </button>
-    </view>
+<!-- 底部输入栏 -->
+<view class="input-bar">
+  <view class="input-icons">
+    <image src="/images/attach-icon.png" bindtap="chooseImage"></image>
+    <image src="/images/image-icon.png" bindtap="chooseImage"></image>
+    <image src="/images/file-icon.png" bindtap="chooseFile"></image>
   </view>
-
-  <!-- 底部安全区域 -->
-  <view class="safe-area-bottom"></view>
+  <input 
+    class="input-box" 
+    placeholder="输入消息..." 
+    bindinput="inputChange" 
+    value="{{inputValue}}"
+  />
+  <button class="send-btn" bindtap="sendMessage">发送</button>
 </view>

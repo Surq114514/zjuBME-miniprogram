@@ -1,0 +1,122 @@
+<view class="container {{isDarkMode ? 'dark-mode' : ''}}">
+  <!-- 顶部导航 -->
+  <view class="header">
+    <button bindtap="navigateBack" class="header-btn">
+      <icon type="left" size="24" color="{{isDarkMode ? '#AAAAAA' : '#666666'}}"></icon>
+    </button>
+    <button bindtap="toggleTheme" class="header-btn">
+      <icon type="{{isDarkMode ? 'sunny' : 'moon'}}" size="24" color="{{isDarkMode ? '#FFD700' : '#666666'}}"></icon>
+    </button>
+  </view>
+
+  <!-- 主内容区 -->
+  <view class="main-content">
+    <!-- 标题区域 -->
+    <view class="title-section">
+      <text class="title">创建账号</text>
+      <text class="subtitle">注册后即可开始您的膝盖康复之旅</text>
+    </view>
+    
+    <!-- 注册表单 -->
+    <form bindsubmit="handleSubmit" class="form">
+      <!-- 手机号/邮箱输入 -->
+      <view class="form-item">
+        <view class="input-wrapper">
+          <icon type="user" size="20" color="#AAAAAA" class="input-icon"></icon>
+          <input 
+            type="text" 
+            name="phoneOrEmail" 
+            placeholder="手机号或邮箱" 
+            placeholder-class="placeholder"
+            value="{{formData.phoneOrEmail}}"
+            bindinput="handleInput"
+            required
+            class="input"
+          ></input>
+        </view>
+      </view>
+      
+    
+      
+      <!-- 密码 -->
+      <view class="form-item">
+        <view class="input-wrapper">
+          <icon type="lock" size="20" color="#AAAAAA" class="input-icon"></icon>
+          <input 
+            type="{{showPassword ? 'text' : 'password'}}" 
+            name="password" 
+            placeholder="设置密码" 
+            placeholder-class="placeholder"
+            value="{{formData.password}}"
+            bindinput="handleInput"
+            required
+            class="input"
+          ></input>
+          <button 
+            type="button" 
+            bindtap="togglePasswordVisibility" 
+            data-target="password"
+            class="toggle-btn"
+          >
+            <icon type="{{showPassword ? 'eye-o' : 'eye'}}" size="20" color="#AAAAAA"></icon>
+          </button>
+        </view>
+      </view>
+      
+      <!-- 确认密码 -->
+      <view class="form-item">
+        <view class="input-wrapper">
+          <icon type="lock" size="20" color="#AAAAAA" class="input-icon"></icon>
+          <input 
+            type="{{showConfirmPassword ? 'text' : 'password'}}" 
+            name="confirmPassword" 
+            placeholder="确认密码" 
+            placeholder-class="placeholder"
+            value="{{formData.confirmPassword}}"
+            bindinput="handleInput"
+            required
+            class="input"
+          ></input>
+          <button 
+            type="button" 
+            bindtap="togglePasswordVisibility" 
+            data-target="confirmPassword"
+            class="toggle-btn"
+          >
+            <icon type="{{showConfirmPassword ? 'eye-o' : 'eye'}}" size="20" color="#AAAAAA"></icon>
+          </button>
+        </view>
+      </view>
+      
+      <!-- 注册按钮 -->
+      <button 
+        form-type="submit" 
+        class="register-btn"
+      >
+        注册
+      </button>
+    </form>
+    
+    <!-- 已有账号 -->
+    <view class="login-link">
+      <text class="login-text">已有账号？</text>
+      <navigator url="/pages/login/login" class="login-navigator">立即登录</navigator>
+    </view>
+    
+    <!-- 其他注册方式 -->
+    <view class="other-methods">
+      <text class="method-text">或使用以下方式注册</text>
+      <view class="method-icons">
+        <button bindtap="registerWithWechat" class="method-btn wechat-btn">
+          <icon type="success" size="28" color="#07C160"></icon>
+        </button>
+        <button bindtap="registerWithQQ" class="method-btn qq-btn">
+          <icon type="info" size="28" color="#12B7F5"></icon>
+        </button>
+        <button bindtap="registerWithApple" class="method-btn apple-btn">
+          <icon type="waiting" size="28" color="#000000" class="apple-icon"></icon>
+        </button>
+      </view>
+    </view>
+  </view>
+</view>
