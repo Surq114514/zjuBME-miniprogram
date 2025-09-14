@@ -105,13 +105,11 @@ Page({
   },
 
   bindHistoryChange(e) {
-    const id = e.currentTarget.dataset.id;
-    const medicalHistories = this.data.medicalHistories.map(item => {
-      if (item.id === id) {
-        return { ...item, checked: e.detail.value.includes(id) };
-      }
-      return item;
-    });
+    const selectedValues = e.detail.value || [];
+    const medicalHistories = this.data.medicalHistories.map(item => ({
+      ...item,
+      checked: selectedValues.includes(item.id)
+    }));
     this.setData({ medicalHistories });
   },
 
@@ -165,19 +163,22 @@ Page({
   },
 
   bindComplicationChange(e) {
-    const id = e.currentTarget.dataset.id;
-    const complications = this.data.complications.map(item => {
-      if (item.id === id) {
-        return { ...item, checked: e.detail.value.includes(id) };
-      }
-      return item;
-    });
+    const selectedValues = e.detail.value || [];
+    const complications = this.data.complications.map(item => ({
+      ...item,
+      checked: selectedValues.includes(item.id)
+    }));
     this.setData({ complications });
   },
 
   // 导航事件
   navigateBack() {
     wx.navigateBack();
+  },
+
+  // 保存信息入口函数
+  saveInfo() {
+    this.saveInfoToCloud();
   },
 
   async saveInfoToCloud() {
@@ -216,7 +217,12 @@ Page({
     }
 
     try {
-      const patient = new AV.Object('Patient');
+      let patient;
+      // 获取app.globalData中的patientobjectid
+      if (app.globalData && app.globalData.patientId) {
+        // 如果有目标objectId，获取已有对象进行更新
+        patient = AV.Object.createWithoutData('Patient', app.globalData.patientId);
+      } 
 
       // 设置患者基础信息
       patient.set('name', name);

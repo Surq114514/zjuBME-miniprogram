@@ -1,7 +1,7 @@
 /* 基础样式 */
 .container {
   min-height: 100vh;
-  background-color: #F5F5F5;
+  background-color: #fff5e5;
   font-family: 'PingFang SC', 'SF Pro Display', sans-serif;
   transition: background-color 0.3s;
 }
@@ -155,10 +155,10 @@
 .register-btn {
   width: 100%;
   height: 108rpx;
-  background-color: #7CB3F7;
+  background-color: #6bb37e;
   color: #FFFFFF;
   border-radius: 20rpx;
-  font-size: 32rpx;
+  font-size: 42rpx;
   font-weight: 500;
   margin-top: 20rpx;
   box-shadow: 0 4rpx 12rpx rgba(124, 179, 247, 0.3);
@@ -214,7 +214,7 @@
 .method-icons {
   display: flex;
   justify-content: center;
-  gap: 60rpx;
+  gap: 120rpx;
 }
 
 .method-btn {

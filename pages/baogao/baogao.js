@@ -1,224 +1,375 @@
 const app = getApp();
-const AV = require('../../libs/av-core-min.js');
+const AV = app.globalData.AV || require('../../libs/av-core-min.js');
 
 Page({
   data: {
-    isDarkMode: false,
-    recoveryChart: null,
-    patientData:null,
-    recoverData:null,
-    isLoading: true,     // 加载状态管理
-    hasError: false,     // 错误状态
-    errorMsg: ''   
+    // 患者基础信息（从patient表格读取）
+    name: '',
+    gender: '',
+    age: '',
+    height: '',
+    weight: '',
+    operationDate: '',
+    operationType: '',
+    nextVisitDate: '',
+    doctor: '',
+    diagnosis: '',
+    side: '',
+    
+    // 康复指标（从recover表格读取）
+    restPain: 0,
+    activityPain: 0,
+    averagePain: 0, // 疼痛指数平均值
+    nightPain: 0,
+    flexionAngle: 0,
+    extensionAngle: 0,
+    quadricepsStrength: 0,
+    hamstringStrength: 3,
+    swellingLevel: 0,
+    JswellDown: '',
+    JswellUp: '',
+    HswellUp: '',
+    HswellDown: '',
+    walkingDistance: '',
+    woundStatus: '',
+    
+    // 加载状态
+    loading: true,
+    error: ''
   },
 
+  /**
+   * 生命周期函数--监听页面加载
+   */
   onLoad() {
-    // 检查系统主题
-    const systemInfo = wx.getSystemInfoSync();
-    this.setData({
-      isDarkMode: systemInfo.theme === 'dark'
-    });
-    
-    // 监听主题变化
-    wx.onThemeChange((res) => {
-      this.setData({
-        isDarkMode: res.theme === 'dark'
-      });
-      this.updateChartTheme();
-    });
-    
-    // 初始化图表
-    this.initChart();
-    this.queryDataByUserId();
+    console.log(app.globalData)
   },
 
-  // 切换主题
-  toggleTheme() {
-    const newMode = !this.data.isDarkMode;
-    this.setData({
-      isDarkMode: newMode
-    });
-    this.updateChartTheme();
-  },
-
-  async queryDataByUserId() {
-    try {
-    //此处需要插入根据userid的查找
-    
-    const [patientRes, recoverRes] = await Promise.all([
-      this.queryPatientTable(userId), // 查询 Patient 表
-      this.queryRecoverTable(userId)  // 查询 Recover 表
-    ]);
-
-    //处理查询结果，更新数据
-    this.setData({
-      patientData: patientRes,
-      recoverData: recoverRes,
-      isLoading: false
-    });
-  } catch (error) {
-    // 4. 错误处理
-    this.setData({
-      isLoading: false,
-      hasError: true,
-      errorMsg: error.message || '数据查询失败'
-    });
-    console.error('查询数据出错：', error);
-  }
-},
-
-async queryPatientTable(userId) {
-  const query = new AV.Query('Patient'); // 创建 Patient 表的查询对象
-  query.equalTo('userId', userId);       // 按 userId 筛选
-  const patientData = await query.find();// 获取所有匹配数据（返回数组）
-  return patientData.length > 0 ? patientData[0] : null; // 取第一条或返回 null
-},
-
-// 辅助方法：查询 Recover 表
-async queryRecoverTable(userId) {
-  const query = new AV.Query('Recover'); // 创建 Recover 表的查询对象
-  query.equalTo('userId', userId);       // 按 userId 筛选
-  const recoverData = await query.find();// 获取所有匹配数据（返回数组）
-  return recoverData; // 返回康复数据数组（可能多条）
-},
-
-  // 初始化康复趋势图表
-  initChart() {
-    const isDark = this.data.isDarkMode;
-    const textColor = isDark ? '#f3f4f6' : '#374151';
-    const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
-    
-    // 从云端数据中提取图表所需数据（recoverRes 是查询得到的康复数据数组）
-    const recoverData = this.data.recoverRes;
-    if (!recoverData || recoverData.length === 0) {
-      wx.showToast({ title: '暂无康复数据', icon: 'none' });
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
+    // 检查app.globalData是否存在
+    if (!app || !app.globalData) {
+      console.error('全局应用实例或全局数据未初始化');
       return;
     }
-  
-    const datasets = [
-      {
-        label: '关节活动度 (°)',
-        data: recoverData.map(item => item.get('jointAngle')), // 待修改成‘记录’组命名的数据
-        color: '#3B82F6',
-        fillColor: 'rgba(59, 130, 246, 0.1)'
-      },
-      {
-        label: '肌肉力量 (%)',
-        data: recoverData.map(item => item.get('muscleStrength')), // 待修改成‘记录’组命名的数据
-        color: '#10B981',
-        fillColor: 'rgba(16, 185, 129, 0.1)'
-      },
-      {
-        label: '疼痛指数 (0-10)',
-        data: recoverData.map(item => item.get('painIndex')),// 待修改成‘记录’组命名的数据
-        color: '#EC4899',
-        fillColor: 'rgba(236, 72, 153, 0.1)'
-      }
-    ];
     
-    // 计算画布尺寸
-    const query = wx.createSelectorQuery().in(this);
-    query.select('.chart-canvas')
-      .fields({ node: true, size: true })
-      .exec((res) => {
-        const canvas = res[0].node;
-        const ctx = canvas.getContext('2d');
-        const dpr = wx.getSystemInfoSync().pixelRatio;
-        canvas.width = res[0].width * dpr;
-        canvas.height = res[0].height * dpr;
-        ctx.scale(dpr, dpr);
+    // 检查全局表格ID是否存在
+    const hasPatientId = !!app.globalData.patientId;
+    const hasRecoverId = !!app.globalData.recoverId;
+    const hasPlanId = !!app.globalData.planId;
+    
+    console.log('全局表格ID状态:');
+    console.log('- patientId:', hasPatientId ? app.globalData.patientId : '未设置');
+    console.log('- recoverId:', hasRecoverId ? app.globalData.recoverId : '未设置');
+    console.log('- planId:', hasPlanId ? app.globalData.planId : '未设置');
+    
+    // 如果缺少关键ID，给出提示但仍继续尝试加载
+    if (!hasPatientId || !hasRecoverId || !hasPlanId) {
+      console.warn('缺少部分全局表格ID，可能影响数据加载');
+    }
+    
+    this.setData({ loading: true });
+    
+    // 检查网络状态
+    wx.getNetworkType({
+      success: res => {
+        const networkType = res.networkType;
+        console.log('当前网络类型:', networkType);
         
-        // 使用Chart.js绘制图表
-        const chart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: labels,
-            datasets: datasets.map(dataset => ({
-              label: dataset.label,
-              data: dataset.data,
-              borderColor: dataset.color,
-              backgroundColor: dataset.fillColor,
-              tension: 0.4,
-              fill: true,
-              pointRadius: 3,
-              pointHoverRadius: 5
-            }))
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'top',
-                labels: {
-                  color: textColor,
-                  boxWidth: 12,
-                  usePointStyle: true,
-                  pointStyle: 'circle',
-                  font: {
-                    size: 11
-                  }
-                }
-              },
-              tooltip: {
-                mode: 'index',
-                intersect: false
-              }
-            },
-            scales: {
-              x: {
-                grid: {
-                  display: false
-                },
-                ticks: {
-                  color: textColor,
-                  font: {
-                    size: 10
-                  }
-                }
-              },
-              y: {
-                grid: {
-                  borderDash: [2, 4],
-                  color: gridColor
-                },
-                ticks: {
-                  color: textColor,
-                  font: {
-                    size: 10
-                  }
-                }
-              }
-            },
-            interaction: {
-              mode: 'nearest',
-              axis: 'x',
-              intersect: false
-            }
-          }
-        });
+        if (networkType === 'none') {
+          wx.showToast({
+            title: '当前无网络连接',
+            icon: 'none'
+          });
+        }
         
-        this.setData({
-          recoveryChart: chart
-        });
-      });
+        // 无论网络状态如何，都尝试从云端获取数据
+        this.loadPatientAndRecoverData();
+      },
+      fail: err => {
+        console.error('检查网络状态失败:', err);
+        // 继续尝试获取数据
+        this.loadPatientAndRecoverData();
+      }
+    });
   },
 
-  // 更新图表主题
-  updateChartTheme() {
-    if (!this.data.recoveryChart) return;
-    
-    const isDark = this.data.isDarkMode;
-    const textColor = isDark ? '#f3f4f6' : '#374151';
-    const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
-    
-    // 更新图表配置
-    this.data.recoveryChart.options.plugins.legend.labels.color = textColor;
-    this.data.recoveryChart.options.scales.x.ticks.color = textColor;
-    this.data.recoveryChart.options.scales.y.ticks.color = textColor;
-    this.data.recoveryChart.options.scales.y.grid.color = gridColor;
-    
-    // 更新图表
-    this.data.recoveryChart.update();
+  // 加载患者基础信息和康复数据
+  async loadPatientAndRecoverData() {
+    try {
+      // 显示加载状态
+      this.setData({ loading: true, error: '' });
+      
+      // 同时加载患者信息和康复数据
+      await Promise.all([
+        this.loadPatientInfoById(),  // 通过ID加载患者信息
+        this.loadRecoverDataById()   // 通过ID加载康复数据
+      ]);
+    } catch (error) {
+      console.error('加载数据失败：', error);
+      // 细化错误处理
+      if (error.code === 100) {
+        console.log('网络连接异常，请检查网络设置');
+        wx.showToast({
+          title: '网络连接异常',
+          icon: 'none'
+        });
+      } else if (error.code === 401) {
+        console.log('用户未授权，请重新登录');
+        wx.showToast({
+          title: '用户未授权，请重新登录',
+          icon: 'none'
+        });
+      } else {
+        wx.showToast({
+          title: '数据加载失败',
+          icon: 'none'
+        });
+      }
+      
+      this.setData({
+        error: '数据加载失败，请稍后重试',
+        loading: false
+      });
+    } finally {
+      this.setData({ loading: false });
+    }
+  },
+
+  // 通过表格ID加载患者基础信息
+  async loadPatientInfoById() {
+    try {
+      // 检查app.globalData是否存在
+      if (!app || !app.globalData) {
+        console.error('全局应用实例或全局数据未初始化');
+        // 设置默认患者信息
+        this.setDefaultPatientInfo();
+        return;
+      }
+      
+      // 检查是否有patientId
+      if (!app.globalData.patientId) {
+        console.log('未找到患者信息ID，使用默认患者信息');
+        // 设置默认患者信息
+        this.setDefaultPatientInfo();
+        return;
+      }
+      
+      console.log('使用患者ID加载数据:', app.globalData.patientId);
+      
+      //直接通过ID获取特定的患者记录
+      const patient = await AV.Object.createWithoutData('Patient', app.globalData.patientId).fetch();
+      
+      // 更新患者基础信息
+      this.setData({
+        name: patient.get('name') || '张先生',
+        gender: patient.get('gender') || '',
+        age: patient.get('age') || '',
+        height: patient.get('height') || '',
+        weight: patient.get('weight') || '',
+        operationDate: patient.get('operationDate') || this.calculateSurgeryDate(28),
+        operationType: patient.get('operationType') || '',
+        nextVisitDate: patient.get('nextVisitDate') || '',
+        doctor: patient.get('doctor') || '',
+        diagnosis: patient.get('diagnosis') || '',
+        side: patient.get('side') || ''
+      });
+      
+      console.log('患者信息加载成功:', this.data.name);
+    } catch (error) {
+      console.error('加载患者信息失败：', error);
+      // 设置默认患者信息
+      this.setDefaultPatientInfo();
+    }
+  },
+
+  // 设置默认患者信息
+  setDefaultPatientInfo() {
+    const defaultOperationDate = this.calculateSurgeryDate(28);
+    this.setData({
+      name: '张先生',
+      gender: '',
+      age: '',
+      height: '',
+      weight: '',
+      operationDate: defaultOperationDate,
+      operationType: '',
+      nextVisitDate: '',
+      doctor: '',
+      diagnosis: '',
+      side: ''
+    });
+    console.log('已设置默认患者信息');
+  },
+
+  // 计算手术日期（几天前）
+  calculateSurgeryDate(daysAgo) {
+    try {
+      const date = new Date();
+      date.setDate(date.getDate() - daysAgo);
+      return date.toISOString().split('T')[0];
+    } catch (error) {
+      console.error('日期计算错误:', error);
+      return '';
+    }
+  },
+
+  // 通过表格ID加载康复数据
+  async loadRecoverDataById() {
+    try {
+      // 检查app.globalData是否存在
+      if (!app || !app.globalData) {
+        console.error('全局应用实例或全局数据未初始化');
+        // 设置默认康复数据
+        this.setDefaultRecoverData();
+        return;
+      }
+      
+      // 检查是否有recoverId
+      if (!app.globalData.recoverId) {
+        console.log('未找到特定的康复记录ID，尝试加载该患者的最新康复记录');
+        try {
+          await this.loadPatientLatestRecoverData();
+        } catch (latestError) {
+          console.error('加载患者最新康复数据失败：', latestError);
+          // 设置默认康复数据
+          this.setDefaultRecoverData();
+        }
+        return;
+      }
+      
+      console.log('使用康复记录ID加载数据:', app.globalData.recoverId);
+      
+      // 直接通过ID获取特定的康复记录
+      const recover = await AV.Object.createWithoutData('Recover', app.globalData.recoverId).fetch();
+      
+      // 更新康复指标
+      this.setData({
+        restPain: recover.get('restPain') || 0,
+        activityPain: recover.get('activityPain') || 0,
+        averagePain: ((recover.get('restPain') || 0) + (recover.get('activityPain') || 0)) / 2,
+        nightPain: recover.get('nightPain') || 0,
+        flexionAngle: recover.get('flexionAngle') || 0,
+        extensionAngle: recover.get('extensionAngle') || 0,
+        quadricepsStrength: recover.get('quadricepsStrength') || 0,
+        hamstringStrength: recover.get('hamstringStrength') || 0,
+        swellingLevel: recover.get('swellingLevel') || 0,
+        JswellDown: recover.get('JswellDown') || '',
+        JswellUp: recover.get('JswellUp') || '',
+        HswellUp: recover.get('HswellUp') || '',
+        HswellDown: recover.get('HswellDown') || '',
+        walkingDistance: recover.get('walkingDistance') || '',
+        woundStatus: recover.get('woundStatus') || ''
+      });
+      
+      console.log('特定康复记录加载成功');
+    } catch (error) {
+      console.error('加载特定康复记录失败：', error);
+      // 尝试加载该患者的最新康复数据作为备选
+      try {
+        await this.loadPatientLatestRecoverData();
+      } catch (backupError) {
+        console.error('加载患者最新康复数据也失败：', backupError);
+        // 设置默认康复数据
+        this.setDefaultRecoverData();
+      }
+    }
+  },
+
+  // 设置默认康复数据
+    setDefaultRecoverData() {
+      this.setData({
+        restPain: 0,
+        activityPain: 0,
+        averagePain: 0,
+        nightPain: 0,
+        flexionAngle: 0,
+        extensionAngle: 0,
+        quadricepsStrength: 0,
+        hamstringStrength: 0,
+      swellingLevel: 0,
+      JswellDown: '',
+      JswellUp: '',
+      HswellUp: '',
+      HswellDown: '',
+      walkingDistance: '',
+      woundStatus: ''
+    });
+    console.log('已设置默认康复数据');
+  },
+
+  // 加载特定患者的最新康复数据
+  async loadPatientLatestRecoverData() {
+    try {
+      // 检查app.globalData是否存在
+      if (!app || !app.globalData) {
+        console.error('全局应用实例或全局数据未初始化');
+        // 设置默认康复数据
+        this.setDefaultRecoverData();
+        return;
+      }
+      
+      // 检查是否有patientId
+      if (!app.globalData.patientId) {
+        console.log('未找到患者ID，无法加载患者的康复记录');
+        // 设置默认康复数据
+        this.setDefaultRecoverData();
+        return;
+      }
+      
+      console.log('加载患者ID为', app.globalData.patientId, '的最新康复记录');
+      
+      const query = new AV.Query('Recover');
+      // 通过患者ID筛选该患者的记录（关键：将患者ID与康复记录关联）
+      query.equalTo('patientId', app.globalData.patientId);
+      query.descending('createdAt'); // 按创建时间倒序
+      query.limit(1); // 只获取最新的一条
+      
+      const results = await query.find();
+      if (results && results.length > 0) {
+        const recover = results[0];
+          
+          // 更新康复指标
+          this.setData({
+            restPain: recover.get('restPain') || 0,
+            activityPain: recover.get('activityPain') || 0,
+            averagePain: ((recover.get('restPain') || 0) + (recover.get('activityPain') || 0)) / 2,
+            nightPain: recover.get('nightPain') || 0,
+            flexionAngle: recover.get('flexionAngle') || 0,
+            extensionAngle: recover.get('extensionAngle') || 0,
+            quadricepsStrength: recover.get('quadricepsStrength') || 0,
+            hamstringStrength: recover.get('hamstringStrength') || 0,
+          swellingLevel: recover.get('swellingLevel') || 0,
+          JswellDown: recover.get('JswellDown') || '',
+          JswellUp: recover.get('JswellUp') || '',
+          HswellUp: recover.get('HswellUp') || '',
+          HswellDown: recover.get('HswellDown') || '',
+          walkingDistance: recover.get('walkingDistance') || '',
+          woundStatus: recover.get('woundStatus') || ''
+        });
+        
+        console.log('患者最新康复记录加载成功');
+      } else {
+        console.log('未找到该患者的康复记录');
+        // 设置默认康复数据
+        this.setDefaultRecoverData();
+      }
+    } catch (error) {
+      console.error('加载患者最新康复数据失败：', error);
+      // 设置默认康复数据
+      this.setDefaultRecoverData();
+    }
+  },
+
+  // 刷新数据
+  refreshData() {
+    this.loadPatientAndRecoverData();
+  },
+
+  // 返回上一页
+  navigateBack() {
+    wx.navigateBack();
   }
 });

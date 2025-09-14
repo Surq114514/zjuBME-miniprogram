@@ -9,6 +9,15 @@ AV.init({
 })
 
 App({
+  globalData: {
+    userInfo: null, // 用户信息
+    theme: 'light', // 主题模式
+    count: 0, // 计数器
+    patientId:'',
+    planId:'',
+    recoverId:''
+  },
+
   onLaunch() {
     // 初始化本地存储
     this.initStorage();
@@ -185,6 +194,17 @@ App({
         target: "髋外展肌",
         videoUrl: "",
         completed: false
+      },
+      {
+        id: 0,
+        name: "散步活动",
+        description: "缓慢散步10-15分钟，以不引起明显疼痛为宜",
+        sets: 1,
+        reps: "10-15分钟",
+        restTime: 0,
+        difficulty: "初级",
+        target: "整体活动度，促进血液循环",
+        videoUrl: ""        
       }
     ];
   },

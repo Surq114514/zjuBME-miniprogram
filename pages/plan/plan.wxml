@@ -1,134 +1,194 @@
 <view class="container">
+  <image src="/images/bg.jpg" class="bg-image"></image>
   <view class="page-header" style="margin-bottom: 20px;">
     <text class="header-title" style="font-size: 22px; font-weight: 600;">康复训练计划</text>
-    <text class="header-desc" style="font-size: 14px; color: var(--gray-dark); display: block; margin-top: 4px;">根据您的恢复阶段，定制专属训练计划</text>
+    <text class="header-desc" style="font-size: 14px; color: black; display: block; margin-top: 4px;">根据您的恢复阶段，定制专属训练计划</text>
   </view>
   
   <!-- 阶段切换 -->
-  <view class="stage-tabs" style="display: flex; overflow-x: auto; margin-bottom: 16px;">
-      <view class="stage-tab {{currentStage === 0 ? 'active' : ''}}" bindtap="switchStage" data-stage="0"  
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentStage === 0 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+  <view class="tabs">
+      <view class="tab {{currentStage === 0 ? 'active' : ''}}" bindtap="switchStage" data-stage="0">
         阶段一
+        <text style="font-weight: 600;" wx:if='{{0===realStage}}'>（当前阶段）</text>
       </view>
-      <view class="stage-tab {{currentStage === 1 ? 'active' : ''}}" bindtap="switchStage" data-stage="1"  
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentStage === 1 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+      <view class="tab {{currentStage === 1 ? 'active' : ''}}" bindtap="switchStage" data-stage="1">
         阶段二
-        <text style="font-weight: 600;">（当前阶段）</text>
+        <text style="font-weight: 600;" wx:if='{{1===realStage}}'>（当前阶段）</text>
       </view>
-      <view class="stage-tab {{currentStage === 2 ? 'active' : ''}}" bindtap="switchStage" data-stage="2" 
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentStage === 2 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+      <view class="tab {{currentStage === 2 ? 'active' : ''}}" bindtap="switchStage" data-stage="2">
         阶段三
+        <text style="font-weight: 600;" wx:if='{{3===realStage}}'>（当前阶段）</text>
       </view>
-      <view class="stage-tab {{currentStage === 3 ? 'active' : ''}}" bindtap="switchStage" data-stage="3" 
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentStage === 3 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+      <view class="tab {{currentStage === 3 ? 'active' : ''}}" bindtap="switchStage" data-stage="3">
         阶段四
+        <text style="font-weight: 600;" wx:if='{{4===realStage}}'>（当前阶段）</text>
       </view>
     </view>
     
   <!-- 阶段选项卡1 -->
   <view class="tab-content" wx:if="{{currentStage === 0}}">
-  <!-- 阶段信息 -->
-  <view class="stage-info card card-shadow" style="margin-bottom: 24px;">
-    <view style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <text style="font-size: 16px; font-weight: 600;">当前阶段：术后第1阶段（2-4周）</text>
-      <text style="font-size: 14px; color: var(--primary);">剩余7天</text>
+    <!-- 阶段信息 -->
+    <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color: #fff5e5">
+      <view style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <text style="font-size: 16px; font-weight: 600;">术后第1阶段</text>
+        <text style="font-size: 14px; color: #6bb37e;">time1.1-time1.2</text>
+      </view>
+    
+      <view style="margin-bottom: 16px;">
+        <text style="font-size: 15px; display: block; margin-bottom: 8px;">阶段目标：</text>
+        <view style="padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
+          <text style="font-size: 14px; color: var(--gray-dark);">{{currentStage === realStage ? planInfo.stageGoal : '暂无' }}</text>
+        </view>
+      </view>
+    
+      <view class="stage-progress" wx:if='{{currentStage === realStage}}'>
+        <view style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <text style="font-size: 15px;">阶段完成度</text>
+          <text style="font-size: 15px; font-weight: 600;">{{planInfo.stageRate}}%</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width:{{planInfo.stageRate}}%; background-color: #6bb37e;"></view>
+        </view>
+      </view>
     </view>
-    <view style="margin-bottom: 16px;">
-      <text style="font-size: 15px; display: block; margin-bottom: 8px;">阶段目标：暂无</text>
-    </view>
-  </view>
   </view>
 
-<!-- 阶段选项卡2 -->
-<view class="tab-content" wx:if="{{currentStage === 1}}">
-  <!-- 阶段信息 -->
-  <view class="stage-info card card-shadow" style="margin-bottom: 24px;">
-    <view style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <text style="font-size: 16px; font-weight: 600;">当前阶段：术后第2阶段（2-4周）</text>
-      <text style="font-size: 14px; color: var(--primary);">剩余7天</text>
-    </view>
-    
-    <view style="margin-bottom: 16px;">
-      <text style="font-size: 15px; display: block; margin-bottom: 8px;">阶段目标：</text>
-      <view style="padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
-        <text style="font-size: 14px; color: var(--gray-dark);">• 膝关节活动度达到90°-110°</text>
-        <text style="font-size: 14px; color: var(--gray-dark);">• 减轻肿胀和疼痛</text>
-        <text style="font-size: 14px; color: var(--gray-dark);">• 股四头肌肌力恢复至3级+</text>
-        <text style="font-size: 14px; color: var(--gray-dark);">• 能够独立完成日常活动</text>
+  <!-- 阶段选项卡2 -->
+  <view class="tab-content" wx:if="{{currentStage === 1}}">
+    <!-- 阶段信息 -->
+    <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color: #fff5e5">
+      <view style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <text style="font-size: 16px; font-weight: 600;">术后第2阶段</text>
+        <text style="font-size: 14px; color: #6bb37e;">{{stageStartDate}}-{{planInfo.stageEndDate === null ? '至今' : stageEndDate}}</text>
       </view>
-    </view>
     
-    <view class="stage-progress">
-      <view style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-        <text style="font-size: 15px;">阶段完成度</text>
-        <text style="font-size: 15px; font-weight: 600;">75%</text>
+      <view style="margin-bottom: 16px;">
+        <text style="font-size: 15px; display: block; margin-bottom: 8px;">阶段目标：</text>
+        <view style="padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
+          <text style="font-size: 14px; color: var(--gray-dark);">{{currentStage === realStage ? planInfo.stageGoal : '暂无' }}</text>
+        </view>
       </view>
-      <view class="progress-bar">
-        <view class="progress-fill" style="width: 75%; background-color: var(--primary);"></view>
+    
+      <view class="stage-progress" wx:if='{{currentStage === realStage}}'>
+        <view style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <text style="font-size: 15px;">阶段完成度</text>
+          <text style="font-size: 15px; font-weight: 600;">{{planInfo.stageRate}}%</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width:{{planInfo.stageRate}}%; background-color: #6bb37e;"></view>
+        </view>
       </view>
     </view>
   </view>
+
+  <!-- 阶段选项卡3 -->
+  <view class="tab-content" wx:if="{{currentStage === 2}}">
+    <!-- 阶段信息 -->
+    <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color: #fff5e5">
+      <view style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <text style="font-size: 16px; font-weight: 600;">术后第3阶段</text>
+        <text style="font-size: 14px; color: #6bb37e;">time3.1-time3.2</text>
+      </view>
+    
+      <view style="margin-bottom: 16px;">
+        <text style="font-size: 15px; display: block; margin-bottom: 8px;">阶段目标：</text>
+        <view style="padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
+          <text style="font-size: 14px; color: var(--gray-dark);">{{currentStage === realStage ? planInfo.stageGoal : '暂无' }}</text>
+        </view>
+      </view>
+    
+      <view class="stage-progress" wx:if='{{currentStage === realStage}}'>
+        <view style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <text style="font-size: 15px;">阶段完成度</text>
+          <text style="font-size: 15px; font-weight: 600;">{{planInfo.stageRate}}%</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width:{{planInfo.stageRate}}%; background-color: #6bb37e;"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 阶段选项卡4 -->
+  <view class="tab-content" wx:if="{{currentStage === 3}}">
+    <!-- 阶段信息 -->
+    <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color: #fff5e5">
+      <view style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <text style="font-size: 16px; font-weight: 600;">术后第4阶段</text>
+        <text style="font-size: 14px; color: #6bb37e;">time4.1-time4.2</text>
+      </view>
+    
+      <view style="margin-bottom: 16px;">
+        <text style="font-size: 15px; display: block; margin-bottom: 8px;">阶段目标：</text>
+        <view style="padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
+          <text style="font-size: 14px; color: var(--gray-dark);">{{currentStage === realStage ? planInfo.stageGoal : '暂无' }}</text>
+        </view>
+      </view>
+    
+      <view class="stage-progress" wx:if='{{currentStage === realStage}}'>
+        <view style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <text style="font-size: 15px;">阶段完成度</text>
+          <text style="font-size: 15px; font-weight: 600;">{{planInfo.stageRate}}%</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width:{{planInfo.stageRate}}%; background-color: #6bb37e;"></view>
+        </view>
+      </view>
+    </view>
   </view>
   
   <!-- 每日计划 -->
   <view class="daily-plan section">
     <text class="section-title">本周训练计划</text>
     
-    <view class="day-tabs" style="display: flex; overflow-x: auto; margin-bottom: 16px;">
-      <view class="day-tab {{currentDay === 0 ? 'active' : ''}}" bindtap="switchDay" data-day="0" 
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 0 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+    <view class="tabs">
+      <view class="tab {{currentDay === 0 ? 'active' : ''}}" bindtap="switchDay" data-day="0">
         周一
       </view>
-      <view class="day-tab {{currentDay === 1 ? 'active' : ''}}" bindtap="switchDay" data-day="1" 
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 1 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+      <view class="tab {{currentDay === 1 ? 'active' : ''}}" bindtap="switchDay" data-day="1">
         周二
       </view>
-      <view class="day-tab {{currentDay === 2 ? 'active' : ''}}" bindtap="switchDay" data-day="2" 
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 2 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+      <view class="tab {{currentDay === 2 ? 'active' : ''}}" bindtap="switchDay" data-day="2">
         周三
       </view>
-      <view class="day-tab {{currentDay === 3 ? 'active' : ''}}" bindtap="switchDay" data-day="3" 
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 3 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+      <view class="tab {{currentDay === 3 ? 'active' : ''}}" bindtap="switchDay" data-day="3">
         周四
       </view>
-      <view class="day-tab {{currentDay === 4 ? 'active' : ''}}" bindtap="switchDay" data-day="4" 
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 4 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+      <view class="tab {{currentDay === 4 ? 'active' : ''}}" bindtap="switchDay" data-day="4">
         周五
       </view>
-      <view class="day-tab {{currentDay === 5 ? 'active' : ''}}" bindtap="switchDay" data-day="5" 
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 5 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+      <view class="tab {{currentDay === 5 ? 'active' : ''}}" bindtap="switchDay" data-day="5">
         周六
       </view>
-      <view class="day-tab {{currentDay === 6 ? 'active' : ''}}" bindtap="switchDay" data-day="6" 
-            style="padding: 8px 12px; margin-right: 8px; border-radius: 8px; font-size: 14px; white-space: nowrap; {{currentDay === 6 ? 'background-color: #4A90E2; color: white;' : 'background-color: var(--gray-light); color: var(--gray-dark);'}}">
+      <view class="tab {{currentDay === 6 ? 'active' : ''}}" bindtap="switchDay" data-day="6">
         周日
       </view>
     </view>
     
     <!-- 每日计划选项卡1 -->
     <view class="tab-content" wx:if="{{currentDay === 0}}">
-      <view class="stage-info card card-shadow" style="margin-bottom: 24px;"> 
+      <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color:#fff5e5"> 
         <!-- 今日任务 -->
         <view class="task-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <text style="font-size: 16px; font-weight: 600;">{{(currentDay === oldDay) ? '本日计划' : '周一计划'}}</text>
-          <text class="task-count" style="font-size: 14px; color: var(--primary);">{{tasksCompleted}}/{{totalTasks}}</text>
+          <text class="task-count" style="font-size: 14px; {{tasksCompleted === totalTasks ? 'color: var(--secondary);' : 'color: var(--primary);'}}">{{tasksCompleted}}/{{totalTasks}}</text>
         </view>
         <view style="display: flex;">
-          <text style="font-size: 16px; font-weight: 600;" wx:if="{{currentDay < oldDay}}">已完成</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:elif="{{currentDay > oldDay}}">待设定</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:else >正在进行</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:if="{{currentDay < oldDay}}">已完成</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:elif="{{currentDay > oldDay}}">待设定</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:else >正在进行</text>
         </view>
         <!-- 可勾画任务栏核心 -->
-        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:20px 0; border-bottom: 0.5px solid var(--gray-medium);" wx:for="{{todayTasks}}" wx:key="id">
+        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:15px 10px; border-bottom: 0.5px solid var(--gray-medium); {{item.completed ? 'background-color: #d2ffd9;' : 'background-color: white;'}}" wx:for="{{todayTasks}}" wx:key="id">
           <view class="task-check {{item.completed ? 'done' : 'undone'}}" 
-                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: transparent; border: 1px solid var(--gray-medium);'}}"
+                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: #fff5e5; border: 2rpx solid var(--gray-medium)'}}"
                 bindtap="toggleTaskCompletion" data-id="{{item.id}}">
-            <icon type="success" size="16" color="green" wx:if="{{item.completed}}" />
+            <icon type="success" size="16" color="white" wx:if="{{item.completed}}" />
           </view>
           <view class="task-info" style="flex: 1;">
             <text class="task-name" style="font-size: 15px; display: block; {{item.completed ? 'text-decoration: line-through; color: var(--gray-dark);' : ''}}">{{item.name}}</text>
             <text class="task-detail" style="font-size: 13px; color: var(--gray-dark);">{{item.sets}} 组 × {{item.reps}}</text>            
-            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}">查看详情> 
+            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}" data-diffic="{{item.difficulty}}">\n查看详情> 
             </text>
           </view>       
           <text class="task-status {{item.completed ? 'done' : 'undone'}}" style="font-size: 14px; {{item.completed ? 'color: var(--secondary);' : 'color: var(--gray-dark);'}}">{{item.completed ? '已完成' : '未完成'}}</text>
@@ -138,28 +198,28 @@
 
     <!-- 每日计划选项卡2 -->
     <view class="tab-content" wx:if="{{currentDay === 1}}">
-      <view class="stage-info card card-shadow" style="margin-bottom: 24px;"> 
+      <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color:#fff5e5"> 
         <!-- 今日任务 -->
         <view class="task-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <text style="font-size: 16px; font-weight: 600;">{{(currentDay === oldDay) ? '本日计划' : '周二计划'}}</text>
-          <text class="task-count" style="font-size: 14px; color: var(--primary);">{{tasksCompleted}}/{{totalTasks}}</text>
+          <text class="task-count" style="font-size: 14px; {{tasksCompleted === totalTasks ? 'color: var(--secondary);' : 'color: var(--primary);'}}">{{tasksCompleted}}/{{totalTasks}}</text>
         </view>
         <view style="display: flex;">
-          <text style="font-size: 16px; font-weight: 600;" wx:if="{{currentDay < oldDay}}">已完成</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:elif="{{currentDay > oldDay}}">待设定</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:else >正在进行</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:if="{{currentDay < oldDay}}">已完成</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:elif="{{currentDay > oldDay}}">待设定</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:else >正在进行</text>
         </view>
         <!-- 可勾画任务栏核心 -->
-        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:20px 0; border-bottom: 0.5px solid var(--gray-medium);" wx:for="{{todayTasks}}" wx:key="id">
+        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:15px 10px; border-bottom: 0.5px solid var(--gray-medium); {{item.completed ? 'background-color: #d2ffd9;' : 'background-color: white;'}}" wx:for="{{todayTasks}}" wx:key="id">
           <view class="task-check {{item.completed ? 'done' : 'undone'}}" 
-                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: transparent; border: 1px solid var(--gray-medium);'}}"
+                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: #fff5e5; border: 2rpx solid var(--gray-medium)'}}"
                 bindtap="toggleTaskCompletion" data-id="{{item.id}}">
-            <icon type="success" size="16" color="green" wx:if="{{item.completed}}" />
+            <icon type="success" size="16" color="white" wx:if="{{item.completed}}" />
           </view>
           <view class="task-info" style="flex: 1;">
             <text class="task-name" style="font-size: 15px; display: block; {{item.completed ? 'text-decoration: line-through; color: var(--gray-dark);' : ''}}">{{item.name}}</text>
             <text class="task-detail" style="font-size: 13px; color: var(--gray-dark);">{{item.sets}} 组 × {{item.reps}}</text>            
-            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}">查看详情> 
+            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}" data-diffic="{{item.difficulty}}">\n查看详情> 
             </text>
           </view>       
           <text class="task-status {{item.completed ? 'done' : 'undone'}}" style="font-size: 14px; {{item.completed ? 'color: var(--secondary);' : 'color: var(--gray-dark);'}}">{{item.completed ? '已完成' : '未完成'}}</text>
@@ -169,28 +229,28 @@
 
     <!-- 每日计划选项卡3 -->
     <view class="tab-content" wx:if="{{currentDay === 2}}">
-      <view class="stage-info card card-shadow" style="margin-bottom: 24px;"> 
+      <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color:#fff5e5"> 
         <!-- 今日任务 -->
         <view class="task-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <text style="font-size: 16px; font-weight: 600;">{{(currentDay === oldDay) ? '本日计划' : '周三计划'}}</text>
-          <text class="task-count" style="font-size: 14px; color: var(--primary);">{{tasksCompleted}}/{{totalTasks}}</text>
+          <text class="task-count" style="font-size: 14px; {{tasksCompleted === totalTasks ? 'color: var(--secondary);' : 'color: var(--primary);'}}">{{tasksCompleted}}/{{totalTasks}}</text>
         </view>
         <view style="display: flex;">
-          <text style="font-size: 16px; font-weight: 600;" wx:if="{{currentDay < oldDay}}">已完成</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:elif="{{currentDay > oldDay}}">待设定</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:else >正在进行</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:if="{{currentDay < oldDay}}">已完成</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:elif="{{currentDay > oldDay}}">待设定</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:else >正在进行</text>
         </view>
         <!-- 可勾画任务栏核心 -->
-        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:20px 0; border-bottom: 0.5px solid var(--gray-medium);" wx:for="{{todayTasks}}" wx:key="id">
+        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:15px 10px; border-bottom: 0.5px solid var(--gray-medium); {{item.completed ? 'background-color: #d2ffd9;' : 'background-color: white;'}}" wx:for="{{todayTasks}}" wx:key="id">
           <view class="task-check {{item.completed ? 'done' : 'undone'}}" 
-                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: transparent; border: 1px solid var(--gray-medium);'}}"
+                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: #fff5e5; border: 2rpx solid var(--gray-medium)'}}"
                 bindtap="toggleTaskCompletion" data-id="{{item.id}}">
-            <icon type="success" size="16" color="green" wx:if="{{item.completed}}" />
+            <icon type="success" size="16" color="white" wx:if="{{item.completed}}" />
           </view>
           <view class="task-info" style="flex: 1;">
             <text class="task-name" style="font-size: 15px; display: block; {{item.completed ? 'text-decoration: line-through; color: var(--gray-dark);' : ''}}">{{item.name}}</text>
             <text class="task-detail" style="font-size: 13px; color: var(--gray-dark);">{{item.sets}} 组 × {{item.reps}}</text>            
-            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}">查看详情> 
+            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}" data-diffic="{{item.difficulty}}">\n查看详情> 
             </text>
           </view>       
           <text class="task-status {{item.completed ? 'done' : 'undone'}}" style="font-size: 14px; {{item.completed ? 'color: var(--secondary);' : 'color: var(--gray-dark);'}}">{{item.completed ? '已完成' : '未完成'}}</text>
@@ -200,28 +260,28 @@
 
         <!-- 每日计划选项卡4 -->
     <view class="tab-content" wx:if="{{currentDay === 3}}">
-      <view class="stage-info card card-shadow" style="margin-bottom: 24px;"> 
+      <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color:#fff5e5"> 
         <!-- 今日任务 -->
         <view class="task-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <text style="font-size: 16px; font-weight: 600;">{{(currentDay === oldDay) ? '本日计划' : '周四计划'}}</text>
-          <text class="task-count" style="font-size: 14px; color: var(--primary);">{{tasksCompleted}}/{{totalTasks}}</text>
+          <text class="task-count" style="font-size: 14px; {{tasksCompleted === totalTasks ? 'color: var(--secondary);' : 'color: var(--primary);'}}">{{tasksCompleted}}/{{totalTasks}}</text>
         </view>
         <view style="display: flex;">
-          <text style="font-size: 16px; font-weight: 600;" wx:if="{{currentDay < oldDay}}">已完成</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:elif="{{currentDay > oldDay}}">待设定</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:else >正在进行</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:if="{{currentDay < oldDay}}">已完成</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:elif="{{currentDay > oldDay}}">待设定</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:else >正在进行</text>
         </view>
         <!-- 可勾画任务栏核心 -->
-        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:20px 0; border-bottom: 0.5px solid var(--gray-medium);" wx:for="{{todayTasks}}" wx:key="id">
+        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:15px 10px; border-bottom: 0.5px solid var(--gray-medium); {{item.completed ? 'background-color: #d2ffd9;' : 'background-color: white;'}}" wx:for="{{todayTasks}}" wx:key="id">
           <view class="task-check {{item.completed ? 'done' : 'undone'}}" 
-                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: transparent; border: 1px solid var(--gray-medium);'}}"
+                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: #fff5e5; border: 2rpx solid var(--gray-medium)'}}"
                 bindtap="toggleTaskCompletion" data-id="{{item.id}}">
-            <icon type="success" size="16" color="green" wx:if="{{item.completed}}" />
+            <icon type="success" size="16" color="white" wx:if="{{item.completed}}" />
           </view>
           <view class="task-info" style="flex: 1;">
             <text class="task-name" style="font-size: 15px; display: block; {{item.completed ? 'text-decoration: line-through; color: var(--gray-dark);' : ''}}">{{item.name}}</text>
             <text class="task-detail" style="font-size: 13px; color: var(--gray-dark);">{{item.sets}} 组 × {{item.reps}}</text>            
-            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}">查看详情> 
+            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}" data-diffic="{{item.difficulty}}">\n查看详情> 
             </text>
           </view>       
           <text class="task-status {{item.completed ? 'done' : 'undone'}}" style="font-size: 14px; {{item.completed ? 'color: var(--secondary);' : 'color: var(--gray-dark);'}}">{{item.completed ? '已完成' : '未完成'}}</text>
@@ -231,28 +291,28 @@
 
         <!-- 每日计划选项卡5 -->
     <view class="tab-content" wx:if="{{currentDay === 4}}">
-      <view class="stage-info card card-shadow" style="margin-bottom: 24px;"> 
+      <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color:#fff5e5"> 
         <!-- 今日任务 -->
         <view class="task-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <text style="font-size: 16px; font-weight: 600;">{{(currentDay === oldDay) ? '本日计划' : '周五计划'}}</text>
-          <text class="task-count" style="font-size: 14px; color: var(--primary);">{{tasksCompleted}}/{{totalTasks}}</text>
+          <text class="task-count" style="font-size: 14px; {{tasksCompleted === totalTasks ? 'color: var(--secondary);' : 'color: var(--primary);'}}">{{tasksCompleted}}/{{totalTasks}}</text>
         </view>
         <view style="display: flex;">
-          <text style="font-size: 16px; font-weight: 600;" wx:if="{{currentDay < oldDay}}">已完成</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:elif="{{currentDay > oldDay}}">待设定</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:else >正在进行</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:if="{{currentDay < oldDay}}">已完成</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:elif="{{currentDay > oldDay}}">待设定</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:else >正在进行</text>
         </view>
         <!-- 可勾画任务栏核心 -->
-        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:20px 0; border-bottom: 0.5px solid var(--gray-medium);" wx:for="{{todayTasks}}" wx:key="id">
+        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:15px 10px; border-bottom: 0.5px solid var(--gray-medium); {{item.completed ? 'background-color: #d2ffd9;' : 'background-color: white;'}}" wx:for="{{todayTasks}}" wx:key="id">
           <view class="task-check {{item.completed ? 'done' : 'undone'}}" 
-                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: transparent; border: 1px solid var(--gray-medium);'}}"
+                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: #fff5e5; border: 2rpx solid var(--gray-medium)'}}"
                 bindtap="toggleTaskCompletion" data-id="{{item.id}}">
-            <icon type="success" size="16" color="green" wx:if="{{item.completed}}" />
+            <icon type="success" size="16" color="white" wx:if="{{item.completed}}" />
           </view>
           <view class="task-info" style="flex: 1;">
             <text class="task-name" style="font-size: 15px; display: block; {{item.completed ? 'text-decoration: line-through; color: var(--gray-dark);' : ''}}">{{item.name}}</text>
             <text class="task-detail" style="font-size: 13px; color: var(--gray-dark);">{{item.sets}} 组 × {{item.reps}}</text>            
-            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}">查看详情> 
+            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}" data-diffic="{{item.difficulty}}">\n查看详情> 
             </text>
           </view>       
           <text class="task-status {{item.completed ? 'done' : 'undone'}}" style="font-size: 14px; {{item.completed ? 'color: var(--secondary);' : 'color: var(--gray-dark);'}}">{{item.completed ? '已完成' : '未完成'}}</text>
@@ -262,28 +322,28 @@
 
         <!-- 每日计划选项卡6 -->
     <view class="tab-content" wx:if="{{currentDay === 5}}">
-      <view class="stage-info card card-shadow" style="margin-bottom: 24px;"> 
+      <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color:#fff5e5"> 
         <!-- 今日任务 -->
         <view class="task-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <text style="font-size: 16px; font-weight: 600;">{{(currentDay === oldDay) ? '本日计划' : '周六计划'}}</text>
-          <text class="task-count" style="font-size: 14px; color: var(--primary);">{{tasksCompleted}}/{{totalTasks}}</text>
+          <text class="task-count" style="font-size: 14px; {{tasksCompleted === totalTasks ? 'color: var(--secondary);' : 'color: var(--primary);'}}">{{tasksCompleted}}/{{totalTasks}}</text>
         </view>
         <view style="display: flex;">
-          <text style="font-size: 16px; font-weight: 600;" wx:if="{{currentDay < oldDay}}">已完成</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:elif="{{currentDay > oldDay}}">待设定</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:else >正在进行</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:if="{{currentDay < oldDay}}">已完成</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:elif="{{currentDay > oldDay}}">待设定</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:else >正在进行</text>
         </view>
         <!-- 可勾画任务栏核心 -->
-        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:20px 0; border-bottom: 0.5px solid var(--gray-medium);" wx:for="{{todayTasks}}" wx:key="id">
+        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:15px 10px; border-bottom: 0.5px solid var(--gray-medium); {{item.completed ? 'background-color: #d2ffd9;' : 'background-color: white;'}}" wx:for="{{todayTasks}}" wx:key="id">
           <view class="task-check {{item.completed ? 'done' : 'undone'}}" 
-                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: transparent; border: 1px solid var(--gray-medium);'}}"
+                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: #fff5e5; border: 2rpx solid var(--gray-medium)'}}"
                 bindtap="toggleTaskCompletion" data-id="{{item.id}}">
-            <icon type="success" size="16" color="green" wx:if="{{item.completed}}" />
+            <icon type="success" size="16" color="white" wx:if="{{item.completed}}" />
           </view>
           <view class="task-info" style="flex: 1;">
             <text class="task-name" style="font-size: 15px; display: block; {{item.completed ? 'text-decoration: line-through; color: var(--gray-dark);' : ''}}">{{item.name}}</text>
             <text class="task-detail" style="font-size: 13px; color: var(--gray-dark);">{{item.sets}} 组 × {{item.reps}}</text>            
-            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}">查看详情> 
+            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}" data-diffic="{{item.difficulty}}">\n查看详情> 
             </text>
           </view>       
           <text class="task-status {{item.completed ? 'done' : 'undone'}}" style="font-size: 14px; {{item.completed ? 'color: var(--secondary);' : 'color: var(--gray-dark);'}}">{{item.completed ? '已完成' : '未完成'}}</text>
@@ -293,28 +353,28 @@
 
         <!-- 每日计划选项卡7 -->
     <view class="tab-content" wx:if="{{currentDay === 6}}">
-      <view class="stage-info card card-shadow" style="margin-bottom: 24px;"> 
+      <view class="stage-info card card-shadow" style="margin-bottom: 24px; background-color:#fff5e5"> 
         <!-- 今日任务 -->
         <view class="task-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <text style="font-size: 16px; font-weight: 600;">{{(currentDay === oldDay) ? '本日计划' : '周日计划'}}</text>
-          <text class="task-count" style="font-size: 14px; color: var(--primary);">{{tasksCompleted}}/{{totalTasks}}</text>
+          <text class="task-count" style="font-size: 14px; {{tasksCompleted === totalTasks ? 'color: var(--secondary);' : 'color: var(--primary);'}}">{{tasksCompleted}}/{{totalTasks}}</text>
         </view>
         <view style="display: flex;">
-          <text style="font-size: 16px; font-weight: 600;" wx:if="{{currentDay < oldDay}}">已完成</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:elif="{{currentDay > oldDay}}">待设定</text>
-          <text style="font-size: 16px; font-weight: 600;" wx:else >正在进行</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:if="{{currentDay < oldDay}}">已完成</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:elif="{{currentDay > oldDay}}">待设定</text>
+          <text style="font-size: 16px; font-weight: 600; margin-bottom: 10px;" wx:else >正在进行</text>
         </view>
         <!-- 可勾画任务栏核心 -->
-        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:20px 0; border-bottom: 0.5px solid var(--gray-medium);" wx:for="{{todayTasks}}" wx:key="id">
+        <view class="stage-info card card-shadow" style="display: flex; align-items: center; padding:15px 10px; border-bottom: 0.5px solid var(--gray-medium); {{item.completed ? 'background-color: #d2ffd9;' : 'background-color: white;'}}" wx:for="{{todayTasks}}" wx:key="id">
           <view class="task-check {{item.completed ? 'done' : 'undone'}}" 
-                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: transparent; border: 1px solid var(--gray-medium);'}}"
+                style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: #fff5e5; border: 2rpx solid var(--gray-medium)'}}"
                 bindtap="toggleTaskCompletion" data-id="{{item.id}}">
-            <icon type="success" size="16" color="green" wx:if="{{item.completed}}" />
+            <icon type="success" size="16" color="white" wx:if="{{item.completed}}" />
           </view>
           <view class="task-info" style="flex: 1;">
             <text class="task-name" style="font-size: 15px; display: block; {{item.completed ? 'text-decoration: line-through; color: var(--gray-dark);' : ''}}">{{item.name}}</text>
             <text class="task-detail" style="font-size: 13px; color: var(--gray-dark);">{{item.sets}} 组 × {{item.reps}}</text>            
-            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}">查看详情> 
+            <text style="font-size: 12px; color:#4A90E2;" class="click-text" bindtap="openModal" data-desc="{{item.description}}" data-diffic="{{item.difficulty}}">\n查看详情> 
             </text>
           </view>       
           <text class="task-status {{item.completed ? 'done' : 'undone'}}" style="font-size: 14px; {{item.completed ? 'color: var(--secondary);' : 'color: var(--gray-dark);'}}">{{item.completed ? '已完成' : '未完成'}}</text>
@@ -356,7 +416,8 @@
   <!-- 注意事项 -->
   <view class="notes-section section">
     <text class="section-title">训练注意事项</text>
-    <view class="notes-card card card-shadow">
+    <view class="notes-card card card-shadow"
+    style="background-color: #fff5e5">
       <view class="note-item" style="display: flex; margin-bottom: 16px;">
         <view class="note-icon" style="width: 24px; height: 24px; border-radius: 50%; background-color: #FFEBE6; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
           <icon type="warn" size="16" color="#FF6B6B" />
@@ -392,26 +453,27 @@
       </view>
       <view>
         <text style="font-size: 15px; font-weight: 600; display: block; margin-bottom: 4px;">医生提示</text>
-        <text style="font-size: 14px; color: var(--gray-dark); line-height: 1.5;">您的恢复进度良好，建议在本周增加1-2次平衡训练，如单腿站立（每次30秒，3组）。下次复诊时间：术后42天。</text>
+        <text style="font-size: 14px; color: var(--gray-dark); line-height: 1.5;">
+        {{doctorTip || '正在获取医生提示...'}}
+        </text>
       </view>
     </view>
   </view>
 
-<!-- 自定义弹窗 -->
-<view class="modal-mask" wx:if="{{showModal}}">
-  <view class="modal-box">
-    <!-- 自定义弹窗内容 -->
-    <view class="modal-header">训练指导</view>
-    <view class="modal-content">
-  <text>{{modalDesc}}</text>
-</view>
-
-    <!-- 弹窗下部可以不要 -->
-    <view class="modal-footer">
-      <button class="modal-btn cancel" bindtap="closeModal">取消</button>
-      <button class="modal-btn confirm">立即咨询</button>
+  <!-- 自定义弹窗 -->
+  <view class="modal-mask" wx:if="{{showModal}}">
+    <view class="modal-box">
+      <!-- 自定义弹窗内容 -->
+      <view class="modal-header" style="background-color: var(--primary); color: white">训练指导
+      </view>
+      <view class="modal-content">
+        <text>{{modalDiffic}}\n{{modalDesc}}</text>
+      </view>
+      <!-- 弹窗下部可以不要 -->
+      <view class="modal-footer">
+        <button class="modal-btn cancel" bindtap="closeModal">取消</button>
+        <button class="modal-btn confirm">立即咨询</button>
+      </view>
     </view>
   </view>
-</view>
-
 </view>

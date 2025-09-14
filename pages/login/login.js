@@ -1,7 +1,12 @@
+const app = getApp();
+const AV = require('../../libs/av-core-min.js');
+
+
 Page({
   /**
    * 页面的初始数据
    */
+ 
   data: {
     username: '',      // 账号
     password: '',      // 密码
@@ -9,7 +14,7 @@ Page({
     rememberMe: false,  // 是否记住账号
     isDarkMode: false   // 是否为深色模式
   },
-
+  
   /**
    * 生命周期函数--监听页面加载
    */
@@ -58,7 +63,7 @@ Page({
    * 处理输入变化
    */
   handleInput(e) {
-    const field = e.currentTarget.dataset.field;
+    const { field } = e.currentTarget.dataset;
     this.setData({
       [field]: e.detail.value
     });
@@ -151,6 +156,58 @@ Page({
         });
       }
     }, 1500);
+  },
+  async login() {
+    const { username, password } = this.data;
+
+    // 简单验证
+    if (!username || !password) {
+      wx.showToast({
+        title: '请输入用户名和密码',
+        icon: 'none'
+      });
+      return;
+    }
+
+    this.setData({ loading: true });
+
+    try {
+      // 调用 LeanCloud 用户名密码登录接口
+      const user = await AV.User.logIn(username, password);
+      
+      // 登录成功：获取自定义字段（planId、recoverId、patientId）
+      const planId = user.get('planId');
+      const recoverId = user.get('recoverId');
+      const patientId = user.get('patientId');
+
+      // 存储到全局变量
+      app.globalData.patientId= patientId;
+      app.globalData.recoverId= recoverId;
+      app.globalData.planId   = planId   ;
+
+      // 提示并跳转
+      wx.showToast({
+        title: '登录成功',
+        icon: 'success'
+      });
+
+      // 延迟跳转，确保提示被看到
+      setTimeout(() => {
+        wx.switchTab({
+          url: '/pages/home/home' // 跳转到首页
+        });
+      }, 1500);
+
+    } catch (err) {
+      // 登录失败处理（如用户名密码错误）
+      console.error('登录失败：', err);
+      wx.showToast({
+        title: err.message || '登录失败，请重试',
+        icon: 'none'
+      });
+    } finally {
+      this.setData({ loading: false });
+    }
   }
-});
-    
+  
+})

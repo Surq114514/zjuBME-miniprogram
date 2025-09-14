@@ -1,71 +1,13 @@
 <!--pages/me/me.wxml-->
 <view class="container">
-  <!-- 个人信息卡片 -->
-  <view class="profile-card card card-shadow">
-    <view class="profile-header">
-      <view class="avatar-section">
-        <view class="avatar" bindtap="editProfile">
-          <icon type="user" size="48" color="white" />
-        </view>
-        <view class="edit-icon">
-          <icon type="edit" size="16" color="white" />
-        </view>
-      </view>
-      <view class="profile-info">
-        <text class="user-name">{{userInfo.name}}</text>
-        <text class="user-type">{{userInfo.patientType}} · {{userInfo.surgeryType}}</text>
-      </view>
-    </view>
-    
-    <!-- 康复统计 -->
-    <view class="stats-grid">
-      <view class="stat-item">
-        <text class="stat-value">{{surgeryInfo.daysAfterSurgery}}</text>
-        <text class="stat-label">术后天数</text>
-      </view>
-      <view class="stat-item">
-        <text class="stat-value">{{rehabStats.recoveryRate}}%</text>
-        <text class="stat-label">恢复进度</text>
-      </view>
-      <view class="stat-item">
-        <text class="stat-value">{{rehabStats.totalRecords}}</text>
-        <text class="stat-label">总记录数</text>
-      </view>
-    </view>
-    
-    <!-- 手术信息 -->
-    <view class="surgery-info">
-      <view class="info-row">
-        <text class="info-label">手术日期</text>
-        <text class="info-value">{{surgeryInfo.surgeryDate}}</text>
-      </view>
-      <view class="info-row">
-        <text class="info-label">下次复诊</text>
-        <text class="info-value">{{surgeryInfo.nextAppointment}}</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 功能菜单 -->
-  <view class="menu-section">
-    <view class="menu-item" wx:for="{{menuItems}}" wx:key="id" bindtap="onMenuItemClick" data-action="{{item.action}}">
-      <view class="menu-icon" style="background-color: {{item.bgColor}}; color: {{item.color}};">
-        <icon type="{{item.icon}}" size="24" color="{{item.color}}" />
-      </view>
-      <view class="menu-content">
-        <text class="menu-name">{{item.name}}</text>
-        <icon type="arrow" size="16" color="#C7C7CC" />
-      </view>
-    </view>
-  </view>
-
+  <image src="/images/bg.jpg" class="bg-image"></image>
   <!-- 家属绑定 -->
   <view class="family-section">
     <view class="section-header">
-      <text class="section-title">添加病例</text>
+      <text class="section-title" style="margin-top: 10px">添加病例</text>
     </view>
     
-    <view class="family-card card card-shadow">
+    <view class="family-card card card-shadow" style="margin-bottom:30px; background-color: #fff5e5">
       <view class="family-status">
         <view class="status-icon {{familyBinding.isBound ? 'bound' : 'unbound'}}">
           <icon type="{{familyBinding.isBound ? 'success' : 'info'}}" size="20" color="white" />
@@ -89,8 +31,7 @@
           管理绑定
         </button>
       </view>
-      
-      
+            
       <!-- 已绑定成员列表 -->
       <view class="bound-members" wx:if="{{familyBinding.isBound}}">
         <view class="member-item" wx:for="{{familyBinding.boundMembers}}" wx:key="name">
@@ -109,6 +50,19 @@
     </view>
   </view>
 
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-item" wx:for="{{menuItems}}" wx:key="id" bindtap="onMenuItemClick" data-action="{{item.action}}">
+      <view class="menu-icon" style="background-color: {{item.bgColor}}; color: {{item.color}};">
+        <image src= "{{item.image}}" style="width: 48px; height: 48px; " mode="widthFix"/>
+      </view>
+      <view class="menu-content">
+        <text class="menu-name">{{item.name}}</text>
+        <icon type="arrow" size="16" color="#C7C7CC" />
+      </view>
+    </view>
+  </view>
+
   <!-- 康复数据 -->
   <view class="data-section">
     <view class="section-header">
@@ -117,7 +71,7 @@
     </view>
     
     <view class="data-grid">
-      <view class="data-card card card-shadow">
+      <view class="data-card card card-shadow" style="background-color: #fff5e5">
         <view class="data-icon">
           <icon type="success" size="24" color="#4CD964" />
         </view>
@@ -127,7 +81,7 @@
         </view>
       </view>
       
-      <view class="data-card card card-shadow">
+      <view class="data-card card card-shadow" style="background-color: #fff5e5">
         <view class="data-icon">
           <icon type="info" size="24" color="#4A90E2" />
         </view>
@@ -140,7 +94,7 @@
   </view>
 
   <!-- 应用信息 -->
-  <view class="app-info">
+  <view class="app-info" style="background-color: #fff5e5">
     <view class="info-item">
       <text class="info-label">版本号</text>
       <text class="info-value">{{appInfo.version}}</text>

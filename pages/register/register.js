@@ -1,15 +1,17 @@
+const app = getApp();
+const AV = require('../../libs/av-core-min.js');
 Page({
   /**
    * 页面的初始数据
    */
   data: {
     // 表单数据
-    formData: {
+    
       phoneOrEmail: '',
       verificationCode: '',
       password: '',
-      confirmPassword: ''
-    },
+      confirmPassword: '',
+    
     // 密码显示状态
     showPassword: false,
     showConfirmPassword: false,
@@ -40,13 +42,21 @@ Page({
   /**
    * 输入框内容变化处理
    */
-  handleInput(e) {
-    const { name, value } = e.detail;
+  onUsername(e) {
     this.setData({
-      [`formData.${name}`]: value
+        phoneOrEmail: e.detail.value
     });
   },
-
+  onpassword(e) {
+    this.setData({
+        password: e.detail.value
+    });
+  },
+  onconfirmPassword(e) {
+    this.setData({
+        confirmPassword: e.detail.value
+    });
+  },
   /**
    * 切换密码可见性
    */
@@ -124,7 +134,7 @@ Page({
    * 表单提交处理
    */
   handleSubmit(e) {
-    const { phoneOrEmail, verificationCode, password, confirmPassword } = this.data.formData;
+    const { phoneOrEmail, verificationCode, password, confirmPassword } = this.data;
     
     // 验证表单
     if (!phoneOrEmail) {
@@ -245,5 +255,127 @@ Page({
       icon: 'none',
       duration: 2000
     });
+  },
+// 创建空集合（Class）并获取objectId
+async userinit()
+  {
+    const { phoneOrEmail, verificationCode, password, confirmPassword } = this.data;
+   // 验证表单
+   if (!phoneOrEmail) {
+    wx.showToast({
+      title: '请输入手机号或邮箱',
+      icon: 'none',
+      duration: 2000
+    });
+    return;
+  }
+  
+  
+  
+  if (!password) {
+    wx.showToast({
+      title: '请设置密码',
+      icon: 'none',
+      duration: 2000
+    });
+    return;
+  }
+  
+  if (password.length < 6) {
+    wx.showToast({
+      title: '密码长度不能少于6位',
+      icon: 'none',
+      duration: 2000
+    });
+    return;
+  }
+  
+  if (password !== confirmPassword) {
+    wx.showToast({
+      title: '两次输入的密码不一致',
+      icon: 'none',
+      duration: 2000
+    });
+    return;
+  }
+try{
+    const emptyObject_recover = new AV.Object('Recover');
+
+    // 2. 可设置空字段（可选，根据需求定义）
+    emptyObject_recover.set('HswellDown', ''); // 空对象
+    emptyObject_recover.set('HswellUp', ''); // 标记为空集合
+    emptyObject_recover.set('JswellDown','' ); 
+    emptyObject_recover.set('JswellUp', ''); 
+    emptyObject_recover.set('activityPain', 0); 
+    emptyObject_recover.set('nightPain', 0); 
+    emptyObject_recover.set('restPain', 0); 
+    
+    // 3. 设置权限（重要：限制访问范围）
+    
+    // 若需要用户关联，可设置仅当前用户可访问（需先登录）
+   
+
+    // 4. 保存记录（自动创建 Class，并返回带 objectId 的记录）
+    const savedObject_1 = await emptyObject_recover.save();
+    const objectId_1 = savedObject_1.id;
+
+    // 5. 存入全局变量
+    app.globalData.recoverobjectid = objectId_1;
+    console.log('空集合创建成功，recoverobjectId已存入全局变量：', objectId_1);
+    const emptyObject_patient = new AV.Object('Patient');
+
+      // 2. 可设置空字段（可选，根据需求定义）
+      emptyObject_patient.set('age','' ); // 空对象
+      emptyObject_patient.set('bmi', ''); // 标记为空集合
+
+      // 3. 设置权限（重要：限制访问范围）
+      
+      // 若需要用户关联，可设置仅当前用户可访问（需先登录）
+     
+
+      // 4. 保存记录（自动创建 Class，并返回带 objectId 的记录）
+      const savedObject_2 = await emptyObject_patient.save();
+      const objectId_2 = savedObject_2.id;
+
+      // 5. 存入全局变量
+      app.globalData.patientobjectid = objectId_2;
+      console.log('空集合创建成功，patientobjectId已存入全局变量：', objectId_2);
+      const emptyObject_plan = new AV.Object('Plan');
+
+      // 2. 可设置空字段（可选，根据需求定义）
+      emptyObject_plan.set('planName','' ); // 空对象
+     
+
+      // 3. 设置权限（重要：限制访问范围）
+      
+      // 若需要用户关联，可设置仅当前用户可访问（需先登录）
+     
+
+      // 4. 保存记录（自动创建 Class，并返回带 objectId 的记录）
+      const savedObject_3 = await emptyObject_plan.save();
+      const objectId_3 = savedObject_3.id;
+
+      // 5. 存入全局变量
+      app.globalData.planobjectid = objectId_3;
+      console.log('空集合创建成功，planobjectId已存入全局变量：',app.globalData.planobjectid );
+ 
+    console.log('页面B读取到的最新值：', app.globalData.planobjectid);
+    console.log('页面B读取到的最新值：', app.globalData.patientobjectid);
+    console.log('页面B读取到的最新值：', app.globalData.recoverobjectid);
+    const emptyObject_user = new AV.Object('_User');
+    emptyObject_user.set('username',phoneOrEmail ); // 空对象
+    emptyObject_user.set('password',password ); // 标记为空集合
+    emptyObject_user.set('patientId', app.globalData.patientobjectid);
+    emptyObject_user.set('planId',  app.globalData.planobjectid);
+    emptyObject_user.set('recoverId', app.globalData.recoverobjectid);
+    await emptyObject_user.save();
+      
+}catch(error){console.error('创建失败：', error);
+wx.showToast({
+  title: '初始化失败',
+  icon: 'none'
+});
+}
+
   }
 });

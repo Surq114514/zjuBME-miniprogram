@@ -1,4 +1,5 @@
 <view class="container">
+<image src="/images/bg.jpg" class="bg-image"></image>
   <!-- 标签栏 -->
   <view class="tabs">
     <view 
@@ -46,15 +47,15 @@
   </view>
 
   <!-- 疼痛记录 -->
-  <view wx:if="{{currentTab === 'pain'}}" class="record-container">
+  <view wx:if="{{currentTab === 'pain'}}" class="record-container" style="background-color: #fff5e5">
     <view class="form-item">
       <text class="label">静息痛：</text>
-      <slider 
-        min="0" 
-        max="10" 
-        value="{{restPain}}" 
-        bindchange="onRestPainChange" 
-        show-value
+      <slider
+      min="0" 
+      max="10" 
+      value="{{restPain}}" 
+      bindchange="onRestPainChange" 
+      show-value
       />
     </view>
     
@@ -82,7 +83,7 @@
     
     <view class="form-item">
       <text class="label">止痛药物：</text>
-      <input 
+      <input style="height: 95rpx; display: block; box-sizing: border-box; background-color: #ffffff" 
         type="text" 
         placeholder="药物名称" 
         value="{{medicineName}}"
@@ -92,7 +93,7 @@
     
     <view class="form-item">
       <text class="label">药物剂量：</text>
-      <input 
+      <input style="height: 95rpx; display: block; box-sizing: border-box" 
         type="text" 
         placeholder="如：1片" 
         value="{{medicineDose}}"
@@ -102,7 +103,7 @@
     
     <view class="form-item">
       <text class="label">服药时间：</text>
-      <input 
+      <input style="height: 95rpx; display: block; box-sizing: border-box" 
         type="text" 
         placeholder="如：早上8点" 
         value="{{medicineTime}}"
@@ -112,7 +113,7 @@
     
     <view class="form-item">
       <text class="label">疼痛描述：</text>
-      <textarea 
+      <textarea style="display: block; box-sizing: border-box"
         placeholder="描述疼痛的性质、特点等" 
         value="{{painDescription}}"
         bindinput="onPainDescriptionChange"
@@ -123,10 +124,11 @@
   </view>
 
   <!-- 活动度记录 -->
-  <view wx:if="{{currentTab === 'range'}}" class="record-container">
+  <view wx:if="{{currentTab === 'range'}}" class="record-container"
+  style="background-color: #fff5e5">
     <view class="form-item">
       <text class="label">屈曲角度：</text>
-      <input 
+      <input style="height: 95rpx; display: block; box-sizing: border-box"
         type="number" 
         placeholder="单位：度" 
         value="{{flexionAngle}}"
@@ -136,7 +138,7 @@
     
     <view class="form-item">
       <text class="label">伸展角度：</text>
-      <input 
+      <input style="height: 95rpx; display: block; box-sizing: border-box"
         type="number" 
         placeholder="单位：度" 
         value="{{extensionAngle}}"
@@ -150,7 +152,9 @@
         <button bindtap="uploadFlexionPhoto" class="upload-btn">上传照片</button>
         <view wx:if="{{flexionPhotoUrl}}" class="preview-image">
           <image src="{{flexionPhotoUrl}}" mode="widthFix"></image>
-          <button bindtap="deleteFlexionPhoto" class="delete-btn">删除</button>
+          <button bindtap="deleteFlexionPhoto" class="delete-btn">
+            <image src="/images/delete.png" style="width: 20px; height: 20px"></image>
+          </button>
         </view>
       </view>
     </view>
@@ -168,18 +172,19 @@
     
     <view class="form-item">
       <text class="label">活动度描述：</text>
-      <textarea 
+      <textarea style="display: block; box-sizing: border-box"
         placeholder="描述活动度的变化、受限情况等" 
         value="{{romDescription}}"
         bindinput="onRomDescriptionChange"
       ></textarea>
     </view>
     
-    <button bindtap="saveRomRecord" class="save-btn">保存活动度记录</button>
+    <button bindtap="saveInfoToCloud" class="save-btn">保存活动度记录</button>
   </view>
 
   <!-- 肌力记录 -->
-  <view wx:if="{{currentTab === 'muscle'}}" class="record-container">
+  <view wx:if="{{currentTab === 'muscle'}}" class="record-container"
+  style="background-color: #fff5e5">
     <view class="form-item">
   <text class="label">股四头肌：</text>
   <picker 
@@ -308,14 +313,15 @@
       </view>
     </view>
     
-    <button bindtap="saveMuscleRecord" class="save-btn">保存肌力记录</button>
+    <button bindtap="saveInfoToCloud" class="save-btn">保存肌力记录</button>
   </view>
 
   <!-- 肿胀记录 -->
-  <view wx:if="{{currentTab === 'swelling'}}" class="record-container">
+  <view wx:if="{{currentTab === 'swelling'}}" class="record-container"
+  style="background-color: #fff5e5">
     <view class="form-item">
       <text class="label">患侧：</text>
-      <input 
+      <input style="height: 95rpx; display: block; box-sizing: border-box"
         type="text" 
         placeholder="髌骨上10cm处" 
         value="{{HswellUp}}"
@@ -325,7 +331,7 @@
     
     <view class="form-item">
       <text class="label">患侧：</text>
-      <input 
+      <input style="height: 95rpx; display: block; box-sizing: border-box"
         type="text" 
         placeholder="髌骨下5cm处" 
         value="{{HswellDown}}"
@@ -335,7 +341,7 @@
 
     <view class="form-item">
       <text class="label">健侧：</text>
-      <input 
+      <input style="height: 95rpx; display: block; box-sizing: border-box"
         type="text" 
         placeholder="髌骨上10cm处" 
         value="{{JswellUp}}"
@@ -345,7 +351,7 @@
 
     <view class="form-item">
       <text class="label">健侧：</text>
-      <input 
+      <input style="height: 95rpx; display: block; box-sizing: border-box"
         type="text" 
         placeholder="髌骨下5cm处" 
         value="{{JswellDown}}"
@@ -366,18 +372,19 @@
     
     <view class="form-item">
       <text class="label">肿胀描述：</text>
-      <textarea 
+      <textarea style="display: block; box-sizing: border-box"
         placeholder="描述肿胀的特点、变化等" 
         value="{{swellingNotes}}"
         bindinput="onSwellingNotesChange"
       ></textarea>
     </view>
     
-    <button bindtap="saveSwellingRecord" class="save-btn">保存肿胀记录</button>
+    <button bindtap="saveInfoToCloud" class="save-btn">保存肿胀记录</button>
   </view>
 
   <!-- 功能记录 -->
-  <view wx:if="{{currentTab === 'function'}}" class="record-container">
+  <view wx:if="{{currentTab === 'function'}}" class="record-container"
+  style="background-color: #fff5e5">
     <view class="form-item">
   <text class="label">行走能力：</text>
   <picker 
@@ -414,7 +421,7 @@
 </view>
     <view class="form-item">
       <text class="label">行走距离：</text>
-      <input 
+      <input style="height: 95rpx; display: block; box-sizing: border-box"
         type="text" 
         placeholder="如：500米" 
         value="{{walkingDistance}}"
@@ -424,18 +431,19 @@
     
     <view class="form-item">
       <text class="label">功能描述：</text>
-      <textarea 
+      <textarea style="display: block; box-sizing: border-box"
         placeholder="描述日常活动能力的变化等" 
         value="{{functionNotes}}"
         bindinput="onFunctionNotesChange"
       ></textarea>
     </view>
     
-    <button bindtap="saveFunctionRecord" class="save-btn">保存功能记录</button>
+    <button bindtap="saveInfoToCloud" class="save-btn">保存功能记录</button>
   </view>
 
   <!-- 伤口记录 -->
-  <view wx:if="{{currentTab === 'wound'}}" class="record-container">
+  <view wx:if="{{currentTab === 'wound'}}" class="record-container"
+  style="background-color: #fff5e5">
     <view class="form-item">
       <text class="label">伤口照片：</text>
       <view class="image-uploader">
@@ -463,13 +471,13 @@
     
     <view class="form-item">
       <text class="label">伤口描述：</text>
-      <textarea 
+      <textarea style="display: block; box-sizing: border-box"
         placeholder="描述伤口愈合情况、有无渗液等" 
         value="{{woundNotes}}"
         bindinput="onWoundNotesChange"
       ></textarea>
     </view>
     
-    <button bindtap="saveWoundRecord" class="save-btn">保存伤口记录</button>
+    <button bindtap="saveInfoToCloud" class="save-btn">保存伤口记录</button>
   </view>
 </view>

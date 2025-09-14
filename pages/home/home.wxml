@@ -1,20 +1,21 @@
 <view class="container">
-  <!-- 顶部状态区 -->
+    <image src="/images/bg.jpg" class="bg-image"></image>
+  <!-- 顶部状态区 - 显示患者姓名和手术日期 -->
   <navigator url="/pages/me/me" open-type="switchTab" hover-class="card-hover">
-    <view class="card card-shadow header">
+    <view class="card card-shadow header" style="background-color: #fff9d9">
       <view class="user-info" style="display: flex; align-items: center;">
         <view class="avatar" style="width: 48px; height: 48px; border-radius: 50%; background-color: #f4f6f8; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
-          <icon type="user" size="24" color="#4A90E2" />
+            <image src= "/images/avatar.png" style="width: 35px; height: 35px; " mode="widthFix"/>
         </view>
         <view class="user-detail">
-          <text class="user-name" style="font-size: 18px; font-weight: 600; display: block;">{{item.name}} </text>
-          <text class="user-status" style="font-size: 14px; color: var(--gray-dark);">术后 {{daysAfterSurgery}} 天 </text>
+          <text class="user-name" style="font-size: 18px; font-weight: 600; display: block;">{{patientInfo.name}}</text>
+          <text class="user-status" style="font-size: 14px; color: var(--gray-dark);">手术日期: {{patientInfo.operationDate || '2023-06-01'}}</text>
         </view>
       </view>
       <view class="header-actions" style="display: flex; align-items: center;">
         <view class="notification" style="position: relative; margin-right: 16px;">
           <icon type="warn" size="24" color="#6E6E73" />
-          <view class="badge" style="position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; background-color: var(--pain); color: white; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center;">2</view>
+          <view class="badge" style="position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; background-color: var(--pain); color: white; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center;" wx:if="{{notificationCount > 0}}">{{notificationCount}}</view>
         </view>
         <icon type="setting" size="24" color="#6E6E73" bindtap="goToSettings" />
       </view>
@@ -22,14 +23,50 @@
   </navigator>
 
 
-  <!-- 进度条 -->
-  <view class="progress-container card card-shadow">
+  <!-- 复诊倒计时 - 按每7天检查一次频率更新 -->
+  <view class="progress-container card card-shadow" style="background-color:#efffd9">
     <view style="display: flex; justify-content: space-between; margin-bottom: 8px;">
       <text style="font-size: 15px; font-weight: 500;">距离下一次复诊还有</text>
-      <text style="font-size: 15px; font-weight: 500;">X天</text>
+      <text style="font-size: 15px; font-weight: 500;">{{nextFollowupDays}}天</text>
     </view>
     <view class="progress-bar">
-      <view class="progress-fill" style="width: {{patientInfo.recoveryRate}}; background-color: var(--primary);"></view>
+      <view class="progress-fill" style="width: {{(1 - nextFollowupDays/7) * 100}}; background-color: var(--primary);"></view>
+    </view>
+  </view>
+
+    <!-- 快捷入口 -->
+    <view class="section">
+    <text class="section-title">快捷操作</text>
+    <view class="quick-actions card card-shadow" style="background-color: #fff5e5">
+      <view class="action-buttons" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; padding: 8px 0;">
+
+        <view class="action-btn" bindtap="openDoctorChat" style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
+          <image src= "/images/ContactDoc.png" style="width: 48px; height: 48px; margin-bottom: 8px" mode="widthFix"/>
+          <text class="action-text" style="font-size: 13px; text-align: center;">联系医生</text>
+        </view>
+
+        <navigator url="/pages/baogao/baogao"
+        hover-class="card-hover">
+        <view class="action-btn" bindtap="generateReport" style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
+          <image src= "/images/RecovReport.png" style="width: 48px; height: 48px; margin-bottom: 8px" mode="widthFix"/>
+          <text class="action-text" style="font-size: 13px; text-align: center;">康复报告</text>
+        </view>
+        </navigator>
+
+        <navigator url="/pages/log/log" open-type="switchTab" hover-class="card-hover">
+        <view class="action-btn"  style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
+        <image src= "/images/QuickLog.png" style="width: 48px; height: 48px; margin-bottom: 8px" mode="widthFix"/>
+          <text class="action-text" style="font-size: 13px; text-align: center;">快速记录</text>
+        </view>
+</navigator>
+
+        <navigator url="/pages/plan/plan" open-type="switchTab" hover-class="card-hover">
+        <view class="action-btn" style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
+          <image src= "/images/TrainingPlan.png" style="width: 48px; height: 48px; margin-bottom: 8px" mode="widthFix"/>
+          <text class="action-text" style="font-size: 13px; text-align: center;">训练计划</text>
+        </view>
+        </navigator>
+      </view>
     </view>
   </view>
 
@@ -37,25 +74,26 @@
   <view class="section">
     <text class="section-title">核心康复指标</text>
     <view class="metrics-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-      <!-- 疼痛评分 -->
-      <view class="metric-card card card-shadow pain-card">
+      <!-- 疼痛评分 - 显示静息痛和活动痛的平均值及与昨日对比 -->
+      <view class="metric-card card card-shadow pain-card" style="background-color:#ffe9e4">
         <view class="metric-info">
-          <text class="metric-title" style="font-size: 15px; color: var(--gray-dark); display: block; margin-bottom: 8px;">疼痛</text>
-          <text class="metric-value" style="font-size: 18px; font-weight: 600; display: block; margin-bottom: 4px;">今日平均 {{currentRecord.pain.average}} 分</text>
+          <text class="metric-title" style="font-size: 15px; color: var(--gray-dark); display: block; margin-bottom: 8px;">疼痛指标</text>
+          <text class="metric-value" style="font-size: 18px; font-weight: 600; display: block; margin-bottom: 4px;">平均 {{currentRecord.pain.average}} 分</text>
           <text class="metric-detail" style="font-size: 13px; color: var(--gray-dark);">静息 {{currentRecord.pain.rest}} 分/活动 {{currentRecord.pain.activity}} 分</text>
         </view>
         <view class="metric-trend" style="display: flex; align-items: center; margin-top: 8px;">
-          <icon type="arrowdown" size="16" color="#4CD964" />
-          <text class="trend-text" style="font-size: 13px; color: #4CD964; margin-left: 4px;">较昨日降 {{painTrend}} 分</text>
+          <icon type="{{painTrend > 0 ? 'arrowdown' : painTrend < 0 ? 'arrowup' : 'circle'}}" size="16" color="{{painTrend > 0 ? '#4CD964' : painTrend < 0 ? '#FF6B6B' : '#6E6E73'}}" />
+          <text class="trend-text" style="font-size: 13px; color: {{painTrend > 0 ? '#4CD964' : painTrend < 0 ? '#FF6B6B' : '#6E6E73'}}; margin-left: 4px;">{{painTrend > 0 ? '较昨日降 ' + painTrend : painTrend < 0 ? '较昨日升 ' + Math.abs(painTrend) : '与昨日持平'}}</text>
         </view>
       </view>
 
-      <!-- 关节活动度 -->
-      <view class="metric-card card card-shadow primary-card">
+      <!-- 关节活动度 - 显示屈膝角度和伸膝角度 -->
+      <view class="metric-card card card-shadow primary-card"
+      style="background-color:#e4f4ff">
         <view class="metric-info">
           <text class="metric-title" style="font-size: 15px; color: var(--gray-dark); display: block; margin-bottom: 8px;">活动度</text>
-          <text class="metric-value" style="font-size: 18px; font-weight: 600; display: block; margin-bottom: 4px;">屈膝 {{currentRecord.rangeOfMotion.flexion}}° / 伸膝 0°</text>
-          <text class="metric-detail" style="font-size: 13px; color: var(--gray-dark);">正常范围 120°-150°</text>
+          <text class="metric-value" style="font-size: 18px; font-weight: 600; display: block; margin-bottom: 4px;">屈膝 {{currentRecord.rangeOfMotion.flexion}}° / 伸膝 {{currentRecord.rangeOfMotion.extension}}°</text>
+          <text class="metric-detail" style="font-size: 13px; color: var(--gray-dark);">伸膝尽量保持0°，屈膝正常范围0°-135°</text>
         </view>
         <view class="metric-trend" style="display: flex; align-items: center; margin-top: 8px;">
           <icon type="arrowup" size="16" color="#4A90E2" />
@@ -63,11 +101,12 @@
         </view>
       </view>
 
-      <!-- 肌力等级 -->
-      <view class="metric-card card card-shadow secondary-card">
+      <!-- 股四头肌肌力 - 显示肌力等级 -->
+      <view class="metric-card card card-shadow secondary-card"
+      style="background-color:#efffd9">
         <view class="metric-info">
           <text class="metric-title" style="font-size: 15px; color: var(--gray-dark); display: block; margin-bottom: 8px;">股四头肌</text>
-          <text class="metric-value" style="font-size: 18px; font-weight: 600; display: block; margin-bottom: 4px;">{{currentRecord.muscleStrength.quadriceps}} 级（健侧 5 级）</text>
+          <text class="metric-value" style="font-size: 18px; font-weight: 600; display: block; margin-bottom: 4px;">肌力等级 {{currentRecord.muscleStrength.quadriceps}} 级</text>
           <view class="muscle-progress">
             <view class="progress-bg progress-bar">
               <view class="progress-fill" style="width: {{muscleStrengthPercent}}; background-color: var(--secondary);"></view>
@@ -77,16 +116,16 @@
         </view>
       </view>
 
-      <!-- 肿胀情况 -->
-      <view class="metric-card card card-shadow swelling-card">
+      <!-- 腿围差 - 显示HswellUp数据 -->
+      <view class="metric-card card card-shadow swelling-card"
+      style="background-color:#fff9d9">
         <view class="metric-info">
-          <text class="metric-title" style="font-size: 15px; color: var(--gray-dark); display: block; margin-bottom: 8px;">腿围差</text>
-          <text class="metric-value" style="font-size: 18px; font-weight: 600; display: block; margin-bottom: 4px;">髌骨上 10cm：{{currentRecord.swelling.difference.toFixed(1)}}cm</text>
-          <text class="metric-detail" style="font-size: 13px; color: var(--gray-dark);">正常差值＜1cm</text>
+          <text class="metric-title" style="font-size: 15px; color: var(--gray-dark); display: block; margin-bottom: 8px;">肿胀程度</text>
+          <text class="metric-value" style="font-size: 18px; font-weight: 600; display: block; margin-bottom: 4px;">{{currentRecord.swellingLevel}}级</text>
         </view>
         <view class="metric-trend" style="display: flex; align-items: center; margin-top: 8px;">
-          <icon type="arrowdown" size="16" color="#FFB86C" />
-          <text class="trend-text" style="font-size: 13px; color: #FFB86C; margin-left: 4px;">较昨日缩 {{swellingTrend.toFixed(1)}}cm</text>
+          <icon type="{{swellingTrend > 0 ? 'arrowdown' : swellingTrend < 0 ? 'arrowup' : 'circle'}}" size="16" color="{{swellingTrend > 0 ? '#4CD964' : swellingTrend < 0 ? '#FF6B6B' : '#6E6E73'}}" />
+          <text class="trend-text" style="font-size: 13px; color: {{swellingTrend > 0 ? '#4CD964' : swellingTrend < 0 ? '#FF6B6B' : '#6E6E73'}}; margin-left: 4px;">{{swellingTrend > 0 ? '较昨日缩 ' + swellingTrend.toFixed(1) : swellingTrend < 0 ? '较昨日增 ' + Math.abs(swellingTrend).toFixed(1) : '与昨日持平'}}</text>
         </view>
       </view>
     </view>
@@ -95,16 +134,17 @@
   <!-- 今日任务 -->
   <view class="section">
     <text class="section-title">今日康复任务</text>
-    <view class="today-tasks card card-shadow">
+    <view class="today-tasks card card-shadow"
+    style="background-color:#fff5e5">
       <view class="task-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
         <text class="header-title" style="font-size: 16px; font-weight: 600;">今日计划</text>
-        <text class="task-count" style="font-size: 14px; color: var(--primary);">{{tasksCompleted}}/{{totalTasks}}</text>
+        <text class="task-count" style="font-size: 14px; {{tasksCompleted === totalTasks ? 'color: var(--secondary);' : 'color: var(--primary);'}}">{{tasksCompleted}}/{{totalTasks}}</text>
       </view>
       <view class="task-list">
         <!-- 任务项循环 -->
         <view class="task-item" style="display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--gray-medium);" wx:for="{{todayTasks}}" wx:key="id">
           <!-- 任务复选框 -->
-          <view class="task-check {{item.completed ? 'done' : 'undone'}}" style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: transparent; border: 1px solid var(--gray-medium);'}}" bindtap="toggleTaskCompletion" data-id="{{item.id}}">
+          <view class="task-check {{item.completed ? 'done' : 'undone'}}" style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; {{item.completed ? 'background-color: var(--secondary);' : 'background-color: white; border: 1px solid var(--gray-medium);'}}" bindtap="toggleTaskCompletion" data-id="{{item.id}}">
             <icon type="success" size="16" color="white" wx:if="{{item.completed}}" />
           </view>
 
@@ -115,76 +155,9 @@
           </view>
 
           <!-- 任务状态 -->
-          <text class="task-status {{item.completed ? 'done' : 'undone'}}" style="font-size: 14px; {{item.completed ? 'color: var(--secondary);' : 'color: var(--gray-dark);'}}">{{item.completed ? '已完成' : '未完成'}}</text>
+          <text class="task-status {{item.completed ? 'done' : 'undone'}}" style="font-size: 14px; margin-right:10px; {{item.completed ? 'color: var(--secondary);' : 'color: var(--gray-dark);'}}">{{item.completed ? '已完成' : '未完成'}}</text>
         </view>
-      </view>
-    </view>
-  </view>
-
-
-
-  <!-- 快捷入口 -->
-  <view class="section">
-    <text class="section-title">快捷操作</text>
-    <view class="quick-actions card card-shadow">
-      <view class="action-buttons" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; padding: 8px 0;">
-
-        <view class="action-btn" bindtap="openDoctorChat" style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
-          <view style="width: 48px; height: 48px; border-radius: 50%; background-color: #E6F7F0; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
-            <icon type="comment" size="24" color="#4CD964" />
-          </view>
-          <text class="action-text" style="font-size: 13px; text-align: center;">联系医生</text>
-        </view>
-
-        <navigator url="/pages/baogao/baogao"
-        hover-class="card-hover">
-        <view class="action-btn" bindtap="generateReport" style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
-          <view style="width: 48px; height: 48px; border-radius: 50%; background-color: #F3EFFF; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
-            <icon type="doc" size="24" color="#9D4EDD" />
-          </view>
-          <text class="action-text" style="font-size: 13px; text-align: center;">康复报告</text>
-        </view>
-        </navigator>
-
-        <navigator url="/pages/log/log" open-type="switchTab" hover-class="card-hover">
-        <view class="action-btn"  style="display: flex; flex-direction: column; align-items: center; padding: 12px 0;">
-          <view style="width: 48px; height: 48px; border-radius: 50%; background-color: #FFF4E5; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
-            <icon type="calendar" size="24" color="#FFB86C" />
-          </view>
-          <text class="action-text" style="font-size: 13px; text-align: center;">快速记录</text>
-        </view>
-</navigator>
-
-        <navigator url="/pages/plan/plan" open-type="switchTab" hover-class="card-hover">
-          <view style="width: 48px; height: 48px; border-radius: 50%; background-color: #E8F4FD; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; position: relative; left: 22rpx; top: 24rpx">
-            <icon type="edit" size="24" color="#4A90E2" />
-
-          </view>
-
-          <text class="action-text" style="font-size: 13px; text-align: center; position: relative; left: 14rpx; top: 18rpx">训练计划</text>
-        </navigator>
-      </view>
-    </view>
-  </view>
-
-
-  <!-- 数据趋势图 -->
-
-  <view class="section">
-
-    <view class="chart-section card card-shadow">
-      <view class="chart-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <text class="header-title" style="font-size: 16px; font-weight: 600;">康复趋势</text>
-        <picker mode="selector" range="{{dateRanges}}" value="{{selectedDateRange}}" bindchange="onDateRangeChange" style="display: flex; align-items: center;">
-          <text class="range-text" style="font-size: 14px; color: var(--primary);">{{dateRanges[selectedDateRange]}}</text>
-          <icon type="down" size="16" color="var(--primary)" style="margin-left: 4px;" />
-        </picker>
-      </view>
-      <view class="chart-container" style="width: 100%; height: 280px;">
-        <recovery-chart records="{{chartRecords}}" />
       </view>
     </view>
   </view>
 </view>
-<navigator url="/pages/log/log" open-type="switchTab" hover-class="card-hover">
-</navigator>

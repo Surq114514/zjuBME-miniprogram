@@ -1,376 +1,297 @@
 /* log.wxss */
-:root {
-    --primary: #2d8cf0;
-    --secondary: #4CD964;
-    --warning: #FF9500;
-    --danger: #FF6B6B;
-    --info: #5AC8FA;
-    --success: #4CD964;
-    --gray-light: #f5f7fa;
-    --gray-medium: #e0e0e0;
-    --gray-dark: #999;
-    --text-dark: #1a1a1a;
-  }
-  
-  .container {
-    background-color: var(--gray-light);
-    padding: 16px;
+/* 继承全局样式 */
+
+.container {
+    background-color: #F2F2F7; /* iOS设置应用的浅灰色背景 */
+    padding: 20rpx;
     min-height: 100vh;
-  }
-  
-  .page-header {
-    margin-bottom: 20px;
-  }
-  
-  .header-title {
-    font-size: 22px;
-    font-weight: 600;
-    display: block;
-  }
-  
-  .header-desc {
-    font-size: 14px;
-    color: var(--gray-dark);
-    display: block;
-    margin-top: 4px;
-  }
-  
-  .tabs {
+}
+
+/* 标签栏样式 */
+.tabs {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 12px 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    overflow-x: scroll;
+    gap: 16rpx;
+    margin-bottom: 30rpx;
+    padding: 8rpx;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 24rpx;
+    backdrop-filter: blur(10px);
+    overflow-x: auto;
     white-space: nowrap;
-  }
-  
-  .tab {
-    text-align: center;
-    padding: 8px 16px;
-    font-size: 15px;
+    scrollbar-width: none; /* 隐藏滚动条 */
+}
+
+.tabs::-webkit-scrollbar {
+    display: none; /* 隐藏滚动条 */
+}
+
+.tab {
+    padding: 20rpx 30rpx;
+    font-size: 28rpx;
     font-weight: 500;
-    color: #666;
-    display: inline-block;
-  }
-  
-  .tab.active {
-    color: var(--primary);
-    border-bottom: 2px solid var(--primary);
-  }
-  
-  .card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .card-shadow {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  }
-  
-  .form-title {
-    font-size: 16px;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 8px;
-  }
-  
-  .form-desc {
-    font-size: 14px;
     color: var(--gray-dark);
-    display: block;
-    margin-bottom: 16px;
-  }
-  
-  .form-item {
-    margin-bottom: 24px;
-  }
-  
-  .item-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-  
-  .item-label {
-    font-size: 15px;
-  }
-  
-  .item-value {
-    font-size: 15px;
-    font-weight: 600;
-  }
-  
-  .slider-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: var(--gray-dark);
-    margin-top: 4px;
-  }
-  
-  .medicine-record {
-    margin-top: 24px;
-  }
-  
-  .record-label {
-    font-size: 15px;
-    font-weight: 500;
-    display: block;
-    margin-bottom: 12px;
-  }
-  
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-  
-  .form-input {
-    width: 100%;
-    min-height: 44px;
-    border: 1px solid var(--gray-medium);
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 15px;
-    background: #fafafa;
-  }
-  
-  .pain-description, .rom-description, .swelling-notes, .function-notes, .wound-notes {
-    margin-top: 24px;
-  }
-  
-  .description-label, .notes-label, .location-label, .training-label, .photos-label, .status-label {
-    font-size: 15px;
-    font-weight: 500;
-    display: block;
-    margin-bottom: 12px;
-  }
-  
-  .pain-textarea, .rom-textarea, .swelling-textarea, .function-textarea, .wound-textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 12px;
-    border: 1px solid var(--gray-medium);
-    border-radius: 8px;
-    font-size: 15px;
-    box-sizing: border-box;
-  }
-  
-  .rom-photos {
-    margin-top: 24px;
-  }
-  
-  .photos-container {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  
-  .photo-upload {
-    width: 100px;
-    height: 100px;
-    border: 1px dashed var(--gray-medium);
-    border-radius: 8px;
+    border-radius: 16rpx;
+    transition: all 0.2s;
+    position: relative;
+    min-width: max-content;
+}
+
+.tab.active {
+    color: #6bb37e;
+    background-color: white;
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 记录容器样式 */
+.record-container {
+    background-color: var(--white);
+    border-radius: 24rpx;
+    padding: 30rpx;
+    box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.08);
+    margin-bottom: 30rpx;
+    transition: all 0.2s;
+    backdrop-filter: blur(10px);
+}
+
+/* 不同记录类型的顶部色条 */
+.record-container[pain]:not([hidden]) {
+    border-top: 6rpx solid var(--pain);
+}
+
+.record-container[range]:not([hidden]) {
+    border-top: 6rpx solid var(--primary);
+}
+
+.record-container[muscle]:not([hidden]) {
+    border-top: 6rpx solid var(--secondary);
+}
+
+.record-container[swelling]:not([hidden]) {
+    border-top: 6rpx solid var(--swelling);
+}
+
+.record-container[function]:not([hidden]) {
+    border-top: 6rpx solid var(--function);
+}
+
+.record-container[wound]:not([hidden]) {
+    border-top: 6rpx solid var(--pain);
+}
+
+/* 表单项目样式 */
+.form-item {
+    margin-bottom: 36rpx;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .photo-preview {
-    width: 100px;
-    height: 100px;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-  }
-  
-  .photo-preview image {
-    width: 100%;
-    height: 100%;
-  }
-  
-  .delete-photo {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
+    gap: 16rpx;
+}
+
+.label {
+    font-size: 28rpx;
+    color: #3C3C43;
+    font-weight: 500;
+    padding-left: 8rpx;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
-  
-  .muscle-training {
-    margin-top: 24px;
-  }
-  
-  .training-item {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    border: 1px solid var(--gray-medium);
-    border-radius: 8px;
-    margin-bottom: 12px;
-  }
-  
-  .training-item checkbox {
-    margin-right: 12px;
-  }
-  
-  .training-item text {
-    flex: 1;
-  }
-  
-  .sets-input, .other-input, .distance-input, .status-input {
-    padding: 8px;
-    border: 1px solid var(--gray-medium);
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .sets-input {
-    width: 100px;
-  }
-  
-  .other-input {
-    flex: 1;
-    margin-right: 12px;
-  }
-  
-  .distance-input, .status-input {
+    gap: 12rpx;
+    letter-spacing: -0.2rpx;
+}
+
+/* 输入框样式 */
+input, textarea, .picker-view {
     width: 100%;
-    min-height: 44px;
-    padding: 12px;
-    border: 1px solid var(--gray-medium);
-    border-radius: 8px;
-    font-size: 15px;
-    background: #fafafa;
-    margin-top: 8px;
-  }
-  
-  .swelling-location, .function-item {
-    margin-top: 24px;
-  }
-  
-  .location-options, .function-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  
-  .location-option, .function-option {
-    padding: 12px;
-    border: 1px solid var(--gray-medium);
-    border-radius: 8px;
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  .location-option.active, .function-option.active {
-    background-color: var(--primary);
-    color: white;
+    padding: 24rpx;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16rpx;
+    font-size: 28rpx;
+    background-color: #FAFAFA;
+    color: #000000;
+    transition: all 0.2s;
+}
+
+input:focus, textarea:focus {
     border-color: var(--primary);
-  }
-  
-  .upload-area {
-    border: 1px dashed var(--gray-medium);
-    border-radius: 8px;
-    padding: 30px;
-    text-align: center;
-    margin-bottom: 20px;
-    background: #fafafa;
-  }
-  
-  .upload-text {
-    color: #666;
-    font-size: 15px;
-    display: block;
-    margin-top: 8px;
-  }
-  
-  .upload-hint {
-    color: #999;
-    font-size: 13px;
-    margin-top: 8px;
-    display: block;
-  }
-  
-  .image-preview {
+    outline: none;
+    background-color: var(--white);
+    box-shadow: 0 0 0 6rpx rgba(74, 144, 226, 0.1);
+}
+
+textarea {
+    min-height: 200rpx;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+/* 滑块样式 */
+slider {
+    width: 95%;
+    padding: 20rpx;
+    margin: 0;
+}
+
+/* 选择器样式 */
+picker {
+    width: 92%;
+}
+
+.picker-view {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FAFAFA;
+}
+
+.picker-view::after {
+    content: "▸";
+    color: var(--gray-dark);
+    font-size: 24rpx;
+    font-weight: 300;
+    transform: rotate(90deg);
+    transition: all 0.2s;
+}
+
+/* 图片上传区域 */
+.image-uploader {
+    display: flex;
+    flex-direction: column;
+    gap: 20rpx;
+}
+
+.upload-btn {
+    width: 100%;
+    padding: 24rpx;
+    border: 2rpx dashed #C7C7CC;
+    border-radius: 16rpx;
+    background-color: #F9F9F9;
+    color: #6bb37e;
+    font-size: 28rpx;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16rpx;
+    transition: all 0.2s;
+}
+
+.upload-btn:before {
+    content: "+";
+    font-size: 36rpx;
+    color: #6bb37e;
+    font-weight: 300;
+}
+
+.upload-btn:active {
+    border-color: #6bb37e;
+    background-color: rgba(74, 144, 226, 0.1);
+}
+
+.preview-images {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 16px;
-  }
-  
-  .preview-item {
-    width: calc(33.33% - 8px);
-    position: relative;
-    border-radius: 8px;
+    gap: 20rpx;
+}
+
+.preview-item, .preview-image {
+    width: calc(33.33% - 13rpx);
+    border-radius: 16rpx;
     overflow: hidden;
-  }
-  
-  .preview-image {
+    position: relative;
+    background-color: var(--white);
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+image {
     width: 100%;
-    height: 80px;
-  }
-  
-  .delete {
+    height: 180rpx;
+    object-fit: cover;
+    transition: all 0.2s;
+}
+
+.delete-btn {
     position: absolute;
-    top: 4px;
-    right: 4px;
-    background: rgba(0, 0, 0, 0.5);
-    width: 20px;
-    height: 20px;
+    top: 10rpx;
+    right: 10rpx;
+    width: 40rpx;
+    height: 40rpx;
     border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #F53F3F;
+    font-size: 24rpx;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .btn {
-    background-color: var(--primary);
-    color: rgb(92, 170, 29);
-    border: none;
-    border-radius: 8px;
-    padding: 14px 0;
+    padding: 0;
+    line-height: 1;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+/* 复选框样式 */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12rpx;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 20rpx;
+    padding: 24rpx;
+    background-color: #FAFAFA;
+    border-radius: 16rpx;
+    transition: all 0.2s;
+}
+
+checkbox {
+    width: 30rpx;
+    height: 30rpx;
+    border-radius: 8rpx;
+}
+
+.sets-input, .other-input {
+    width: auto;
+    flex: none;
+    margin-left: 16rpx;
+}
+
+/* 保存按钮样式 */
+.save-btn {
     width: 100%;
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: 10px;
-  }
-  
-  .btn-pain {
-    background-color: var(--danger);
-  }
-  
-  .btn-primary {
-    background-color: var(--primary);
-  }
-  
-  .btn-secondary {
-    background-color: var(--secondary);
-  }
-  
-  .btn-warning {
-    background-color: var(--warning);
-  }
-  
-  .btn-info {
-    background-color: var(--info);
-  }
-  
-  .btn-success {
-    background-color: var(--success);
+    padding: 32rpx;
+    background-color: #6bb37e;
+    color: white;
+    border: none;
+    border-radius: 24rpx;
+    font-size: 34rpx;
+    font-weight: 600;
+    margin-top: 30rpx;
+    margin-bottom: 40rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 4rpx 12rpx rgba(0, 122, 255, 0.2);
+}
+
+.save-btn::after {
+    content: "✓";
+    font-size: 32rpx;
+    margin-left: 12rpx;
+}
+
+.save-btn:active {
+    opacity: 0.8;
+    transform: scale(0.98);
+    box-shadow: 0 2rpx 8rpx rgba(0, 122, 255, 0.2);
+}
+
+.bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:150%;
+    z-index: 0; /* 让图片在内容下方 */
+    opacity: 50%
   }

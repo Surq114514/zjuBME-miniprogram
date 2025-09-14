@@ -4,21 +4,20 @@ page {
   background-color: #F5F5F7;
   color: #1D1D1F;
   min-height: 100%;
-}
 
-/* 颜色变量 */
-:root {
   --primary: #4A90E2;      /* 淡蓝主色 */
   --secondary: #4CD964;    /* 淡绿 */
   --pain: #FF6B6B;         /* 淡粉/红 */
   --swelling: #FFB86C;     /* 淡橙 */
   --function: #9D4EDD;     /* 淡紫 */
   --gray-light: #F5F5F7;
-  --gray-medium: #E5E5EA;
+  --gray-medium: #bdbdc2;
   --gray-dark: #6E6E73;
   --white: #FFFFFF;
   --black: #1D1D1F;
 }
+
+
 
 /* 工具类 */
 .container {
@@ -337,3 +336,4 @@ page {
     padding: 20rpx;
   }
 }
+

@@ -22,7 +22,7 @@
 /* 基础样式 */
 .container {
   min-height: 100vh;
-  background-color: #FFFFFF; /* Clean white background */
+  background-color: #fff5e5; /* Clean white background */
   padding: 0 20px;
   box-sizing: border-box;
   transition: background-color 0.3s ease;
@@ -98,6 +98,7 @@
 /* 输入框容器 - 圆角矩形（10px 圆角） */
 .input-group {
   position: relative;
+  border: 1px solid #e0e0e2;
   border-radius: 10px; /* 8-12pt 圆角范围 */
   background-color: #F5F5F7;
   height: 52px;
@@ -206,7 +207,7 @@
   height: 52px;
   line-height: 52px;
   border-radius: 10px;
-  background-color: #2E75CC;
+  background-color: #6bb37e;
   color: white;
   font-size: 17px;
   font-weight: 500;

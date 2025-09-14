@@ -25,7 +25,7 @@ Page({
       extensionPhotoUrl: '',
     
       // 肌力记录数据
-     
+      
       
       // 肿胀记录数据（包含多选）
       swellingLevel: 0,
@@ -75,6 +75,7 @@ Page({
     onLoad() {
       // 加载最新的记录数据作为初始值
       this.loadLatestRecords();
+      console.log(app.globalData.recoverId);
     },
     
     // 加载最新的记录数据
@@ -664,94 +665,110 @@ Page({
     },
 
 //保存到云端
-async saveInfoToCloud(){
-    const{
-            restPain,
-            activityPain,
-            nightPain,
-            medicineName,
-            medicineDose,
-            medicineTime,
-            painDescription,
-            
-            // 活动度记录数据
-
-            romDescription,
-            flexionAngle,
-            extensionAngle,
-            
-            // 肌力记录数据
-            quadricepsStrength,
-            hamstringStrength,
-            kuanStrength,
-            jianStrength,
-            // 肿胀记录数据（包含多选）
-            swellingLevel,
-             // 存储多选的肿胀位置
-            swellingNotes,
-            //用户四侧记录数据
-            JswellDown,
-            JswellUp,
-            HswellUp,
-            HswellDown,
-            
-            // 功能记录数据（包含多选）
-
-            walkingDistance,
-            functionNotes,
-            walkingAbility,
-            feeling,
-            stairsAbility,
-            // 伤口记录数据
-           woundCondition,
-            woundStatus,
-            woundNotes,
-woundImages,
- 
-    }=this.data;
-    update:{
-        const recover = new AV.Object('Recover');
-        recover.set('restPain',restPain);
-        recover.set('activityPain',activityPain);
-        recover.set('nightPain',nightPain);
-        recover.set('medicineName',medicineName);
-        recover.set('medicineDose',medicineDose);
-        recover.set('medicineTime',medicineTime);
-        recover.set('painDescription',painDescription);
-        recover.set('romDescription',romDescription);
-        recover.set('flextionAngle',flexionAngle);
-        recover.set('extensionAngle',extensionAngle);
-        recover.set('quadricepsStrength',quadricepsStrength);
-        recover.set('swellingNotes',swellingNotes);
-        recover.set('JswellDown',JswellDown);
-        recover.set('JswellUp',JswellUp);
-        recover.set('HswellUp',HswellUp);
-        recover.set('HswellDown',HswellDown);
-        recover.set('walkingDistance',walkingDistance);
-        recover.set('functionNotes',functionNotes);
-        recover.set('woundStatus',woundStatus);
-        recover.set('woundNotes',woundNotes);
-        recover.set('strengthOptions',this.data.strengthOptions[hamstringStrength]);
-        recover.set('swellingLevel',swellingLevel);
-        recover.set('quStrengthquadricepsOptions',this.data.quStrengthquadricepsOptions[quadricepsStrength]);
-        recover.set('woundOptions',this.data.woundOptions[woundCondition]);
-        recover.set('kuanOptions',this.data.kuanOptions[kuanStrength]);
-        recover.set('jianOptions',this.data.jianOptions[jianStrength]);
-        recover.set('walkingAbility',this.data.walkingOptions[walkingAbility]);
-        recover.set('stairsOptions',this.data.stairsOptions[stairsAbility]);
-        recover.set('jianOptions',this.data.jianOptions[jianStrength]);
-        recover.set('feeling',this.data.feelingOptions[feeling]);
-        recover.set('woundImages',woundImages);
-    await recover.save();
-
-    wx.showToast({
-      title: '康复记录已保存到云端',
-      icon: 'success'
-})
+async saveInfoToCloud() {
+    const {
+        restPain,
+        activityPain,
+        nightPain,
+        medicineName,
+        medicineDose,
+        medicineTime,
+        painDescription,
+        
+        // 活动度记录数据
+        romDescription,
+        flexionAngle,
+        extensionAngle,
+        
+        // 肌力记录数据
+        quadricepsStrength,
+        hamstringStrength,
+        kuanStrength,
+        jianStrength,
+        // 肿胀记录数据（包含多选）
+        swellingLevel,
+        // 存储多选的肿胀位置
+        swellingNotes,
+        // 用户四侧记录数据
+        JswellDown,
+        JswellUp,
+        HswellUp,
+        HswellDown,
+        
+        // 功能记录数据（包含多选）
+        walkingDistance,
+        functionNotes,
+        walkingAbility,
+        feeling,
+        stairsAbility,
+        // 伤口记录数据
+        woundCondition,
+        woundStatus,
+        woundNotes,
+        woundImages,
+        recoverId,
+    } = this.data;
+    
+    try {
+      let recover;
+      // 获取app.globalData中的recoverId
+      if (app.globalData && app.globalData.recoverId) {
+        // 如果有目标objectId，获取已有对象进行更新
+        recover = AV.Object.createWithoutData('Recover', app.globalData.recoverId);
+      } else {
+        // 如果没有recoverId，创建新的对象
+        recover = new AV.Object('Recover');
+        // 如果有patientId，关联到患者
+        if (app.globalData && app.globalData.patientId) {
+          const patient = AV.Object.createWithoutData('Patient', app.globalData.patientId);
+          recover.set('patient', patient);
+        }
+      }
+    
+    // 设置需要更新的字段，并进行类型转换
+    recover.set('restPain', parseFloat(restPain) || 0);
+    recover.set('activityPain', parseFloat(activityPain) || 0);
+    recover.set('nightPain', parseFloat(nightPain) || 0);
+    recover.set('medicineName', medicineName);
+    recover.set('medicineDose', medicineDose);
+    recover.set('medicineTime', medicineTime);
+    recover.set('painDescription', painDescription);
+    recover.set('romDescription', romDescription);
+    recover.set('flexionAngle', parseFloat(flexionAngle) || 0);
+    recover.set('extensionAngle', parseFloat(extensionAngle) || 0);
+    recover.set('quadricepsStrength', parseInt(quadricepsStrength) || 0);
+    recover.set('swellingNotes', swellingNotes);
+    recover.set('JswellDown', JswellDown);
+    recover.set('JswellUp', JswellUp);
+    recover.set('HswellUp', HswellUp);
+    recover.set('HswellDown', HswellDown);
+    recover.set('walkingDistance', walkingDistance);
+    recover.set('functionNotes', functionNotes);
+    recover.set('woundStatus', woundStatus);
+    recover.set('woundNotes', woundNotes);
+    recover.set('strengthOptions', this.data.strengthOptions[hamstringStrength]);
+    recover.set('swellingLevel', parseInt(swellingLevel) || 0);
+    recover.set('quStrengthquadricepsOptions', this.data.quStrengthquadricepsOptions[quadricepsStrength]);
+    recover.set('woundOptions', this.data.woundOptions[woundCondition]);
+    recover.set('kuanOptions', this.data.kuanOptions[kuanStrength]);
+    recover.set('jianOptions', this.data.jianOptions[jianStrength]);
+    recover.set('walkingAbility', this.data.walkingOptions[walkingAbility]);
+    recover.set('stairsOptions', this.data.stairsOptions[stairsAbility]);
+    recover.set('feeling', this.data.feelingOptions[feeling]);
+    recover.set('woundImages', woundImages);
+        await recover.save();
+        wx.showToast({ title: '康复记录已更新到云端', icon: 'success' });
+        // 如果是新创建的对象，保存其ID到globalData
+        if (!app.globalData.recoverId) {
+          app.globalData.recoverId = recover.id;
+        }
+    } catch (error) {
+      wx.showToast({
+        title: '保存失败：' + error.message,
+        icon: 'none',
+        duration: 3000
+      });
+      console.error('保存失败详情：', error);
     }
-},
-
-  });
-  
-
-  
+}
+})

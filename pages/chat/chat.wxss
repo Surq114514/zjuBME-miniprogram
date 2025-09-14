@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   padding: 10rpx 20rpx;
-  background-color: #6d88ff;
+  background-color: #6bb37e;
   color: white;
 }
 .doctor-avatar {
@@ -93,9 +93,10 @@
   box-sizing: border-box;
 }
 .send-btn {
+  font-size: 30rpx;
   width: 120rpx;
   height: 60rpx;
-  background-color: #3a88ee;
+  background-color: #6bb37e;
   color: white;
   border-radius: 30rpx;
   display: flex;

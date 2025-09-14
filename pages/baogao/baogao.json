@@ -1,4 +1,7 @@
 {
-  "component": true,
-  "usingComponents": {}
-}
+    "navigationBarTitleText": "康复报告",
+    "navigationBarBackgroundColor": "#fff3e7",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#fff3e7"
+  }
+  

@@ -1,10 +1,5 @@
 <!-- 登录页面 -->
 <view class="container {{isDarkMode ? 'dark' : ''}}">
-  <!-- 主题切换按钮 -->
-  <button class="theme-toggle" bindtap="toggleTheme">
-    <i class="icon-moon-o" wx:if="{{!isDarkMode}}"></i>
-    <i class="icon-sun-o" wx:if="{{isDarkMode}}"></i>
-  </button>
 
   <!-- 标题区域 -->
   <view class="title-section">
@@ -13,10 +8,10 @@
   </view>
 
   <!-- 登录表单 -->
-  <form class="login-form" bindsubmit="handleLogin">
+  <form class="login-form" bindsubmit="login">
     <!-- 账号输入 -->
-    <view class="input-group">
-      <i class="icon-user-o input-icon"></i>
+    <view class="input-group" style="margin:10px 0;">
+      <image src= "/images/account.png" style="width: 25px; height: 25px;margin-left: 12px" mode="widthFix"/>
       <input 
         type="text" 
         name="username" 
@@ -31,8 +26,8 @@
     </view>
 
     <!-- 密码输入 -->
-    <view class="input-group">
-      <i class="icon-lock input-icon"></i>
+    <view class="input-group" style="margin:10px 0">
+      <image src= "/images/code.png" style="width: 25px; height: 25px;margin-left: 12px" mode="widthFix"/>
       <input 
         type="{{showPassword ? 'text' : 'password'}}" 
         name="password" 
@@ -83,7 +78,7 @@
 
   <!-- 页脚 -->
   <view class="footer">
-    <text class="copyright">© 2024 康复助手 版权所有</text>
+    <text class="copyright">© 2025 康复助手</text>
   </view>
 </view>
     
