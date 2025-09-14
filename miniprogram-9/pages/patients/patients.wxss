@@ -1,0 +1,76 @@
+/* 页面特有样式 */
+
+/* 筛选器样式优化 */
+.btn-filter {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-filter-active {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.25);
+}
+
+.btn-filter-inactive {
+  background-color: var(--neutral-100);
+  color: var(--neutral-600);
+}
+
+.btn-filter-inactive:active {
+  background-color: var(--neutral-200);
+}
+
+/* 病患卡片样式优化 */
+.patient-card {
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.patient-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* 状态标签样式增强 */
+.bg-secondary-10 {
+  background-color: rgba(126, 211, 33, 0.1);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+/* 空数据提示样式优化 */
+.icon-empty {
+  opacity: 0.7;
+}
+
+/* 加载动画样式优化 */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 手术时间和随访时间区域样式优化 */
+.patient-card .flex.justify-between.items-center.mt-3 {
+  padding: 12px 0;
+  border-top: 1px solid var(--neutral-100);
+}
+
+/* 图标样式微调 */
+.iconfont.icon-calendar-o,
+.iconfont.icon-clock-o {
+  margin-right: 6px;
+  font-size: 13px;
+}

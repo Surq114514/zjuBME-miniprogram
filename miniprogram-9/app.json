@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/patients/patients",
+    "pages/patientDetail/patientDetail",
+    "pages/profile/profile",
+    "pages/test/test"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "膝关节康复监管",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom" 
+  },
+  "tabBar": {
+    "color": "#7B8794",
+    "selectedColor": "#4A90E2",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/patients/patients",
+        "text": "病患",
+        "iconPath": "images/tab-users.png",
+        "selectedIconPath": "images/tab-users-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tab-profile.png",
+        "selectedIconPath": "images/tab-profile-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

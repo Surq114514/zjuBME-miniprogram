@@ -1,0 +1,76 @@
+/* 页面特有样式 */
+
+/* 网格布局补充 */
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* 菜单样式优化 */
+.space-y-1 > view {
+  margin-bottom: 4px;
+  transition: all 0.2s ease;
+}
+
+/* 医生信息区域样式增强 */
+.bg-primary-10 {
+  background: linear-gradient(135deg, #EBF5FF 0%, #E3F2FD 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-primary-10::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  background-color: rgba(74, 144, 226, 0.05);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+}
+
+/* 统计数据卡片样式优化 */
+.grid.grid-cols-3 {
+  background-color: white;
+  border-radius: 12px;
+  margin: -20px 16px 16px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 1;
+}
+
+/* 功能菜单样式优化 */
+.bg-white.p-4.flex-1 {
+  border-radius: 12px;
+  margin: 0 16px 16px 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.space-y-1 > view {
+  border-radius: 8px;
+}
+
+.space-y-1 > view:hover {
+  background-color: var(--neutral-50);
+}
+
+/* 图标背景样式增强 */
+.bg-primary-10 {
+  background-color: rgba(74, 144, 226, 0.1);
+}
+
+.bg-secondary-10 {
+  background-color: rgba(126, 211, 33, 0.1);
+}
+
+.bg-accent-10 {
+  background-color: rgba(144, 19, 254, 0.1);
+}
+
+/* 版本信息样式优化 */
+.bg-white.p-4.mt-4 {
+  margin: 0 16px 16px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}

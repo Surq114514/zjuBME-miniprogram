@@ -1,0 +1,273 @@
+/* 自定义主题色相关（可根据项目需求调整） */
+:root {
+  --primary-10: #f0fdfa;
+  --primary: #059669;
+  --neutral-100: #f3f4f6;
+  --neutral-200: #e5e7eb;
+  --neutral-500: #6b7280;
+  --neutral-700: #374151;
+  --neutral-900: #111827;
+  --secondary: #3b82f6;
+}
+
+/* 自定义导航栏 */
+custom-nav {
+  /* 原导航栏样式可在此补充，若已有则保留 */
+}
+
+/* 病患基本信息相关 */
+.patient-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: var(--primary-10);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+
+/* 状态标签 */
+.status-active {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* 基本信息卡片 */
+.basic-info-card {
+  background-color: var(--neutral-100);
+  border-radius: 20rpx;
+  padding: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+/* 康复进度相关 */
+.progress-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.progress-bar-container {
+  height: 12rpx;
+  background-color: var(--neutral-200);
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--secondary);
+  border-radius: 6rpx;
+}
+
+/* 康复指标样式 - 确保五个指标显示一致 */
+.metric-item {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 16rpx;
+  background-color: white;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 16rpx;
+}
+
+.metric-label {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--neutral-500);
+}
+
+.metric-value {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--neutral-900);
+}
+
+/* 康复计划相关 */
+.rehab-plan-card {
+  background-color: var(--neutral-100);
+  border-radius: 20rpx;
+  padding: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.plan-edit-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.plan-week-card {
+  background-color: white;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  padding: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.plan-week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.plan-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12rpx;
+}
+
+.plan-item-icon {
+  margin-right: 12rpx;
+  margin-top: 2rpx;
+}
+
+.plan-item-input {
+  flex: 1;
+  border: 1rpx solid var(--neutral-200);
+  border-radius: 12rpx;
+  padding: 16rpx;
+  font-size: 28rpx;
+}
+
+.btn-dashed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx dashed var(--neutral-200);
+  border-radius: 12rpx;
+  padding: 16rpx;
+  color: var(--neutral-500);
+}
+
+.add-week-plan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-10);
+  color: var(--primary);
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.plan-edit-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-white {
+  background-color: white;
+  border: 1rpx solid var(--neutral-200);
+  border-radius: 12rpx;
+  padding: 20rpx;
+  color: var(--neutral-700);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border-radius: 12rpx;
+  padding: 20rpx;
+  color: white;
+}
+
+/* 网格布局（小程序需自定义） */
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-3 {
+  gap: 12px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+/* 按钮样式补充 */
+button {
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+button::after {
+  border: none;
+}
+
+/* 输入框样式补充 */
+input {
+  font-size: 14px;
+  color: var(--neutral-700);
+}
+
+/* 计划输入相关样式 */
+.input-control {
+  flex: 1;
+  padding: 12rpx;
+  font-size: 28rpx;
+  color: var(--neutral-700);
+}
+
+.add-item-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20rpx;
+  padding: 16rpx;
+  border: 1rpx dashed var(--neutral-200);
+  border-radius: 12rpx;
+  color: var(--neutral-500);
+}
+
+.save-plan-btn {
+  margin-top: 20rpx;
+  width: 100%;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 12rpx;
+  padding: 16rpx;
+}
+
+/* 弹性布局辅助类 */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.flex-1 {
+  flex: 1;
+}

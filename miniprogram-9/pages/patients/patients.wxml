@@ -1,0 +1,134 @@
+<!-- 自定义导航栏 -->
+<view class="bg-white border-b border-neutral-200 sticky top-0 z-10 px-4 py-4 flex justify-between items-center">
+  <text class="text-lg font-semibold text-neutral-900">病患管理</text>
+  <view class="btn-icon">
+    <icon class="iconfont icon-search text-base"></icon>
+  </view>
+</view>
+
+<!-- 筛选器 -->
+<view class="bg-white border-b border-neutral-200 py-3 px-4">
+  <scroll-view class="scrollbar-hide" scroll-x="true" style="width: 100%;">
+    <view class="flex space-x-2 pb-2">
+      <view 
+        class="btn btn-filter {{currentFilter === 'all' ? 'btn-filter-active' : 'btn-filter-inactive'}}"
+        bindtap="handleFilterTap"
+        data-filter="all"
+      >
+        全部病患
+      </view>
+      <view 
+        class="btn btn-filter {{currentFilter === 'thisWeek' ? 'btn-filter-active' : 'btn-filter-inactive'}}"
+        bindtap="handleFilterTap"
+        data-filter="thisWeek"
+      >
+        本周需跟进
+      </view>
+      <view 
+        class="btn btn-filter {{currentFilter === 'recovering' ? 'btn-filter-active' : 'btn-filter-inactive'}}"
+        bindtap="handleFilterTap"
+        data-filter="recovering"
+      >
+        康复中
+      </view>
+      <view 
+        class="btn btn-filter {{currentFilter === 'almostDone' ? 'btn-filter-active' : 'btn-filter-inactive'}}"
+        bindtap="handleFilterTap"
+        data-filter="almostDone"
+      >
+        即将完成
+      </view>
+      <view 
+        class="btn btn-filter {{currentFilter === 'done' ? 'btn-filter-active' : 'btn-filter-inactive'}}"
+        bindtap="handleFilterTap"
+        data-filter="done"
+      >
+        已完成
+      </view>
+      <view 
+        class="btn btn-filter {{currentFilter === 'kneeReplacement' ? 'btn-filter-active' : 'btn-filter-inactive'}}"
+        bindtap="handleFilterTap"
+        data-filter="kneeReplacement"
+      >
+        关节置换
+      </view>
+      <view 
+        class="btn btn-filter {{currentFilter === 'arthroscopy' ? 'btn-filter-active' : 'btn-filter-inactive'}}"
+        bindtap="handleFilterTap"
+        data-filter="arthroscopy"
+      >
+        关节镜手术
+      </view>
+    </view>
+  </scroll-view>
+</view>
+
+<!-- 病患列表 -->
+<scroll-view 
+  class="flex-1 overflow-y-auto scrollbar-hide" 
+  style="height: calc(100vh - 160px);" 
+>
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="p-20 flex flex-col items-center justify-center">
+    <view class="loading-spinner w-12 h-12 border-4 border-gray-200 border-t-primary rounded-full animate-spin"></view>
+    <text class="mt-4 text-neutral-500">正在加载病患数据...</text>
+  </view>
+  
+  <!-- 数据列表 -->
+  <view wx:elif="{{filteredPatients.length > 0}}" class="p-4 space-y-4">
+    <!-- 筛选结果统计 -->
+    <view class="bg-white rounded-lg p-3 text-sm text-neutral-600">
+      共找到 <text class="font-semibold text-primary">{{filteredPatients.length}}</text> 位病患
+    </view>
+    
+    <!-- 病患卡片列表 -->
+    <block wx:for="{{filteredPatients}}" wx:key="id">
+      <view 
+        class="patient-card bg-white rounded-xl shadow-card p-5 transition-all hover:shadow-card-hover cursor-pointer"
+        bindtap="handlePatientTap"
+        data-id="{{item.id}}"
+      >
+        <view class="flex">
+          <!-- 头像 -->
+          <view class="w-16 h-16 rounded-full bg-primary-10 flex items-center justify-center text-primary mr-4">
+            <icon class="iconfont icon-user text-xl"></icon>
+          </view>
+          
+          <!-- 病患信息 -->
+          <view class="flex-1">
+            <!-- 姓名和状态 -->
+            <view class="flex justify-between items-start">
+              <text class="font-semibold text-lg text-neutral-900">{{item.name}}</text>
+              <view class="px-3 py-1 {{item.statusClass}} text-xs rounded-full">
+                {{item.status}}
+              </view>
+            </view>
+            
+            <!-- 手术类型 -->
+            <text class="text-neutral-500 text-sm mt-1">{{item.surgery}}</text>
+            
+            <!-- 手术时间和随访信息 -->
+            <view class="flex justify-between items-center mt-3 pt-3 border-t border-neutral-100">
+              <view class="flex items-center text-neutral-500 text-sm">
+                <icon class="iconfont icon-calendar-o"></icon>
+                <text>{{item.surgeryTime ? '手术时间: ' + item.surgeryTime : '暂无手术时间'}}</text>
+              </view>
+              <view class="flex items-center text-neutral-500 text-sm">
+                <icon class="iconfont icon-clock-o"></icon>
+                <text>下次随访: {{item.followUp}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+  
+  <!-- 空数据提示 -->
+  <view wx:else class="p-20 flex flex-col items-center justify-center">
+    <icon class="iconfont icon-empty text-6xl text-neutral-200 mb-6"></icon>
+    <text class="text-neutral-500 text-lg mb-2">暂无病患数据</text>
+    <text class="text-neutral-400 text-sm">切换筛选条件或添加新病患</text>
+  </view>
+</scroll-view>
+

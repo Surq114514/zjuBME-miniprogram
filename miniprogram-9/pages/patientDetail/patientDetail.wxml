@@ -1,0 +1,169 @@
+<!-- 自定义导航栏 -->
+<view class="bg-white border-b border-neutral-200 sticky top-0 z-10 px-4 py-4 flex justify-between items-center">
+  <view class="btn-icon" bindtap="handleBackTap">
+    <icon class="iconfont icon-chevron-left text-base"></icon>
+  </view>
+  <text class="text-lg font-semibold text-neutral-900">病患详情</text>
+  <view class="btn-icon">
+    <icon class="iconfont icon-ellipsis-h text-base"></icon>
+  </view>
+</view>
+
+<!-- 病患信息 -->
+<scroll-view class="flex-1 overflow-y-auto scrollbar-hide" style="height: calc(100vh - 50px);">
+  <view class="bg-white p-6">
+    <!-- 病患基本信息 -->
+    <view class="flex flex-col items-center mb-6">
+      <view class="w-20 h-20 rounded-full bg-primary-10 flex items-center justify-center text-primary mb-4">
+        <icon class="iconfont icon-user text-2xl"></icon>
+      </view>
+      <text class="text-xl font-semibold text-neutral-900">{{basicinfo.name}}</text>
+      <text class="text-neutral-500 mt-1">{{basicinfo.surgerytype}}</text>
+      <view class="flex mt-3 space-x-2">
+        <view class="px-3 py-1 {{patient.statusClass}} text-sm rounded-full">
+          {{patient.status}}
+        </view>
+        <view class="px-3 py-1 bg-neutral-100 text-neutral-600 text-sm rounded-full">
+          {{patient.postOp}}
+        </view>
+      </view>
+    </view>
+    
+    <!-- 基本信息卡片 -->
+    <view class="bg-neutral-100 rounded-xl p-5 mb-6">
+      <text class="text-neutral-900 font-medium mb-4 block">基本信息</text>
+      <view class="grid grid-cols-2 gap-4">
+        <view>
+          <text class="text-neutral-500 text-sm">年龄</text>
+          <text class="text-neutral-900 mt-1 block">{{basicinfo.age}}岁</text>
+        </view>
+        <view>
+          <text class="text-neutral-500 text-sm">性别</text>
+          <text class="text-neutral-900 mt-1 block">{{basicinfo.gender}}</text>
+        </view>
+        <view>
+          <text class="text-neutral-500 text-sm">联系方式</text>
+          <text class="text-neutral-900 mt-1 block">{{basicinfo.phone}}</text>
+        </view>
+        <view>
+          <text class="text-neutral-500 text-sm">手术日期</text>
+          <text class="text-neutral-900 mt-1 block">{{basicinfo.surgerytime}}</text>
+        </view>
+        <view>
+          <text class="text-neutral-500 text-sm">主治医生</text>
+          <text class="text-neutral-900 mt-1 block">{{basicinfo.doctor}}</text>
+        </view>
+        <view>
+          <text class="text-neutral-500 text-sm">下次随访</text>
+          <text class="text-neutral-900 mt-1 block">{{patient.followUp}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 康复进度 -->
+    <view class="bg-neutral-100 rounded-xl p-5 mb-6">
+      <view class="flex justify-between items-center mb-4">
+        <text class="text-neutral-900 font-medium">康复进度</text>
+      </view>
+      <view class="progress-bar-container mb-6">
+        <view class="progress-bar {{patient.progressBarClass}}" style="width: {{patient.progressBarWidth}}"></view>
+      </view>
+
+      <!-- 康复指标：所有指标显示一致 -->
+      <view class="space-y-4">
+        <!-- 屈膝角度 -->
+        <view class="flex flex-row items-center p-3 bg-white rounded-lg shadow-sm">
+          <text class="text-neutral-500 text-xs flex-1">屈膝角度</text>
+          <text class="text-neutral-900 font-medium">40°</text>
+        </view>
+
+        <!-- 伸膝角度 -->
+        <view class="flex flex-row items-center p-3 bg-white rounded-lg shadow-sm">
+          <text class="text-neutral-500 text-xs flex-1">伸膝角度</text>
+          <text class="text-neutral-900 font-medium">120°</text>
+        </view>
+
+        <!-- 疼痛评分 -->
+        <view class="flex flex-row items-center p-3 bg-white rounded-lg shadow-sm">
+          <text class="text-neutral-500 text-xs flex-1">疼痛评分</text>
+          <text class="text-neutral-900 font-medium">7</text>
+        </view>
+
+        <!-- 肌肉力量 -->
+        <view class="flex flex-row items-center p-3 bg-white rounded-lg shadow-sm">
+          <text class="text-neutral-500 text-xs flex-1">肌肉力量</text>
+          <text class="text-neutral-900 font-medium">3级</text>
+        </view>
+
+        <!-- 肿胀程度 -->
+        <view class="flex flex-row items-center p-3 bg-white rounded-lg shadow-sm">
+          <text class="text-neutral-500 text-xs flex-1">肿胀程度</text>
+          <text class="text-neutral-900 font-medium">4级</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 康复计划 -->
+    <view class="bg-neutral-100 rounded-xl p-5 mb-6">
+      <view class="flex justify-between items-center mb-4">
+        <text class="text-neutral-900 font-medium">康复计划</text>
+        <text class="text-primary text-sm font-medium" bindtap="handleEditPlanTap">
+          {{isEditMode ? '取消' : '编辑'}}
+        </text>
+      </view>
+      
+      <!-- 查看模式 -->
+      <block wx:if="{{!isEditMode}}">
+        <view class="bg-white p-4 rounded-lg shadow-sm">
+          <view class="space-y-2 text-sm text-neutral-700">
+            <block wx:for="{{recoveryPlan.planItems}}" wx:key="id">
+              <view class="flex items-start">
+                <icon class="iconfont {{item.completed ? 'icon-check-circle text-secondary' : 'icon-circle-o text-neutral-300'}} mt-0.5 mr-2"></icon>
+                <text>{{item.content || '未设置康复动作'}}</text>
+              </view>
+            </block>
+          </view>
+        </view>
+      </block>
+      
+      <!-- 编辑模式 -->
+      <block wx:if="{{isEditMode}}">
+        <view class="bg-white p-4 rounded-lg shadow-sm">
+          <view class="space-y-3">
+            <block wx:for="{{recoveryPlan.planItems}}" wx:key="id">
+              <view class="flex items-center border border-neutral-200 rounded-lg p-3">
+                <icon class="iconfont {{item.completed ? 'icon-check-circle text-secondary' : 'icon-circle-o text-neutral-300'}} mr-3" bindtap="onPlanItemToggle" data-id="{{item.id}}"></icon>
+                <input 
+                  class="input-control flex-1"
+                  value="{{item.content}}"
+                  bindinput="onPlanItemInput"
+                  data-id="{{item.id}}"
+                />
+              </view>
+            </block>
+            <view class="btn-dashed" bindtap="handleAddPlanItemTap">
+              <icon class="iconfont icon-plus mr-2"></icon>
+              <text>添加项目</text>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 保存和取消按钮 -->
+        <view class="flex space-x-3 mt-6">
+          <button 
+            class="btn-white flex-1"
+            bindtap="handleCancelEditTap"
+          >
+            取消
+          </button>
+          <button 
+            class="btn-primary flex-1"
+            bindtap="handleSaveEditTap"
+          >
+            保存计划
+          </button>
+        </view>
+      </block>
+    </view>
+  </view>
+</scroll-view>
